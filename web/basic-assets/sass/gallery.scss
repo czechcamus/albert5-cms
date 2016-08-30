@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+// Mixins
+@import "components/color";
+
+// Variables;
+@import "custom/variables";
+
+// Styles
+body {
+  margin-top: 0;
+  background-color: $fourth-color;
+}
+
+.page-title {
+  padding: 10px 20px;
+  color: $white-color;
+  h2 {
+    margin: 0;
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+  .subheader {
+    font-family: $primary-font-family;
+    font-size: 60%;
+    text-align: right;
+    * {
+      vertical-align: middle;
+    }
+    a {
+      color: $dialog-border-color;
+      &:hover {
+        color: $white-color;
+      }
+    }
+  }
+}
+
+#links {
+  text-align: center;
+  a {
+    font-size: 0;
+    line-height: 0;
+  }
+  img {
+    margin: 0 5px;
+  }
+}

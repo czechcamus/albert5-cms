@@ -1,0 +1,36 @@
+// Flexbox emulation begin
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: table;
+  width: 100%;
+}
+
+.page-row {
+  display: table-row;
+  height: 1px;
+}
+
+.page-row-expanded {
+  height: 100%;
+}
+// Flexbox emulation end
+
+.dropdown-button {
+  padding-right: 35px;
+  background: transparent url('../img/arrow_drop_down.png') no-repeat center right;
+  .material-icons {
+    display: none;
+  }
+}
+
+.search-form {
+  .input-field {
+    input {
+      height: 64px;
+    }
+  }
+}

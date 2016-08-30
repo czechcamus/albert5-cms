@@ -1,0 +1,132 @@
+@charset "UTF-8";
+
+// Mixins
+@import "components/color";
+@import "custom/mixins";
+// Variables;
+@import "custom/variables";
+
+// Styles
+/* PogoSlider */
+/*
+.pogoSlider-slide {
+  background-position: center center;
+  .valign-wrapper {
+    text-align: center;
+    height: 100%;
+    .valign {
+      width: 100%;
+      span {
+        font-size: 240%;
+        color: $white-color;
+        padding: 0 2rem;
+        background-color: $black-transparent-color;
+      }
+    }
+  }
+}
+
+.pogoSlider--dirCenterHorizontal {
+  .pogoSlider-dir-btn--next {
+    background-color: transparent;
+    right: -20px;
+    transition: right 0.8s;
+  }
+  &:hover {
+    .pogoSlider-dir-btn--next {
+      right: 14px;
+    }
+  }
+  .pogoSlider-dir-btn--prev {
+    background-color: transparent;
+    left: -20px;
+    transition: left 0.8s;
+  }
+  &:hover {
+    .pogoSlider-dir-btn--prev {
+      left: 14px;
+    }
+  }
+}
+
+.pogoSlider-nav {
+  display: none;
+}
+!* end PogoSlider*!
+
+
+.mainSportsPlaces {
+  position: relative;
+  top: -68px;
+  z-index: 3;
+  .sportPlace {
+    cursor: pointer;
+    text-align: center;
+    height: 218px;
+    background-color: $third-color;
+    transition: background-color 0.8s;
+    &:hover {
+      background-color: $secondary-color;
+    }
+    h3 {
+      box-sizing: border-box;
+      height: 68px;
+      font-size: 30px;
+      line-height: 73px;
+      text-transform: uppercase;
+      color: $white-color;
+      margin: 0;
+      padding: 0 1rem;
+    }
+    .image-text {
+      height: 150px;
+      background-size: 100%;
+      background-position: center center;
+      transition: background-size 0.8s;
+      &:hover {
+        cursor: pointer;
+        background-size: 120%;
+      }
+      p {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 1rem;
+        color: $white-color;
+        opacity: 0;
+        background-color: $primary-color;
+        transition: opacity 0.8s;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+*/
+
+.parallax-container {
+  .main {
+    text-align: center;
+    h1 {
+      color: $white-color;
+      font-size: 580%;
+    }
+  }
+}
+
+.section {
+  position: relative;
+  padding: 3rem 0;
+  &.grey-section {
+    background-color: $grey-lightest-color;
+  }
+  .info-important {
+    margin-top: 1rem;
+    font-size: 100%;
+    text-align: center;
+    .material-icons.medium {
+      color: $secondary-color;
+    }
+  }
+}

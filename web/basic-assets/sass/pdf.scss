@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+// Mixins
+@import "components/color";
+
+// Variables;
+@import "custom/variables";
+
+// Reset
+@import "components/normalize";
+
+@media print {
+  body {
+    font-family: $primary-font-family;
+    font-weight: 300;
+    font-size: 0.94rem;
+    color: $primary-color;
+
+    .material-icons {
+      display: none;
+    }
+
+    a {
+      color: $secondary-color;
+      text-decoration: none;
+      background-color: transparent;
+      cursor: default;
+    }
+
+    ul.check {
+      li {
+        position: relative;
+        padding-left: 2em;
+        &::before {
+          content: '';
+          position: absolute;
+          border-color: $third-color;
+          border-style: solid;
+          border-width: 0 0.3em 0.25em 0;
+          height: 1em;
+          top: 1.3em;
+          left: 0.6em;
+          margin-top: -1em;
+          transform: rotate(45deg);
+          width: 0.5em;
+        }
+      }
+    }
+
+    .perex {
+      font-size: 1.2rem;
+    }
+
+    .perexes-list {
+      .row {
+        margin-bottom: 2rem;
+      }
+    }
+
+    .forecast {
+      table {
+        margin: 20px 0;
+        width: 50%;
+        border: 1px solid $grey-color;
+        caption {
+          text-align: left;
+          font-size: 150%;
+        }
+        td, th {
+          padding: 2px;
+          text-align: center;
+          border: 1px solid $grey-color;
+        }
+      }
+    }
+
+    .table-condensed {
+      margin: 20px 0;
+      th {
+        padding: 0 2px 8px;
+      }
+      td {
+        padding: 8px 2px;
+      }
+    }
+
+    .info-page {
+      text-align: center;
+    }
+
+    .prices {
+      margin: 2rem 0;
+      font-size: 80%;
+      width: 100%;
+      border: 2px solid $grey-color;
+      caption {
+        text-align: left;
+        font-size: 150%;
+      }
+      td, th {
+        padding: 2px;
+        text-align: center;
+        border: 1px solid $grey-color;
+      }
+      .price-title {
+        text-align: left;
+      }
+    }
+
+    .gallery-bar {
+      background-color: $grey-light-color;
+      padding: 12px 0;
+      h3 {
+        margin: 0 0 12px 12px;
+      }
+      .image-box {
+        width: 25%;
+        float: left;
+        text-align: center;
+        div {
+          margin: 0 15px;
+        }
+      }
+    }
+
+    .gallery-box {
+      background-color: $grey-light-color;
+      padding: 12px;
+      width: 50%;
+      h3 {
+        margin: 0 0 12px;
+      }
+    }
+  }
+}

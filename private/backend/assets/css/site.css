@@ -1,0 +1,234 @@
+/* Variables */
+/* Mixins */
+/* Styles */
+html,
+body {
+  height: 100%;
+  background-color: #c2d0ff;
+}
+h1:first-letter {
+  text-transform: uppercase;
+}
+.recent-boxes {
+  background-color: white;
+}
+.recent-box {
+  border: 1px solid #f5f5f5;
+  padding-bottom: 15px;
+}
+.recent-box h2 {
+  padding: 5px 10px;
+  background-color: #dddddd;
+}
+.recent-box h3 {
+  font-size: 130%;
+}
+.recent-box .notice {
+  text-align: right;
+  font-style: italic;
+  font-size: 90%;
+}
+.table,
+.sortable-field {
+  background-color: #f5f5f5;
+}
+.sortable-field .inactive {
+  background-color: #eed3d7;
+}
+.sortable-field .nonpublic {
+  background-color: #dbddff;
+}
+.wrap {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -60px;
+  padding: 0 0 60px;
+}
+.wrap > .container {
+  padding: 70px 15px 20px;
+}
+.footer {
+  height: 60px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #dddddd;
+  padding-top: 20px;
+}
+.jumbotron {
+  text-align: center;
+  background-color: transparent;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+.not-set {
+  color: #cc5555;
+  font-style: italic;
+}
+/* add sorting icons to gridview sort links */
+a.asc:after,
+a.desc:after {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  padding-left: 5px;
+}
+a.asc:after {
+  content: /*"\e113"*/ "\e151";
+}
+a.desc:after {
+  content: /*"\e114"*/ "\e152";
+}
+.sort-numerical a.asc:after {
+  content: "\e153";
+}
+.sort-numerical a.desc:after {
+  content: "\e154";
+}
+.sort-ordinal a.asc:after {
+  content: "\e155";
+}
+.sort-ordinal a.desc:after {
+  content: "\e156";
+}
+.grid-view th {
+  white-space: nowrap;
+}
+.hint-block {
+  display: block;
+  margin-top: 5px;
+  color: #999;
+}
+.error-summary {
+  color: #a94442;
+  background: #fdfdfd;
+  border-left: 3px solid #eed3d7;
+  padding: 10px 20px;
+  margin: 0 0 15px 0;
+}
+.parent-menu-tree ul {
+  margin: 0;
+  padding: 0 10px;
+}
+.required label:after {
+  color: #cc5555;
+  content: ' (!)';
+}
+.file-view {
+  position: relative;
+  margin-bottom: 20px;
+}
+.file-view img {
+  height: 100px;
+  width: 100px;
+}
+.file-view .file-controls {
+  position: absolute;
+  top: 5px;
+  left: 20px;
+  z-index: 2;
+}
+.file-view .file-controls a,
+.file-view .file-controls button {
+  padding: 0;
+  vertical-align: middle;
+  font-size: 2rem;
+  color: white;
+  text-shadow: 1px 1px black;
+}
+.file-view .file-controls a:hover {
+  color: #23527c;
+}
+.file-view .file-title {
+  position: absolute;
+  bottom: 5px;
+  left: 20px;
+  width: 90px;
+  overflow: hidden;
+  font-size: 1.2rem;
+  z-index: 2;
+  color: white;
+  text-shadow: 1px 1px black;
+}
+.file-view .file-title a {
+  color: white;
+  text-shadow: 1px 1px black;
+  text-decoration: none;
+}
+.file-view .file-title a:hover {
+  color: #23527c;
+}
+.kcf-input-group .kcf-thumbs {
+  margin: 10px 0;
+  padding: 0;
+}
+.kcf-input-group .kcf-thumbs li {
+  position: relative;
+  padding: 0;
+}
+.kcf-input-group .kcf-thumbs li a {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  text-shadow: 1px 1px black;
+  text-decoration: none;
+}
+#image-thumbnail p {
+  position: relative;
+  padding: 0;
+}
+#image-thumbnail p a {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  text-shadow: 1px 1px black;
+  text-decoration: none;
+}
+select option {
+  padding: 2px 10px;
+}
+.sortable-photos li {
+  position: relative;
+  padding: 0;
+}
+.sortable-photos li img {
+  width: 100px;
+  height: 100px;
+}
+.sortable-photos li a {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  text-shadow: 1px 1px black;
+  text-decoration: none;
+}
+.photo-view {
+  position: relative;
+  margin-bottom: 20px;
+}
+.photo-view .photo-controls {
+  position: absolute;
+  top: 5px;
+  left: 23px;
+}
+.photo-view .time-info {
+  position: absolute;
+  bottom: 5px;
+  left: 23px;
+  color: white;
+  font-size: 8px;
+}
+.photo-view img {
+  height: 100px;
+  width: 100px;
+}
+.input_fields_wrap .control-label {
+  padding: 7px 0 0;
+}

@@ -1,0 +1,39 @@
+/*** Colors ***/
+$primary-color: #6f6f6f;
+$primary-light-color: lighten($primary-color, 15%);
+$primary-dark-color: darken($primary-color, 15%);
+$secondary-color: #70b45c;
+$third-color: #ec984a;
+$third-light-color: lighten($third-color, 15%);
+$fourth-color: #2F8490;
+$fourth-light-color: lighten($fourth-color, 15%);
+
+$dialog-bg-color: whitesmoke;
+$dialog-border-color: color("grey", "lighten-3");
+
+$white-color: white;
+$black-color: black;
+$black-transparent-color: rgba($black-color, 0.2);
+$white-transparent-color: rgba($white-color, 0.5);
+$grey-color: color("grey", "base");
+$grey-dark-color: color("grey", "darken-2");
+$grey-light-color: color("grey", "lighten-2");
+$grey-lightest-color: color("grey", "lighten-4");
+
+$success-color: color("green", "base");
+$error-color: color("red", "base");
+
+$link-color: $black-color;
+$link-hover-color: $secondary-color;
+
+/*** Cards ***/
+$card-link-color: $third-color;
+$card-link-color-light: $secondary-color;
+
+/*** Fonts ***/
+$primary-font-family: 'Hind', sans-serif;
+$roboto-font-path: "../../font/roboto/" !default;
+$icons-font-path: "../../font/material-design-icons/" !default;
+
+/*** Images ***/
+$image-path: "../img/" !default;

@@ -1,0 +1,64 @@
+@mixin text-colorized-underlined($color) {
+  color: $color;
+  text-decoration: underline;
+}
+
+@mixin dropdown-link-middle($link-color, $hover-color) {
+  a {
+    font-size: 100%;
+    * {
+      vertical-align: middle;
+    }
+    color: $link-color;
+    &:hover {
+      color: $hover-color;
+      text-decoration: none;
+    }
+  }
+}
+
+@mixin home-right-box-decoration($bg-color, $padding, $border-color) {
+  background-color: $bg-color;
+  padding: $padding;
+  border-bottom: 1px solid $border-color;
+}
+
+@mixin popup-menu($top, $top-branch, $right, $right-branch, $width, $bg-color, $border-color) {
+  ul {
+    position: absolute;
+    top: $top;
+    right: $right;
+    width: $width;
+    display: none;
+    text-align: left;
+    margin: 0;
+    background-color: $bg-color;
+    border-top: 1px solid $border-color;
+    border-left: 1px solid $border-color;
+    border-right: 1px solid $border-color;
+    z-index: 3;
+    li {
+      margin: 0;
+      padding: 5px 15px;
+      border-bottom: 1px solid $border-color;
+      display: list-item;
+    }
+    .active {
+      border-bottom: none;
+      background-color: $border-color;
+    }
+  }
+  &:hover ul {
+    display: block;
+    li {
+      ul {
+        top: $top-branch;
+        right: $right-branch;
+        display: none;
+      }
+      &:hover ul {
+        display: block;
+      }
+    }
+  }
+}
