@@ -1,6 +1,5 @@
 <?php
 return [
-    'adminEmail' => 'ja@camus.cz',
 	'backendModules' => [],
     'fieldConfig' => [
         'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
@@ -13,7 +12,7 @@ return [
         ]
     ],
 	'imageEdgeLimit' => 1920,
-    'cmsWebTitle' => 'cms_web_title',
+    'cmsWebTitle' => 'cms_web_title',  // filled by install script
     'changeChars' => [
 	    'Ř' => 'R',
 	    'Š' => 'S',

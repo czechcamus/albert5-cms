@@ -1,10 +1,10 @@
 <?php
 return [
-	'adminEmail' => 'admin_email',
-	'supportEmail' => 'support_email',
-	'sendingEmail' => 'sending_email',
-	'sendingEmailTitle' => 'email_title',
-	'webOwner' => 'web_owner',
+	'adminEmail' => 'admin_email',  // filled by install script
+	'supportEmail' => 'support_email',  // filled by install script
+	'sendingEmail' => 'sending_email',  // filled by install script
+	'sendingEmailTitle' => 'email_title',  // filled by install script
+	'webOwner' => 'web_owner',  // filled by install script
 	'user.passwordResetTokenExpire' => 3600,
 	'fileUploadDir' => 'upload/files/',
 	'imageUploadDir' => 'upload/images/',

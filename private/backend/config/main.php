@@ -10,7 +10,7 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'name' => 'Albert CMS',
-    'language' => 'cs',
+    'language' => 'cms_language',  // filled by install script
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [],
