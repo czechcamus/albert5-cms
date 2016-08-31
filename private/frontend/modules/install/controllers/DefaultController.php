@@ -59,7 +59,7 @@ class DefaultController extends Controller
 		} else {
 			$session = \Yii::$app->session;
 			$model = new SignupForm;
-			if ($model->load(\Yii::$app->request->post())) {
+			if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
 				if ($user = $model->signup()) {
 					if (\Yii::$app->getUser()->login($user)) {
 						$session->set('step', 1);
@@ -77,6 +77,21 @@ class DefaultController extends Controller
 			throw new Exception(Module::t('inst', 'This action is not allowed!'));
 		} else {
 			$model = new WebForm;
+			if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
+				$model->save();
+				$session->set('step', 2);
+				return $this->redirect(['frontend']);
+			}
+			return $this->render('web', compact('model'));
+		}
+	}
+
+	public function actionFrontend() {
+		$session = \Yii::$app->session;
+		if ($session->get('step') < 2) {
+			throw new Exception(Module::t('inst', 'This action is not allowed!'));
+		} else {
+			return $this->render('frontend');
 		}
 	}
 }
