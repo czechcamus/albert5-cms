@@ -3,7 +3,6 @@
 use frontend\modules\install\assets\InstallAsset;
 use frontend\modules\install\Module;
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 
@@ -32,13 +31,6 @@ InstallAsset::register($this);
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
-            ]);
-            $menuItems = [
-                ['label' => Module::t('inst', 'User settings'), 'url' => ['index']],
-            ];
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => $menuItems,
             ]);
             NavBar::end();
         ?>

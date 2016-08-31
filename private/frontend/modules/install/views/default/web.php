@@ -9,7 +9,7 @@ use yii\helpers\Html;
 $this->title                   = Module::t('inst', 'Albert 5 CMS - web creation');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-signup">
+<div class="web-view">
 	<h1><?= Html::encode($this->title) ?></h1>
 
 	<p><?= Module::t('inst', 'Please fill out the following fields to create web application') ;?>:</p>
@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			<?= $form->field($model, 'sendingEmailTitle') ?>
 
 			<div class="form-group">
-				<?= Html::a(Module::t('inst', 'back'), ['index'], ['class' => 'btn btn-default']) ?>
 				<?= Html::submitButton(Module::t('inst', 'next'), ['class' => 'btn btn-primary', 'name' => 'web-button']) ?>
 			</div>
 

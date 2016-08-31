@@ -10,11 +10,13 @@ namespace frontend\modules\install\controllers;
 
 
 use common\models\WebRecord;
+use frontend\modules\install\models\FrontendForm;
 use frontend\modules\install\models\SignupForm;
 use frontend\modules\install\models\WebForm;
 use frontend\modules\install\Module;
 use yii\base\Exception;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\Controller;
 
 class DefaultController extends Controller
@@ -32,7 +34,7 @@ class DefaultController extends Controller
 						'allow' => true
 					],
 					[
-						'actions' =>['web'],
+						'actions' =>['web', 'frontend'],
 						'allow' => true,
 						'roles' => ['@']
 					]
@@ -54,10 +56,12 @@ class DefaultController extends Controller
 	}
 
 	public function actionIndex() {
+		$session = \Yii::$app->session;
 		if (WebRecord::existsMoreWebRecords()) {
-			throw new Exception(Module::t('inst','CMS is already installed!'));
+			throw new Exception( Module::t( 'inst', 'CMS is already installed!' ) );
+		} elseif ($session->has('step')) {
+			throw new Exception(Module::t('inst', 'This action is not allowed!'));
 		} else {
-			$session = \Yii::$app->session;
 			$model = new SignupForm;
 			if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
 				if ($user = $model->signup()) {
@@ -91,7 +95,15 @@ class DefaultController extends Controller
 		if ($session->get('step') < 2) {
 			throw new Exception(Module::t('inst', 'This action is not allowed!'));
 		} else {
-			return $this->render('frontend');
+			$model = new FrontendForm;
+			if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
+				$model->save();
+				$session->set('step', null);
+				$url = Url::base(true) . '/admin';
+				header("Location: $url");
+				exit;
+			}
+			return $this->render('frontend', compact('model'));
 		}
 	}
 }

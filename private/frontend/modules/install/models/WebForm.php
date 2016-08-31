@@ -38,8 +38,10 @@ class WebForm extends InstallForm {
 	public $sendingEmailTitle;
 
 	// others
-	public $cmsWebTitle = 'Web application';
+	public $cmsWebTitle = 'Backend web application';
+	public $name = 'Frontend web application';
 	public $language = 'cs';
+	public $defaultLanguage = 'cs';
 
 	const ENGLISH_LANGUAGE = 'en';
 	const CZECH_LANGUAGE = 'cs';
@@ -96,6 +98,7 @@ class WebForm extends InstallForm {
 	public function save() {
 		@$this->saveWebRecord();
 		@$this->saveLanguageRecord();
+		//TODO vytvořit menu a menu_item
 		$this->setConfig( \Yii::getAlias( '@common' ) . '/config/params.php', [
 			'webOwner',
 			'adminEmail',
@@ -110,6 +113,14 @@ class WebForm extends InstallForm {
 		$this->language = $this->languageAcronym;
 		$this->setConfig( \Yii::getAlias( '@backend' ) . '/config/main.php', [
 			'language'
+		] );
+		$this->defaultLanguage = $this->languageAcronym;
+		$this->setConfig( \Yii::getAlias( '@frontend' ) . '/config/params.php', [
+			'defaultLanguage'
+		] );
+		$this->name = $this->webTitle;
+		$this->setConfig( \Yii::getAlias( '@frontend' ) . '/config/main.php', [
+			'name'
 		] );
 	}
 
