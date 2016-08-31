@@ -26,7 +26,7 @@ class InstallController extends Controller {
 			]
 		);
 
-		// database connection
+		// set database connection credentials
 		$pattern              = '/^[A-Za-z0-9\.|\-|_]*$/';
 		$mainLocalFile        = \Yii::getAlias( '@common' ) . '/config/main-local.php';
 		$mainLocalContent     = file_get_contents( $mainLocalFile );
