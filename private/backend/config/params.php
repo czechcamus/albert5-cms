@@ -13,7 +13,7 @@ return [
         ]
     ],
 	'imageEdgeLimit' => 1920,
-    'cmsWebTitle' => 'Sportoviště Dačice',
+    'cmsWebTitle' => 'cms_web_title',
     'changeChars' => [
 	    'Ř' => 'R',
 	    'Š' => 'S',

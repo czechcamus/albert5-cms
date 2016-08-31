@@ -9,13 +9,14 @@
 namespace frontend\modules\install\models;
 
 
+use common\models\LanguageRecord;
+use common\models\WebRecord;
 use frontend\modules\install\Module;
-use yii\base\Model;
 
-class WebForm extends Model
-{
+class WebForm extends InstallForm {
 	// web
 	public $webTitle;
+	public $webOwner;
 	public $webUrl = 'main';
 	public $webActive = 1;
 	public $webMain = 1;
@@ -28,10 +29,17 @@ class WebForm extends Model
 	public $languageMain = 1;
 	public $sourceLanguage = 'en';
 
+	// emails
+	public $adminEmail;
+	public $supportEmail;
+
+	// newsletter
+	public $sendingEmail;
+	public $sendingEmailTitle;
+
 	// others
-	public $newsMailTitle;
-	public $webOwner;
-	public $googleMapKey;
+	public $cmsWebTitle = 'Web application';
+	public $language = 'cs';
 
 	const ENGLISH_LANGUAGE = 'en';
 	const CZECH_LANGUAGE = 'cs';
@@ -42,8 +50,19 @@ class WebForm extends Model
 	 */
 	public function rules() {
 		return [
-			[['webTitle', 'languageAcronym', 'webOwner'], 'required'],
-			[['newsMailTitle', 'googleMapKey'], 'safe']
+			[
+				[
+					'webTitle',
+					'languageAcronym',
+					'webOwner',
+					'adminEmail',
+					'supportEmail',
+					'sendingEmail',
+					'sendingEmailTitle'
+				],
+				'required'
+			],
+			[ [ 'adminEmail', 'supportEmail', 'sendingEmail' ], 'email' ]
 		];
 	}
 
@@ -52,11 +71,13 @@ class WebForm extends Model
 	 */
 	public function attributeLabels() {
 		return [
-			'webTitle' => Module::t('inst', 'Name of main web'),
-			'languageAcronym' => Module::t('inst', 'Main language (frontend and backend)'),
-			'webOwner' => Module::t('inst', 'Owner of web)'),
-			'newsMailTitle' => Module::t('inst', 'Title of newsletter mail (mail subject)'),
-			'googleMapKey' => Module::t('inst', 'Key for displaying google maps')
+			'webTitle'          => Module::t( 'inst', 'Name of main web' ),
+			'webOwner'          => Module::t( 'inst', 'Owner of web' ),
+			'languageAcronym'   => Module::t( 'inst', 'Main language (frontend and backend)' ),
+			'adminEmail'        => Module::t( 'inst', 'Email for contact form' ),
+			'supportEmail'      => Module::t( 'inst', 'Email of webmaster' ),
+			'sendingEmail'      => Module::t( 'inst', 'Email of newsletter sender' ),
+			'sendingEmailTitle' => Module::t( 'inst', 'Title of newsletter email (subject)' ),
 		];
 	}
 
@@ -66,9 +87,61 @@ class WebForm extends Model
 	 */
 	public function getLanguageOptions() {
 		return [
-			self::CZECH_LANGUAGE => Module::t('inst', 'czech'),
-			self::ENGLISH_LANGUAGE => Module::t('inst', 'english'),
-			self::GERMAN_LANGUAGE => Module::t('inst', 'german')
+			self::CZECH_LANGUAGE   => Module::t( 'inst', 'czech' ),
+			self::ENGLISH_LANGUAGE => Module::t( 'inst', 'english' ),
+			self::GERMAN_LANGUAGE  => Module::t( 'inst', 'german' )
 		];
+	}
+
+	public function save() {
+		@$this->saveWebRecord();
+		@$this->saveLanguageRecord();
+		$this->setConfig( \Yii::getAlias( '@common' ) . '/config/params.php', [
+			'webOwner',
+			'adminEmail',
+			'supportEmail',
+			'sendingEmail',
+			'sendingEmailTitle'
+		] );
+		$this->cmsWebTitle = $this->webTitle;
+		$this->setConfig( \Yii::getAlias( '@backend' ) . '/config/params.php', [
+			'cmsWebTitle'
+		] );
+		$this->language = $this->languageAcronym;
+		$this->setConfig( \Yii::getAlias( '@backend' ) . '/config/main.php', [
+			'language'
+		] );
+	}
+
+	/**
+	 * @return boolean
+	 */
+	private function saveWebRecord() {
+		if ( ! $items = WebRecord::find()->count() ) {
+			$model         = new WebRecord;
+			$model->title  = $this->webTitle;
+			$model->weburl = $this->webUrl;
+			$model->active = $this->webActive;
+			$model->main   = $this->webMain;
+			$model->public = $this->webPublic;
+			$model->theme  = $this->webTheme;
+			$model->save( false );
+		}
+		return $items ? false : true;
+	}
+
+	/**
+	 * @return int language id
+	 */
+	private function saveLanguageRecord() {
+		if ( ! $items = LanguageRecord::find()->count() ) {
+			$model          = new LanguageRecord;
+			$model->title   = $this->getLanguageOptions()[ $this->languageAcronym ];
+			$model->acronym = $this->languageAcronym;
+			$model->main    = $this->languageMain;
+			$model->active  = $this->languageActive;
+			$model->save( false );
+		}
+		return $items ? false : true;
 	}
 }
