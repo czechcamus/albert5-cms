@@ -6,7 +6,7 @@ use frontend\modules\install\Module;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
-$this->title                   = Module::t('inst', 'Albert 5 CMS - web creation');
+$this->title                   = Module::t('inst', 'Albert 5 CMS') . ' - ' . Module::t('inst', 'web creation');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="web-view">

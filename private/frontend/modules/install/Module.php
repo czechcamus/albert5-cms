@@ -15,7 +15,8 @@ class Module extends \yii\base\Module
 {
 	public function init() {
 		parent::init();
-		\Yii::configure($this, require(__DIR__ . '/config/config.php'));
+		Yii::$app->language = 'cs';
+		Yii::configure($this, require(__DIR__ . '/config/config.php'));
 		$this->registerTranslations();
 	}
 
@@ -25,7 +26,7 @@ class Module extends \yii\base\Module
 			'class' => 'yii\i18n\PhpMessageSource',
 			'basePath' => '@frontend/modules/install/messages',
 			'fileMap' => [
-				'modules/users/inst' => 'inst.php'
+				'modules/install/inst' => 'inst.php'
             ],
         ];
     }

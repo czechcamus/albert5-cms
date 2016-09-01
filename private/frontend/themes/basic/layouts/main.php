@@ -1,6 +1,5 @@
 <?php
 use frontend\assets\basic\SiteAsset;
-use frontend\components\ArrayOwlCarousel;
 use frontend\components\Search;
 use frontend\models\MenuContent;
 use frontend\utilities\FrontEndHelper;
@@ -68,7 +67,7 @@ $this->beginPage() ?>
 				</div>
 				<div class="nav-wrapper">
 					<?= Html::a( Html::img( Yii::$app->request->baseUrl . '/basic-assets/img/logo.png', [
-						'alt' => 'Sportoviště Dačice - logo'
+						'alt' => Yii::$app->name . ' - logo'
 					] ), Yii::$app->homeUrl, [
 						'class' => 'brand-logo'
 					] ) ?>
@@ -110,53 +109,13 @@ $this->beginPage() ?>
 	</div>
 
 	<?= $content ?>
-	<div class="container container1">
-		<div class="row container2" style="opacity: 0; margin-top: 3rem;">
-			<div class="col s12">
-				<?= ArrayOwlCarousel::widget(
-					[
-						'items' => [
-							[ 
-								'title' => 'Kudy z nudy', 
-								'url' => 'http://www.kudyznudy.cz/', 
-								'img' => 'kudyznudy' ],
-							[ 
-								'title' => 'Město Dačice', 
-								'url' => 'http://www.dacice.cz/', 
-								'img' => 'dacice' ],
-							[
-								'title' => 'Technické služby Dačice, s.r.o.',
-								'url'   => 'http://www.tsdacice.cz/',
-								'img'   => 'tsdacice'
-							],
-							[
-								'title' => 'Mikroregion Dačicko',
-								'url'   => 'http://www.m-dacicko.cz/',
-								'img'   => 'm-dacicko'
-							],
-							[
-								'title' => 'Kde se koupat',
-								'url'   => 'http://www.kdesekoupat.cz/',
-								'img'   => 'kdesekoupat'
-							],
-							[
-								'title' => 'Sportcentral',
-								'url'   => 'http://www.sportcentral.cz/',
-								'img'   => 'sportcentral'
-							]
-						]
-					]
-				); ?>
-			</div>
-		</div>
-	</div>
 </main>
 
 <footer class="page-row">
 	<div class="container copyright">
 		<div class="row" style="margin-bottom: 0">
 			<div class="col s12 m4">
-				<p>&copy; <a href="http://www.tsdacice.cz">Technické služby Dačice s.r.o.</a> <?= date( 'Y' ) ?></p>
+				<p>&copy; <?= Yii::$app->params['webOwner'] . ' ' . date( 'Y' ) ?></p>
 			</div>
 			<div class="col s12 m4 hide-on-med-and-down">
 				<p class="center-align"><?= Yii::powered() ?></p>

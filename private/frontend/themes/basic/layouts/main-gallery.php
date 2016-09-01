@@ -51,24 +51,12 @@ $this->beginPage() ?>
 		    <?= $content; ?>
 		</div>
     </main>
-
-    <!-- TOPlist2 -->
-    <script type="text/javascript">
-	    <!--
-	    document.write ('<img src="http://toplist.cz/dot.asp?id=186622&amp;http='+escape(document.referrer)+'&amp;wi='+escape(window.screen.width)+'&he='+escape(window.screen.height)+'&amp;cd='+escape(window.screen.colorDepth)+'&amp;t='+escape(document.title)+'" width="1" height="1" alt="TOPlist" />');
-	    //-->
-    </script>
-    <noscript>
-	    <div>
-		    <a href="http://www.toplist.cz/" class="noshow"><img src="http://toplist.cz/dot.asp?id=186622" alt="TOPlist" width="1" height="1" /></a>
-	    </div>
-    </noscript>
-
+    
     <footer class="page-row">
         <div class="container copyright">
 	        <div class="row" style="margin-bottom: 0;">
 		        <div class="col s12 m4">
-			        <p>&copy; Městská knihovna Dačice <?= date('Y') ?></p>
+			        <p>&copy; <?= Yii::$app->params['webOwner'] . ' ' . date( 'Y' ) ?></p>
 		        </div>
 		        <div class="col s12 m4">
 			        <p class="center-align"><?= Yii::powered() ?></p>

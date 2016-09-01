@@ -3,9 +3,9 @@ return [
 	'components' => [
 		'db' => [
 			'class' => 'yii\db\Connection',
-			'dsn' => 'mysql:host=localhost;dbname=database',  // filled by install console script
-			'username' => 'user',  // filled by install console script
-			'password' => 'pswd',  // filled by install console script
+			'dsn' => 'mysql:host=localhost;dbname=database_name',  // filled by install console script
+			'username' => 'database_user',  // filled by install console script
+			'password' => 'user_password',  // filled by install console script
 			'charset' => 'utf8',
 		],
 		'mailer' => [

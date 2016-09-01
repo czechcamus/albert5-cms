@@ -4,6 +4,7 @@
 @import "components/color";
 
 // Variables;
+@import "components/variables";
 @import "custom/variables";
 
 // Reset
@@ -34,7 +35,6 @@
         &::before {
           content: '';
           position: absolute;
-          border-color: $third-color;
           border-style: solid;
           border-width: 0 0.3em 0.25em 0;
           height: 1em;
@@ -61,7 +61,7 @@
       table {
         margin: 20px 0;
         width: 50%;
-        border: 1px solid $grey-color;
+        border: 1px solid $input-border-color;
         caption {
           text-align: left;
           font-size: 150%;
@@ -69,7 +69,7 @@
         td, th {
           padding: 2px;
           text-align: center;
-          border: 1px solid $grey-color;
+          border: 1px solid $input-border-color;
         }
       }
     }
@@ -92,7 +92,7 @@
       margin: 2rem 0;
       font-size: 80%;
       width: 100%;
-      border: 2px solid $grey-color;
+      border: 2px solid $input-border-color;
       caption {
         text-align: left;
         font-size: 150%;
@@ -100,7 +100,7 @@
       td, th {
         padding: 2px;
         text-align: center;
-        border: 1px solid $grey-color;
+        border: 1px solid $input-border-color;
       }
       .price-title {
         text-align: left;
@@ -108,7 +108,7 @@
     }
 
     .gallery-bar {
-      background-color: $grey-light-color;
+      background-color: $input-border-color;
       padding: 12px 0;
       h3 {
         margin: 0 0 12px 12px;
@@ -124,7 +124,7 @@
     }
 
     .gallery-box {
-      background-color: $grey-light-color;
+      background-color: $input-border-color;
       padding: 12px;
       width: 50%;
       h3 {

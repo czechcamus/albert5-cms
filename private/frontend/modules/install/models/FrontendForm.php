@@ -18,7 +18,7 @@ class FrontendForm extends InstallForm {
 	public $galleryThumbnailSize = 200;
 	public $defaultTagsCount = 20;
 	public $defaultTagItemSizeStep = 5;
-	public $googleMapsKey = 'AIzaSyA-1jkGfN_9u8onoQytDufbAzK5eS2FYrY';
+	public $googleMapsApiKey = 'AIzaSyA-1jkGfN_9u8onoQytDufbAzK5eS2FYrY';
 
 	/**
 	 * @inheritdoc
@@ -32,7 +32,7 @@ class FrontendForm extends InstallForm {
 					'galleryThumbnailSize',
 					'defaultTagsCount',
 					'defaultTagItemSizeStep',
-					'googleMapsKey'
+					'googleMapsApiKey'
 				],
 				'required'
 			],
@@ -59,13 +59,13 @@ class FrontendForm extends InstallForm {
 			'galleryThumbnailSize'   => Module::t( 'inst', 'Gallery thumbnail size' ),
 			'defaultTagsCount'       => Module::t( 'inst', 'Default count of displayed tags' ),
 			'defaultTagItemSizeStep' => Module::t( 'inst', 'Step of tag item font size' ),
-			'googleMapsKey'          => Module::t( 'inst', 'Google maps key' )
+			'googleMapsApiKey'          => Module::t( 'inst', 'Google maps key' )
 		];
 	}
 
 	public function save() {
 		$this->setConfig( \Yii::getAlias( '@frontend' ) . '/config/params.php', [
-			'googleMapsKey'
+			'googleMapsApiKey'
 		] );
 		$this->setConfig( \Yii::getAlias( '@frontend' ) . '/config/params.php', [
 			'maxDisplayImageWidth',

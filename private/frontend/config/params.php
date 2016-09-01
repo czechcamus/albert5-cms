@@ -7,5 +7,5 @@ return [
     'galleryThumbnailSize' => 0,  // filled by install script
     'defaultTagsCount' => 0,  // filled by install script
     'defaultTagItemSizeStep' => 0,  // filled by install script
-	'googleMapsKey' => 'google_maps_key'  // filled by install script
+	'googleMapsApiKey' => 'google_maps_key'  // filled by install script
 ];

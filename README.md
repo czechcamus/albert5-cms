@@ -9,4 +9,4 @@ Instalation steps
 1) composer update
 2) create database
 3) run install console script
-4) run http://webserver_url/web/install
+4) run http://webserver_url/install
