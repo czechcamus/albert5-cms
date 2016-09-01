@@ -30,6 +30,5 @@ phpunit.phar
 
 web/assets
 web/display-images-cache
-web/admin/upload
 web/admin/assets
 web/admin/display-images-cache

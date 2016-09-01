@@ -26,6 +26,19 @@ class InstallController extends Controller {
 			]
 		);
 
+		// set CKEditor
+		$sourceDir = \Yii::getAlias('@frontend') . '/modules/install/data/ckeditor';
+		$destinationDir = \Yii::getAlias('@vendorApp') . '/2amigos/yii2-ckeditor-widget/src/assets/ckeditor';
+		echo "           ...copy " . $sourceDir . "/config.js " . $destinationDir . "/config.js\n";
+		@copy($sourceDir . '/config.js', $destinationDir . '/config.js');
+		$this->copyCKEditorPlugins($sourceDir, $destinationDir, ['article', 'gallery', 'poll', 'sound', 'youtube']);
+
+		// set KCFinder
+		$sourceDir = \Yii::getAlias('@frontend') . '/modules/install/data/kcfinder';
+		$destinationDir = \Yii::getAlias('@vendorApp') . '/sunhater/kcfinder/core';
+		echo "           ...copy " . $sourceDir . "/autoload.php " . $destinationDir . "/autoload.php\n";
+		@copy($sourceDir . '/autoload.php', $destinationDir . '/autoload.php');
+
 		// set database connection credentials
 		$pattern              = '[A-Za-z0-9\-_]*';
 		$dbname               = $this->prompt( 'Name of database: ', [
@@ -105,5 +118,22 @@ class InstallController extends Controller {
 	private function updateConfigFile( $file, $patternPrefix, $pattern, $valuePrefix, $value ) {
 		$content = preg_replace('/' . $patternPrefix . $pattern . '\'/', $valuePrefix . $value . '\'', file_get_contents($file));
 		return file_put_contents($file, $content);
+	}
+
+	private function copyCKEditorPlugins( $sourceDir, $destinationDir, $plugins ) {
+		foreach ( $plugins as $plugin ) {
+			if (!is_dir($destinationDir . '/plugins/' . $plugin)) {
+				echo "           ...create dir " . $destinationDir . '/plugins/' . $plugin . "\n";
+				@mkdir($destinationDir . '/plugins/' . $plugin);
+				@mkdir($destinationDir . '/plugins/' . $plugin . '/dialogs');
+				@mkdir($destinationDir . '/plugins/' . $plugin . '/icons');
+			}
+			echo "           ...copy " . $sourceDir . '/plugins/' . $plugin . "/plugin.js " . $destinationDir . '/plugins/' . $plugin . "/plugin.js\n";
+			@copy($sourceDir . '/plugins/' . $plugin . '/plugin.js', $destinationDir . '/plugins/' . $plugin . '/plugin.js');
+			echo "           ...copy " . $sourceDir . '/plugins/' . $plugin . "/dialogs/" . $plugin . ".js " . $destinationDir . '/plugins/' . $plugin . "/dialogs/" . $plugin . ".js\n";
+			@copy($sourceDir . '/plugins/' . $plugin . '/dialogs/' . $plugin . '.js', $destinationDir . '/plugins/' . $plugin . '/dialogs/' . $plugin . '.js');
+			echo "           ...copy " . $sourceDir . '/plugins/' . $plugin . "/icons/" . $plugin . ".js " . $destinationDir . '/plugins/' . $plugin . "/icons/" . $plugin . ".js\n";
+			@copy($sourceDir . '/plugins/' . $plugin . '/icons/' . $plugin . '.png', $destinationDir . '/plugins/' . $plugin . '/icons/' . $plugin . '.png');
+		}
 	}
 }
