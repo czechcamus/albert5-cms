@@ -1697,8 +1697,25 @@
 /* 24. Progress Bar
    ========================================================================== */
 /*** Colors ***/
+/*** Badges ***/
+/*** Buttons ***/
+/*** Cards ***/
+/*** Collapsible ***/
+/*** Dropdown ***/
 /*** Fonts ***/
 /*** Images ***/
+/*** Forms ***/
+/*** Global ***/
+/*** Navbar ***/
+/*** SideNav ***/
+/*** Photo Slider ***/
+/*** Tabs ***/
+/*** Tables ***/
+/*** Toasts ***/
+/*** Typography ***/
+/*** Collections ***/
+/* Progress Bar */
+/*** Page specific ***/
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 /**
  * 1. Set default font family to sans-serif.
@@ -2059,11 +2076,11 @@ th {
     font-family: sans-serif;
     font-weight: 300;
     font-size: 0.94rem;
-    color: #ee6e73; }
+    color: #444444; }
     body .material-icons {
       display: none; }
     body a {
-      color: #26a69a;
+      color: #29429E;
       text-decoration: none;
       background-color: transparent;
       cursor: default; }

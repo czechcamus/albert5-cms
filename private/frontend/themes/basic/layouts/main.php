@@ -22,6 +22,7 @@ $this->beginPage() ?>
 <html lang="<?= Yii::$app->language ?>">
 <head>
 	<meta charset="<?= Yii::$app->charset ?>"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?= Html::csrfMetaTags() ?>
 	<title><?= Html::encode( Yii::$app->name . ': ' . $this->title ) ?></title>
@@ -32,9 +33,11 @@ $this->beginPage() ?>
 <?php $this->beginBody() ?>
 
 <!--[if lt IE 7]>
-<p class="chromeframe">Máte opravdu hodně <strong>starý</strong> prohlížeč. Prosíme <a href="http://browsehappy.com/">přejděte
-	na novou verzi</a> nebo <a href="http://www.google.com/chromeframe/?redirect=true">si aktivujte Google Chrome
-	Frame</a> pro lepší zážitek.</p>
+<p class="chromeframe">
+	<?= Yii::t( 'front', 'You have really very <strong>old</strong> web browser. Please <a
+	href="http://browsehappy.com/">upgrade</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate
+	Google Chrome Frame</a> for better experinece.' ); ?>
+</p>
 <![endif]-->
 
 <div id="preloader-box" class="page-row">
@@ -57,72 +60,100 @@ $this->beginPage() ?>
 </div>
 
 <header class="page-row">
-	<div class="navbar-fixed">
-		<nav>
-			<div class="container">
-				<div id="search-btn" class="right hide-on-med-and-down"><i
-						class="material-icons small waves-effect waves-light tooltipped"
-						data-position="bottom" data-delay="50"
-						data-tooltip="zobrazit / skrýt okno pro vyhledávání">search</i>
-				</div>
-				<div class="nav-wrapper">
-					<?= Html::a( Html::img( Yii::$app->request->baseUrl . '/basic-assets/img/logo.png', [
-						'alt' => Yii::$app->name . ' - logo'
-					] ), Yii::$app->homeUrl, [
-						'class' => 'brand-logo'
-					] ) ?>
-					<a href="#" data-activates="mobile-navigation" class="button-collapse"><i class="material-icons">menu</i></a>
-					<?php
-					$languageId = FrontEndHelper::getLanguageIdFromAcronym();
-					$menuId     = FrontEndHelper::getMenuIdFromTextId( 'mainmenu' );
-					$menuItems  = MenuContent::getItemsTree( $languageId, $menuId );
-					echo Menu::widget( [
-						'options'         => [
-							'class' => 'right hide-on-med-and-down'
-						],
-						'activateParents' => true,
-						'encodeLabels'    => false,
-						'items'           => $menuItems
-					] );
-					$sideMenuItems = MenuContent::getItemsTree( $languageId, $menuId );
-					echo Menu::widget( [
-						'options'         => [
-							'id'    => 'mobile-navigation',
-							'class' => 'side-nav'
-						],
-						'activateParents' => true,
-						'encodeLabels'    => false,
-						'items'           => $sideMenuItems
-					] ); ?>
-				</div>
+	<nav class="indigo lighten-1" role="navigation">
+		<div class="container">
+			<div id="search-btn" class="right hide-on-med-and-down"><i
+					class="material-icons small waves-effect waves-light tooltipped"
+					data-position="bottom" data-delay="50"
+					data-tooltip="<?= Yii::t( 'front', 'show - hide search window' ); ?>">search</i>
 			</div>
-		</nav>
-	</div>
+			<div class="nav-wrapper">
+				<?= Html::a( Yii::$app->name, Yii::$app->homeUrl, [
+					'id'    => 'logo-container',
+					'class' => 'brand-logo'
+				] ) ?>
+				<a href="#" data-activates="mobile-navigation" class="button-collapse"><i
+						class="material-icons">menu</i></a>
+				<?php
+				$languageId = FrontEndHelper::getLanguageIdFromAcronym();
+				$menuId     = FrontEndHelper::getMenuIdFromTextId( 'mainmenu' );
+				$menuItems  = MenuContent::getItemsTree( $languageId, $menuId );
+				echo Menu::widget( [
+					'options'         => [
+						'class' => 'right hide-on-med-and-down'
+					],
+					'activateParents' => true,
+					'encodeLabels'    => false,
+					'items'           => $menuItems
+				] );
+				$sideMenuItems = MenuContent::getItemsTree( $languageId, $menuId );
+				echo Menu::widget( [
+					'options'         => [
+						'id'    => 'mobile-navigation',
+						'class' => 'side-nav'
+					],
+					'activateParents' => true,
+					'encodeLabels'    => false,
+					'items'           => $sideMenuItems
+				] ); ?>
+			</div>
+		</div>
+	</nav>
 </header>
 
 <main class="page-row page-row-expanded">
-	<div class="container" style="position: relative;">
+	<div class="container no-pad-bot" style="position: relative;">
 		<div id="search-form-box" style="display: none;">
 			<h3><?= Yii::t( 'front', 'Search this site' ); ?></h3>
 			<?= Search::widget(); ?>
 		</div>
+		<?= $content ?>
 	</div>
-
-	<?= $content ?>
 </main>
 
-<footer class="page-row">
-	<div class="container copyright">
-		<div class="row" style="margin-bottom: 0">
-			<div class="col s12 m4">
-				<p>&copy; <?= Yii::$app->params['webOwner'] . ' ' . date( 'Y' ) ?></p>
+<footer class="page-row page-footer">
+	<div class="container">
+		<div class="row">
+			<div class="col l6 s12">
+				<h5>Company Bio</h5>
+				<p>We are a team of college students working on this project like it's
+					our full time job. Any amount would help support and continue development on this project and is
+					greatly appreciated.</p>
 			</div>
-			<div class="col s12 m4 hide-on-med-and-down">
-				<p class="center-align"><?= Yii::powered() ?></p>
+			<div class="col l3 s12">
+				<h5>Settings</h5>
+				<ul>
+					<li><a href="#!">Link 1</a></li>
+					<li><a href="#!">Link 2</a></li>
+					<li><a href="#!">Link 3</a></li>
+					<li><a href="#!">Link 4</a></li>
+				</ul>
 			</div>
-			<div class="col s12 m4 hide-on-med-and-down">
-				<p class="right-align">Webdesign by <a href="http://www.camus.cz">C@mus</a></p>
+			<div class="col l3 s12">
+				<h5>Connect</h5>
+				<ul>
+					<li><a href="#!">Link 1</a></li>
+					<li><a href="#!">Link 2</a></li>
+					<li><a href="#!">Link 3</a></li>
+					<li><a href="#!">Link 4</a></li>
+				</ul>
 			</div>
+		</div>
+	</div>
+	<div class="footer-copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col s12 m4">
+					&copy; <?= Yii::$app->params['webOwner'] . ' ' . date( 'Y' ) ?>
+				</div>
+				<div class="col s12 m4 hide-on-med-and-down center">
+					<?= Yii::powered() ?>
+				</div>
+				<div class="col s12 m4 hide-on-med-and-down right-align">
+					Webdesign by <a href="http://www.camus.cz">C@mus</a>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </footer>

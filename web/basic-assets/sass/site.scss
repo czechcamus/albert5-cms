@@ -131,10 +131,145 @@ main {
   flex: 1 0 auto;
 }
 
+nav {
+  background-color: $secondary-color;
+  font-family: $navigation-font-family;
+  a {
+    color: $white-color;
+    &:hover {
+      text-decoration: none;
+      color: $white-color;
+    }
+  }
+  .dropdown-content {
+    li {
+      a {
+        font-size: 1rem;
+        &:hover {
+          color: $black-color;
+        }
+      }
+    }
+  }
+  #logo-info {
+    display: block;
+    position: absolute;
+    color: $white-color;
+    background-color: $primary-color;
+    width: 300px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 0.5rem 1rem;
+    z-index: 2;
+    line-height: 1.5rem;
+    top: -300px;
+    transition: top 0.8s;
+  }
+  .brand-logo {
+    z-index: 3;
+  }
+  .brand-logo:hover + #logo-info {
+    top: 99px;
+  }
+  #search-btn {
+    width: 4rem;
+    text-align: center;
+    color: $white-color;
+    background-color: $primary-color;
+    i {
+      display: block;
+      cursor: pointer;
+      height: $navbar-height;
+      line-height: $navbar-height;
+    }
+  }
+  .side-nav {
+    a {
+      &:hover {
+        color: $secondary-color;
+        background-color: transparent;
+      }
+    }
+    .dropdown-button {
+      .material-icons {
+        height: $sidenav-item-height;
+        line-height: $sidenav-item-height;
+      }
+    }
+    .dropdown-content {
+      a {
+        line-height: 1.8rem;
+      }
+    }
+  }
+}
 
-footer {
-  margin-top: 4rem;
-  font-size: 90%;
+.btn {
+  color: $white-color;
+  background-color: $secondary-color;
+  &:hover {
+    color: $white-color;
+    background-color: $secondary-light-color;
+    text-decoration: none;
+  }
+}
+
+#search-form-box {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: $white-color;
+  background-color: $primary-color;
+  h3 {
+    font-size: 1.4rem;
+  }
+  label {
+    cursor: pointer;
+  }
+  z-index: 3;
+  padding: 0 20px;
+  .search-field {
+    input {
+      border-color: $white-color;
+    }
+    label {
+      color: $white-color;
+      &.active {
+        color: $third-light-color;
+      }
+    }
+  }
+  .help-block {
+    color: $third-light-color;
+  }
+}
+
+.header {
+  color: $third-color;
+}
+
+.icon-block {
+  .material-icons {
+    font-size: 4rem;
+    color: $secondary-color;
+  }
+  h5 {
+    color: $black-color;
+  }
+}
+
+footer.page-footer {
+  background-color: $third-dark-color;
+  color: $white-color;
+  h5 {
+    color: $grey-light-color;
+  }
+  a {
+    color: $white-color;
+  }
+  .footer-copyright {
+    padding-bottom: 1rem;
+  }
 }
 
 #scrollUp {

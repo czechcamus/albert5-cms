@@ -5,8 +5,6 @@
 // jQuery functions
 ( function($) {
     $(document).ready(function() {
-        var owl = $("#owl-image-links");
-
         $('body').addClass('loaded');
 
         $("#search-btn").find("i").click(function() {
