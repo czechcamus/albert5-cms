@@ -1,17 +1,9 @@
 {
-    "name": "yiisoft/yii2-app-advanced",
-    "description": "Yii 2 Advanced Application Template",
-    "keywords": ["yii2", "framework", "advanced", "application template"],
-    "homepage": "http://www.yiiframework.com/",
+    "name": "czechcamus/albert5-cms",
+    "description": "Albert 5 CMS Application Template",
+    "keywords": ["cms", "application template"],
     "type": "project",
     "license": "BSD-3-Clause",
-    "support": {
-        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/yii2"
-    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {

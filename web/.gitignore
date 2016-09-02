@@ -1,4 +1,8 @@
-/web/index.php
-/web/index-test.php
+index-test.php
 
 assets
+basic-assets/css/gallery.css.map
+basic-assets/css/pdf.css.map
+basic-assets/css/basic-content.css.map
+basic-assets/css/home.css.map
+basic-assets/css/site.css.map
