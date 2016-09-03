@@ -60,7 +60,7 @@ $this->beginPage() ?>
 </div>
 
 <header class="page-row">
-	<nav class="indigo lighten-1" role="navigation">
+	<nav role="navigation">
 		<div class="container">
 			<div id="search-btn" class="right hide-on-med-and-down"><i
 					class="material-icons small waves-effect waves-light tooltipped"
