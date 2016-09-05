@@ -97,7 +97,13 @@ class MenuContent extends MenuItemRecord
 	 * @return array|string
 	 */
 	public function getUrl() {
-		$url =  $this->content_type == MenuItemRecord::CONTENT_LINK ? $this->link_url . ',' . $this->id : ['page/menu', 'web' => \Yii::$app->request->get('web'), 'language' => \Yii::$app->request->get('language'), 'name' => Inflector::slug(strip_tags($this->title)), 'id' => $this->id];
+		$pos = strpos($this->title, ';');
+		if ($pos === false) {
+			$itemTitle = $this->title;
+		} else {
+			list($itemTitle,$icon,$subtitle) = explode(';', $this->title);
+		}
+		$url =  $this->content_type == MenuItemRecord::CONTENT_LINK ? $this->link_url : ['page/menu', 'web' => \Yii::$app->request->get('web'), 'language' => \Yii::$app->request->get('language'), 'name' => Inflector::slug(strip_tags($itemTitle)), 'id' => $this->id];
 		return $url;
 	}
 
@@ -117,11 +123,14 @@ class MenuContent extends MenuItemRecord
 	 * @param null|int $menu_id
 	 * @param null|int $parent_id
 	 * @param array $itemsTree
-	 * @param boolean $withDropdowns
+	 * @param bool $withDropdowns
+	 * @param array $itemOptions
+	 * @param array $dropdownOptions
+	 * @param bool $withDropdownButton
 	 *
 	 * @return array
 	 */
-	public static function getItemsTree( $language_id, $menu_id = null, $parent_id = null, $itemsTree = [], $withDropdowns = true ) {
+	public static function getItemsTree( $language_id, $menu_id = null, $parent_id = null, $itemsTree = [], $withDropdowns = true,  $itemOptions = [], $dropdownOptions = [], $withDropdownButton = true ) {
 		if ($parent_id) {
 			$items = self::find()->activeStatus()->andWhere([
 				'language_id' => $language_id,
@@ -146,14 +155,15 @@ class MenuContent extends MenuItemRecord
 				)
 			);
 			/** @noinspection HtmlUnknownTarget */
-			$template =  ($withDropdowns && $isSubmenu) ? '<a href="{url}" class="dropdown-button" data-activates="' . $uniqueId . '" data-beloworigin="true" data-constrainwidth="false">{label}</a>' : '<a href="{url}"' . ($item->link_target == MenuItemRecord::TARGET_NEW_WINDOW ? ' target="_blank"' : '') . '>{label}</a>';
+			$template =  ($withDropdowns && $isSubmenu) ? '<a href="{url}" class="dropdown-button" data-activates="' . $uniqueId . '"' . self::renderDropdownOptions($dropdownOptions) . '>{label}</a>' : '<a href="{url}"' . ($item->link_target == MenuItemRecord::TARGET_NEW_WINDOW ? ' target="_blank"' : '') . '>{label}</a>';
 			/** @noinspection HtmlUnknownTarget */
 			$itemsTree[] = [
-				'label' => $item->title . (($withDropdowns && $isSubmenu) ? '<i class="material-icons right">arrow_drop_down</i>' : ''),
+				'label' => $item->title . (($withDropdowns && $isSubmenu && $withDropdownButton) ? '<i class="material-icons right">arrow_drop_down</i>' : ''),
 				'url' => $url,
 				'template' => $template,
+				'options' => $itemOptions,
 				'submenuTemplate' => $withDropdowns ? "\n<ul id=\"" . $uniqueId. "\" class=\"dropdown-content\">\n{items}\n</ul>\n" :  ($isSubmenu == false ? '&nbsp;<i class="material-icons">navigate_next</i>' : '') . "\n<ul class=\"z-depth-1\">\n{items}\n</ul>\n",
-				'items' => self::getItemsTree($language_id, null, $item->id, [], $withDropdowns)
+				'items' => self::getItemsTree($language_id, null, $item->id, [], $withDropdowns, $itemOptions, $dropdownOptions, $withDropdownButton)
 			];
 		}
 		return $itemsTree;
@@ -243,5 +253,22 @@ class MenuContent extends MenuItemRecord
 			}
 		}
 		return array_reverse($items);
+	}
+
+	/**
+	 * Renders options for materialize dropdown
+	 * @param $options
+	 * @return string
+	 */
+	public static function renderDropdownOptions( $options ) {
+		$defaultOptions = [
+			'beloworigin' => true,
+		];
+		$options = array_merge($defaultOptions, $options);
+		$optionString = '';
+		foreach ($options as $key => $value) {
+			$optionString .= ' data-' . $key . '="' . (is_bool($value) ? ($value===true ? 'true' : 'false') : $value) . '"';
+		}
+		return $optionString;
 	}
 }
