@@ -13,7 +13,6 @@ use common\models\LanguageRecord;
 use common\models\MenuItemRecord;
 use common\models\MenuRecord;
 use common\models\WebRecord;
-use Yii;
 use yii\helpers\Url;
 
 class FrontEndHelper {
@@ -68,6 +67,20 @@ class FrontEndHelper {
 	}
 
 	/**
+	 * Returns menu id of given page id
+	 * @param $pageId
+	 * @return bool|integer
+	 */
+	public static function getMenuItemIdFromPageId( $pageId ) {
+		$menuId = MenuItemRecord::find()->select('menu_item.id')->joinWith(['menu.web','menuItemContent'])->where([
+			'menu_item.content_type' => MenuItemRecord::CONTENT_PAGE,
+			'web.weburl' => \Yii::$app->request->get('web', \Yii::$app->params['defaultWeb']),
+			'menu_item_content.content_id' => $pageId
+		])->scalar();
+		return $menuId;
+	}
+
+	/**
 	 * Returns language id from application language property
 	 * @return bool|string
 	 */
@@ -102,7 +115,7 @@ class FrontEndHelper {
 		// Sound
 		$content = preg_replace(['/\[sound=(\"\d+\")\]/'], ['<?php echo \frontend\components\Sound::widget(["id" => $1]); ?>'], $content);
 		// Youtube
-		$content = preg_replace(['/\[youtube=(\"\w+\")\]/'], ['<?php echo \frontend\components\Youtube::widget(["id" => $1]); ?>'], $content);
+		$content = preg_replace(['/\[youtube=(\"[A-Za-z0-9\-_]*")\]/'], ['<?php echo \frontend\components\Youtube::widget(["id" => $1]); ?>'], $content);
 		// Poll
 		$content = preg_replace(['/\[poll=(\"\d+\")\schartType=(\"\w+\")\scolWidth=(\"\w+\")\]/'], ['<?php echo \frontend\components\Poll::widget(["id" => $1, "chartType" => $2, "colWidth" => $3]); ?>'], $content);
 
@@ -145,6 +158,6 @@ class FrontEndHelper {
 	 * @return string
 	 */
 	public static function previousUrl() {
-		return (Yii::$app->request->get('c') ? Url::previous(Yii::$app->request->get('c')) : Url::previous());
+		return (\Yii::$app->request->get('c') ? Url::previous(\Yii::$app->request->get('c')) : Url::previous());
 	}
 }
