@@ -20,9 +20,6 @@ class AppAsset extends AssetBundle
     public $css = [
         'https://fonts.googleapis.com/icon?family=Material+Icons',
     ];
-    public $js = [
-        'js/materialize.min.js',
-    ];
     public $depends = [
         'yii\web\YiiAsset',
     ];

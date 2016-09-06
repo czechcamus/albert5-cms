@@ -5950,9 +5950,101 @@ body {
 main {
   flex: 1 0 auto; }
 
-footer {
-  margin-top: 4rem;
-  font-size: 90%; }
+nav {
+  background-color: #29429E;
+  font-family: sans-serif; }
+  nav a {
+    color: white; }
+    nav a:hover {
+      text-decoration: none;
+      color: white; }
+  nav .dropdown-content li a {
+    font-size: 1rem; }
+    nav .dropdown-content li a:hover {
+      color: black; }
+  nav #logo-info {
+    display: block;
+    position: absolute;
+    color: white;
+    background-color: #444444;
+    width: 300px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 0.5rem 1rem;
+    z-index: 2;
+    line-height: 1.5rem;
+    top: -300px;
+    transition: top 0.8s; }
+  nav .brand-logo {
+    z-index: 3; }
+  nav .brand-logo:hover + #logo-info {
+    top: 99px; }
+  nav #search-btn {
+    width: 4rem;
+    text-align: center;
+    color: white;
+    background-color: #444444; }
+    nav #search-btn i {
+      display: block;
+      cursor: pointer;
+      height: 84px;
+      line-height: 84px; }
+  nav .side-nav a:hover {
+    color: #29429E;
+    background-color: transparent; }
+  nav .side-nav .dropdown-button .material-icons {
+    height: 64px;
+    line-height: 64px; }
+  nav .side-nav .dropdown-content a {
+    line-height: 1.8rem; }
+
+.btn, .btn-large {
+  color: white;
+  background-color: #29429E; }
+  .btn:hover, .btn-large:hover {
+    color: white;
+    background-color: #4562cf;
+    text-decoration: none; }
+
+#search-form-box {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: white;
+  background-color: #444444;
+  z-index: 3;
+  padding: 0 20px; }
+  #search-form-box h3 {
+    font-size: 1.4rem; }
+  #search-form-box label {
+    cursor: pointer; }
+  #search-form-box .search-field input {
+    border-color: white; }
+  #search-form-box .search-field label {
+    color: white; }
+    #search-form-box .search-field label.active {
+      color: #f0c76a; }
+  #search-form-box .help-block {
+    color: #f0c76a; }
+
+.header {
+  color: #E9AD25; }
+
+.icon-block .material-icons {
+  font-size: 4rem;
+  color: #29429E; }
+.icon-block h5 {
+  color: black; }
+
+footer.page-footer {
+  background-color: #b07f12;
+  color: white; }
+  footer.page-footer h5 {
+    color: #e0e0e0; }
+  footer.page-footer a {
+    color: white; }
+  footer.page-footer .footer-copyright {
+    padding-bottom: 1rem; }
 
 #scrollUp {
   background: url("../img/scrollup.png") no-repeat center center; }

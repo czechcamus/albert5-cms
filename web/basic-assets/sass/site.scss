@@ -1,45 +1,45 @@
 @charset "UTF-8";
 
 // Mixins
-@import "components/prefixer";
-@import "components/mixins";
-@import "components/color";
+@import "../vendor/materialize/components/prefixer";
+@import "../vendor/materialize/components/mixins";
+@import "../vendor/materialize/components/color";
 @import "custom/mixins";
 
 // Variables;
-@import "components/variables";
+@import "../vendor/materialize/components/variables";
 @import "custom/variables";
 
 // Reset
-@import "components/normalize";
+@import "../vendor/materialize/components/normalize";
 
 // components
-@import "components/global";
-@import "components/icons-material-design";
-@import "components/grid";
-@import "components/navbar";
-//@import "components/roboto";
-@import "components/typography";
-@import "components/cards";
-//@import "components/toast";
-//@import "components/tabs";
-@import "components/tooltip";
-@import "components/buttons";
-@import "components/dropdown";
-@import "components/waves";
-//@import "components/modal";
-@import "components/collapsible";
-//@import "components/chips";
-@import "components/materialbox";
-@import "components/forms/forms";
-@import "components/table_of_contents";
-@import "components/sideNav";
-@import "components/preloader";
-//@import "components/slider";
-//@import "components/carousel";
-@import "components/date_picker/default";
-@import "components/date_picker/default.date";
-@import "components/date_picker/default.time";
+@import "../vendor/materialize/components/global";
+@import "../vendor/materialize/components/icons-material-design";
+@import "../vendor/materialize/components/grid";
+@import "../vendor/materialize/components/navbar";
+//@import "../vendor/materialize/components/roboto";
+@import "../vendor/materialize/components/typography";
+@import "../vendor/materialize/components/cards";
+//@import "../vendor/materialize/components/toast";
+//@import "../vendor/materialize/components/tabs";
+@import "../vendor/materialize/components/tooltip";
+@import "../vendor/materialize/components/buttons";
+@import "../vendor/materialize/components/dropdown";
+@import "../vendor/materialize/components/waves";
+//@import "../vendor/materialize/components/modal";
+@import "../vendor/materialize/components/collapsible";
+//@import "../vendor/materialize/components/chips";
+@import "../vendor/materialize/components/materialbox";
+@import "../vendor/materialize/components/forms/forms";
+@import "../vendor/materialize/components/table_of_contents";
+@import "../vendor/materialize/components/sideNav";
+@import "../vendor/materialize/components/preloader";
+//@import "../vendor/materialize/components/slider";
+//@import "../vendor/materialize/components/carousel";
+@import "../vendor/materialize/components/date_picker/default";
+@import "../vendor/materialize/components/date_picker/default.date";
+@import "../vendor/materialize/components/date_picker/default.time";
 /* Preloader --- */
 
 #preloader-box {

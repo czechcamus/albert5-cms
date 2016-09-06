@@ -1,14 +1,14 @@
 @charset "UTF-8";
 
 // Mixins
-@import "components/color";
+@import "../vendor/materialize/components/color";
 
 // Variables;
-@import "components/variables";
+@import "../vendor/materialize/components/variables";
 @import "custom/variables";
 
 // Reset
-@import "components/normalize";
+@import "../vendor/materialize/components/normalize";
 
 @media print {
   body {

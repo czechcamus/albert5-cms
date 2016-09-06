@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 // Mixins
-@import "components/color";
+@import "../vendor/materialize/components/color";
 @import "custom/mixins";
 // Variables;
 @import "custom/variables";

@@ -16,11 +16,12 @@ class NonIESiteAsset extends AssetBundle
 	public $basePath = '@webroot/basic-assets';
 	public $baseUrl = '@web/basic-assets';
 	public $css = [
-		'css/animate.min.css',
-		'css/pe-icon-social.css',
+		'vendor/animate/css/animate.min.css',
+		'vendor/pe-icon-social/css/pe-icon-social.css',
 		'css/site.css'
 	];
 	public $js = [
+		'vendor/materialize/js/materialize.min.js',
 		'js/site.js'
 	];
 	public $depends = [

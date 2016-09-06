@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
 // Mixins
-@import "components/color";
-@import "components/prefixer";
+@import "../vendor/materialize/components/color";
+@import "../vendor/materialize/components/prefixer";
 
 // Variables;
 @import "custom/variables";

@@ -16,11 +16,11 @@ class GalleryAsset extends AssetBundle
 	public $basePath = '@webroot/basic-assets';
 	public $baseUrl = '@web/basic-assets';
 	public $css = [
-		'css/blueimp-gallery.min.css',
+		'vendor/blueimp-gallery/css/blueimp-gallery.min.css',
 		'css/gallery.css'
 	];
 	public $js = [
-		'js/jquery.blueimp-gallery.min.js',
+		'vendor/blueimp-gallery/js/jquery.blueimp-gallery.min.js',
 		'js/gallery.js'
 	];
 	public $depends = [

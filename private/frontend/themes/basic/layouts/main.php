@@ -77,7 +77,7 @@ $this->beginPage() ?>
 				<?php
 				$languageId = FrontEndHelper::getLanguageIdFromAcronym();
 				$menuId     = FrontEndHelper::getMenuIdFromTextId( 'mainmenu' );
-				$menuItems  = MenuContent::getItemsTree( $languageId, $menuId );
+				$menuItems  = MenuContent::getItemsTree( 'mainmenu', null, 'dropdown' );
 				echo Menu::widget( [
 					'options'         => [
 						'class' => 'right hide-on-med-and-down'
@@ -86,11 +86,12 @@ $this->beginPage() ?>
 					'encodeLabels'    => false,
 					'items'           => $menuItems
 				] );
-				$sideMenuItems = MenuContent::getItemsTree( $languageId, $menuId );
+				$sideMenuItems = MenuContent::getItemsTree( 'mainmenu', null, 'collapsible' );
 				echo Menu::widget( [
 					'options'         => [
-						'id'    => 'mobile-navigation',
-						'class' => 'side-nav'
+						'id' => 'mobile-navigation',
+						'class' => 'side-nav collapsible',
+						'data-collapsible' => 'accordion'
 					],
 					'activateParents' => true,
 					'encodeLabels'    => false,

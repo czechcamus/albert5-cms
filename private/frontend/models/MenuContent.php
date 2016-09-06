@@ -111,51 +111,82 @@ class MenuContent extends MenuItemRecord
 	}
 
 	/**
-	 * Creates menu items tree
+	 * Creates menu tree
 	 *
-	 * @param $language_id
-	 * @param null|int $menu_id
-	 * @param null|int $parent_id
+	 * @param string $menuTextId menu text id
+	 * @param null $parentId parent menu item id
+	 * @param string $subMenuStyle submenu style: none, dropdown, collapsible are available
+	 * @param array $dropdownOptions tag data attributes for dropdowns
+	 * @param string $collapsibleHeaderClasses css classes for collapsible header
 	 * @param array $itemsTree
-	 * @param boolean $withDropdowns
+	 * @param bool $labelIcon will be displayed?
 	 *
 	 * @return array
 	 */
-	public static function getItemsTree( $language_id, $menu_id = null, $parent_id = null, $itemsTree = [], $withDropdowns = true ) {
-		if ($parent_id) {
-			$items = self::find()->activeStatus()->andWhere([
-				'language_id' => $language_id,
-				'parent_id' => $parent_id
-			])->orderBy('item_order')->all();
+	public static function getItemsTree(
+		$menuTextId = 'mainmenu',
+		$parentId = null,
+		$subMenuStyle = 'none',
+		$dropdownOptions = [],
+		$collapsibleHeaderClasses = '',
+		$itemsTree = [],
+		$labelIcon = true
+	) {
+		$menuId            = FrontEndHelper::getMenuIdFromTextId( $menuTextId );
+		$languageId        = FrontEndHelper::getLanguageIdFromAcronym();
+		$andWhereCondition = [ 'language_id' => $languageId ];
+		if ( $parentId ) {
+			$andWhereCondition['parent_id'] = $parentId;
 		} else {
-			$items = self::find()->activeStatus()->andWhere([
-				'language_id' => $language_id,
-				'menu_id' => $menu_id,
-				'parent_id' => null
-			])->orderBy('item_order')->all();
+			$andWhereCondition['menu_id']   = $menuId;
+			$andWhereCondition['parent_id'] = null;
 		}
-		/** @var MenuContent $item */
+		/** @noinspection PhpUndefinedMethodInspection */
+		$items = self::find()->activeStatus()->andWhere( $andWhereCondition )->orderBy( 'item_order' )->all();
 		foreach ( $items as $item ) {
-			$isSubmenu = $parent_id ? false : self::hasSubmenu($language_id, $item->id);
-			$uniqueId = uniqid($item->id . '-dropdown_');
-			$url = ($item->main && self::isMainMenu($item->menu_id)) ? ['page/home', 'web' => \Yii::$app->request->get('web'), 'language' => \Yii::$app->request->get('language')] : (
-				$isSubmenu ? '#' : (
-					$item->content_type == MenuItemRecord::CONTENT_LINK ?
-						$item->link_url :
-						['page/menu', 'web' => \Yii::$app->request->get('web'), 'language' => \Yii::$app->request->get('language'), 'name' => Inflector::slug(strip_tags($item->title)), 'id' => $item->id]
-				)
+			$uniqueId       = '';
+			$firstLevelMenu = $parentId ? false : true;
+			$hasSubmenu     = self::hasSubmenu( $languageId, $item->id );
+			if ( $subMenuStyle == 'dropdown' ) {
+				$uniqueId = uniqid( $item->id . '-dropdown_' );
+			}
+			$url = ( $item->main && self::isMainMenu( $item->menu_id ) ) ? [
+				'page/home',
+				'web'      => \Yii::$app->request->get( 'web' ),
+				'language' => \Yii::$app->request->get( 'language' )
+			] : ( $item->content_type == MenuItemRecord::CONTENT_LINK ?
+				$item->link_url :
+				[
+					'page/menu',
+					'web'      => \Yii::$app->request->get( 'web' ),
+					'language' => \Yii::$app->request->get( 'language' ),
+					'name'     => Inflector::slug( strip_tags( $item->title ) ),
+					'id'       => $item->id
+				]
 			);
-			/** @noinspection HtmlUnknownTarget */
-			$template =  ($withDropdowns && $isSubmenu) ? '<a href="{url}" class="dropdown-button" data-activates="' . $uniqueId . '" data-beloworigin="true" data-constrainwidth="false">{label}</a>' : '<a href="{url}"' . ($item->link_target == MenuItemRecord::TARGET_NEW_WINDOW ? ' target="_blank"' : '') . '>{label}</a>';
-			/** @noinspection HtmlUnknownTarget */
+			if ( $hasSubmenu && $subMenuStyle == 'dropdown' ) {
+				$template        = '<a href="{url}"' . ( $firstLevelMenu ? ' class="dropdown-button" data-activates="' . $uniqueId . '"' . self::renderDropdownOptions( $dropdownOptions ) : '' ) . '>{label}</a>';
+				$labelAdd        = ( $firstLevelMenu && $labelIcon ) ? "&nbsp;<i class=\"material-icons right\">arrow_drop_down</i>" : '';
+				$subMenuTemplate = $firstLevelMenu ? "\n<ul id=\"" . $uniqueId . "\" class=\"dropdown-content\">\n{items}\n</ul>\n" : '';
+			} elseif ( $hasSubmenu && $subMenuStyle == 'collapsible' ) {
+				$template        = '<a href="{url}"' . ( $firstLevelMenu ? ' class="collapsible-header' . ( $collapsibleHeaderClasses ? ' ' . $collapsibleHeaderClasses : '' ) . '"' : '' ) . '>{label}</a>';
+				$labelAdd        = ( $firstLevelMenu && $labelIcon ) ? "&nbsp;<i class=\"material-icons right\">arrow_drop_down</i>" : '';
+				$subMenuTemplate = $firstLevelMenu ? "\n<div class=\"collapsible-body\" style=\"display: block\"><ul>\n{items}\n</ul></div>\n" : '';
+			} else {
+				$template        = '<a href="{url}"' . ( $item->link_target == MenuItemRecord::TARGET_NEW_WINDOW ? ' target="_blank"' : '' ) . '>{label}</a>';
+				$labelAdd        = ( ( $firstLevelMenu || ! $hasSubmenu || ! $labelIcon ) ? '' : "&nbsp;<i class=\"material-icons right\">navigate_next</i>" );
+				$subMenuTemplate = "\n<ul class=\"z-depth-1\">\n{items}\n</ul>\n";
+			}
 			$itemsTree[] = [
-				'label' => $item->title . (($withDropdowns && $isSubmenu) ? '<i class="material-icons right">arrow_drop_down</i>' : ''),
-				'url' => $url,
-				'template' => $template,
-				'submenuTemplate' => $withDropdowns ? "\n<ul id=\"" . $uniqueId. "\" class=\"dropdown-content\">\n{items}\n</ul>\n" :  ($isSubmenu == false ? '&nbsp;<i class="material-icons">navigate_next</i>' : '') . "\n<ul class=\"z-depth-1\">\n{items}\n</ul>\n",
-				'items' => self::getItemsTree($language_id, null, $item->id, [], $withDropdowns)
+				'label'           => $item->title . $labelAdd,
+				'url'             => $url,
+				'template'        => $template,
+				'submenuTemplate' => $subMenuTemplate,
+				'items'           => self::getItemsTree( $menuTextId, $item->id, $subMenuStyle, $dropdownOptions,
+					$collapsibleHeaderClasses, [] )
 			];
 		}
+
 		return $itemsTree;
 	}
 
