@@ -69,7 +69,6 @@ $this->beginPage() ?>
 			</div>
 			<div class="nav-wrapper">
 				<?= Html::a( Yii::$app->name, Yii::$app->homeUrl, [
-					'id'    => 'logo-container',
 					'class' => 'brand-logo'
 				] ) ?>
 				<a href="#" data-activates="mobile-navigation" class="button-collapse"><i

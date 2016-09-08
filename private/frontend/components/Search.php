@@ -18,12 +18,14 @@ use yii\base\Widget;
  */
 class Search extends Widget
 {
+	public $viewName = 'searchForm';
+
 	public function init() {
 		parent::init();
 	}
 
 	public function run() {
 		$model = new SearchContent();
-		return $this->render('searchForm', compact('model'));
+		return $this->render($this->viewName, compact('model'));
 	}
 }

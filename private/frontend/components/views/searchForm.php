@@ -24,9 +24,7 @@ $form = MaterializeActiveForm::begin( [
 <div class="row">
 	<?= $form->field( $model, 'target',  [
 		'template' => "\n{input}",
-	] )->hiddenInput( [
-		'value' => SearchContent::TARGET_WEB
-	] ); ?>
+	] )->hiddenInput(); ?>
 	<?= $form->field( $model, 'q', [
 		'template' => $template,
 		'options'  => [ 'class' => 'input-field search-field col s12' ]
