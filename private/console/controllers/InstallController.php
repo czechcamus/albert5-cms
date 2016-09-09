@@ -49,11 +49,11 @@ class InstallController extends Controller {
 		if (!$this->updateConfigFile($file, 'dbname=', $pattern, 'dbname=', $dbname)) {
 			throw new Exception( 'Update of configuration file failed - ' . $file );
 		}
-		$file = \Yii::getAlias( '@environments' ) . '/dev/common/config/main-local.php';
+		$file = \Yii::getAlias( '@environments' ) . '/dev/private/common/config/main-local.php';
 		if (!$this->updateConfigFile($file, 'dbname=', $pattern, 'dbname=', $dbname)) {
 			throw new Exception( 'Update of configuration file failed - ' . $file );
 		}
-		$file = \Yii::getAlias( '@environments' ) . '/prod/common/config/main-local.php';
+		$file = \Yii::getAlias( '@environments' ) . '/prod/private/common/config/main-local.php';
 		if (!$this->updateConfigFile($file, 'dbname=', $pattern, 'dbname=', $dbname)) {
 			throw new Exception( 'Update of configuration file failed - ' . $file );
 		}
@@ -66,11 +66,11 @@ class InstallController extends Controller {
 		if (!$this->updateConfigFile($file, 'username\'\s*=>\s*\'', $pattern, 'username\' => \'', $username)) {
 			throw new Exception( 'Update of configuration file failed - ' . $file );
 		}
-		$file = \Yii::getAlias( '@environments' ) . '/dev/common/config/main-local.php';
+		$file = \Yii::getAlias( '@environments' ) . '/dev/private/common/config/main-local.php';
 		if (!$this->updateConfigFile($file, 'username\'\s*=>\s*\'', $pattern, 'username\' => \'', $username)) {
 			throw new Exception( 'Update of configuration file failed - ' . $file );
 		}
-		$file = \Yii::getAlias( '@environments' ) . '/prod/common/config/main-local.php';
+		$file = \Yii::getAlias( '@environments' ) . '/prod/private/common/config/main-local.php';
 		if (!$this->updateConfigFile($file, 'username\'\s*=>\s*\'', $pattern, 'username\' => \'', $username)) {
 			throw new Exception( 'Update of configuration file failed - ' . $file );
 		}
@@ -83,11 +83,11 @@ class InstallController extends Controller {
 		if (!$this->updateConfigFile($file, 'password\'\s*=>\s*\'', $pattern, 'password\' => \'', $password)) {
 			throw new Exception( 'Update of configuration file failed - ' . $file );
 		}
-		$file = \Yii::getAlias( '@environments' ) . '/dev/common/config/main-local.php';
+		$file = \Yii::getAlias( '@environments' ) . '/dev/private/common/config/main-local.php';
 		if (!$this->updateConfigFile($file, 'password\'\s*=>\s*\'', $pattern, 'password\' => \'', $password)) {
 			throw new Exception( 'Update of configuration file failed - ' . $file );
 		}
-		$file = \Yii::getAlias( '@environments' ) . '/prod/common/config/main-local.php';
+		$file = \Yii::getAlias( '@environments' ) . '/prod/private/common/config/main-local.php';
 		if (!$this->updateConfigFile($file, 'password\'\s*=>\s*\'', $pattern, 'password\' => \'', $password)) {
 			throw new Exception( 'Update of configuration file failed - ' . $file );
 		}

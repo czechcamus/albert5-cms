@@ -13,6 +13,6 @@ require( __DIR__ . '/../private/vendor/yiisoft/yii2/Yii.php' );
 require( __DIR__ . '/../private/common/config/bootstrap.php' );
 require( __DIR__ . '/../private/frontend/config/bootstrap.php' );
 
-$config = require(__DIR__ . '/../../private/tests/codeception/config/frontend/acceptance.php');
+$config = require(__DIR__ . '/../private/tests/codeception/config/frontend/acceptance.php');
 
 (new yii\web\Application($config))->run();

@@ -19,8 +19,8 @@ if (!extension_loaded('mcrypt')) {
 }
 
 $params = getParams();
-$root = str_replace('\\', '/', __DIR__) . '/private';
-$envs = require("$root/environments/index.php");
+$root = str_replace('\\', '/', __DIR__);
+$envs = require("$root/private/environments/index.php");
 $envNames = array_keys($envs);
 
 echo "Yii Application Initialization Tool v1.0\n\n";
@@ -64,10 +64,10 @@ if (empty($params['env'])) {
 }
 
 echo "\n  Start initialization ...\n\n";
-$files = getFileList("$root/environments/{$env['path']}");
+$files = getFileList("$root/private/environments/{$env['path']}");
 $all = false;
 foreach ($files as $file) {
-    if (!copyFile($root, "environments/{$env['path']}/$file", $file, $all, $params)) {
+    if (!copyFile($root, "private/environments/{$env['path']}/$file", $file, $all, $params)) {
         break;
     }
 }
