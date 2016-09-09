@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $content string */
+/* @var $menuContent \common\models\MenuItemRecord */
 
 use frontend\assets\basic\HomeAsset;
 
