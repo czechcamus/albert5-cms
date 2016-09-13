@@ -18,6 +18,8 @@
  */
 return [
     'Albert 5 CMS' => '',
+    'Main category record not available!' => 'Hlavní rubrika není k dispozici.',
+    'default' => 'nezařazené',
     'email' => '',
     'ok' => '',
     'password' => 'heslo',

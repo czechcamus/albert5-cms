@@ -9,6 +9,7 @@
 namespace frontend\modules\install\models;
 
 
+use common\models\CategoryRecord;
 use common\models\ContentRecord;
 use common\models\LanguageRecord;
 use common\models\LayoutRecord;
@@ -109,29 +110,33 @@ class WebForm extends InstallForm {
 					if ($this->_homepageContentId = $this->saveHomepageContent()) {
 						if ($this->_homepageTemplateId = $this->saveBasicTemplates()) {
 							if ($this->saveMenuItemRecord()) {
-								$this->setConfig( \Yii::getAlias( '@common' ) . '/config/params.php', [
-									'webOwner',
-									'adminEmail',
-									'supportEmail',
-									'sendingEmail',
-									'sendingEmailTitle'
-								] );
-								$this->cmsWebTitle = $this->webTitle;
-								$this->setConfig( \Yii::getAlias( '@backend' ) . '/config/params.php', [
-									'cmsWebTitle'
-								] );
-								$this->language = $this->languageAcronym;
-								$this->setConfig( \Yii::getAlias( '@backend' ) . '/config/main.php', [
-									'language'
-								] );
-								$this->defaultLanguage = $this->languageAcronym;
-								$this->setConfig( \Yii::getAlias( '@frontend' ) . '/config/params.php', [
-									'defaultLanguage'
-								] );
-								$this->name = $this->webTitle;
-								$this->setConfig( \Yii::getAlias( '@frontend' ) . '/config/main.php', [
-									'name'
-								] );
+								if ($this->saveMainCategoryRecord()) {
+									$this->setConfig( \Yii::getAlias( '@common' ) . '/config/params.php', [
+										'webOwner',
+										'adminEmail',
+										'supportEmail',
+										'sendingEmail',
+										'sendingEmailTitle'
+									] );
+									$this->cmsWebTitle = $this->webTitle;
+									$this->setConfig( \Yii::getAlias( '@backend' ) . '/config/params.php', [
+										'cmsWebTitle'
+									] );
+									$this->language = $this->languageAcronym;
+									$this->setConfig( \Yii::getAlias( '@backend' ) . '/config/main.php', [
+										'language'
+									] );
+									$this->defaultLanguage = $this->languageAcronym;
+									$this->setConfig( \Yii::getAlias( '@frontend' ) . '/config/params.php', [
+										'defaultLanguage'
+									] );
+									$this->name = $this->webTitle;
+									$this->setConfig( \Yii::getAlias( '@frontend' ) . '/config/main.php', [
+										'name'
+									] );
+								} else {
+									throw new Exception(Module::t('inst', 'Main category record not available!'));
+								}
 							} else {
 								throw new Exception(Module::t('inst', 'Main menu item record not available!'));
 							}
@@ -280,6 +285,23 @@ class WebForm extends InstallForm {
 				$junctionModel->content_id = $this->_homepageContentId;
 				return $junctionModel->save(false);
 			}
+		}
+		return true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function saveMainCategoryRecord() {
+		if (!$item = CategoryRecord::find()->one()) {
+			$model = new CategoryRecord;
+			$model->title = Module::t('inst', 'default');
+			$model->language_id = $this->_languageId;
+			$model->category_type = CategoryRecord::TYPE_CATEGORY;
+			$model->active = $this->active;
+			$model->main = $this->main;
+			$model->public = $this->public;
+			return $model->save(false);
 		}
 		return true;
 	}
