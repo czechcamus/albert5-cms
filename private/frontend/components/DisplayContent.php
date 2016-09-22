@@ -23,6 +23,10 @@ use yii\bootstrap\Html;
  * Class DisplayContent displays content of requested type in given view file
  * @property $contentId integer is Id of content
  * @property $contentType integer is code of requested content type
+ * @property $contentOptions array content display options
+ * @property $defaultContentOptions array default content display options
+ * @property $wordsCountPerex integer words count of perex
+ * @property $wordsCountDescription integer words count of description
  * @property $titleTemplate string template for displaying title of content
  * @property $viewName string is name of view file
  * @package frontend\components
@@ -34,6 +38,23 @@ class DisplayContent extends Widget
 
 	/** @var integer type of content */
 	public $contentType;
+
+	/** @var array content display options */
+	public $contentOptions = [];
+
+	/** @var array default content display options */
+	public $defaultContentOptions = [
+		'title' => true,
+		'image' => true,
+		'perex' => true,
+		'description' => true
+	];
+
+	/** @var integer|null words count of perex */
+	public $wordsCountPerex = null;
+
+	/** @var integer|null words count of description */
+	public $wordsCountDescription = null;
 
 	/** @var string type template for title */
 	public $titleTemplate = '<h3>{title}</h3>';
@@ -89,6 +110,9 @@ class DisplayContent extends Widget
 		return $this->render($this->viewName, [
 			'item' => $this->_item,
 			'contentType' => $this->contentType,
+			'contentOptions' => array_merge($this->defaultContentOptions, $this->contentOptions),
+			'wordsCountPerex' => $this->wordsCountPerex,
+			'wordsCountDescription' => $this->wordsCountDescription,
 			'titleTemplate' => $this->titleTemplate
 		]);
 	}
@@ -106,7 +130,9 @@ class DisplayContent extends Widget
 	 */
 	public function renderContent( $title, $image, $imageTitle, $imageFilename, $imageLink, $perex, $description ) {
 		ob_start();
-		echo $title;
+		if ($title) {
+			echo $title;
+		}
 		if ($image) {
 			if ($imageLink) {
 				echo Html::a(DisplayImage::widget([
