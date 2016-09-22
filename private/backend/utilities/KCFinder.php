@@ -44,6 +44,5 @@ class KCFinder extends KCFinderInputWidget
 		$this->buttonOptions['id'] = $this->getButtonId();
 
 		Html::addCssClass($this->options, 'form-control');
-		Html::addCssClass($this->buttonOptions, 'kcf btn btn-default');
 	}
 }

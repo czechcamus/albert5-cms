@@ -18,12 +18,12 @@ $(function() {
         document.getElementById('modalHeader').innerHTML = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h3>' + $(this).attr('title') + '</h3>';
     });
 
-    // Removes image thumbs from article|page form
+    // Removes image thumbs from article|page|category form
     $(document).on('click', '.removeThumbs' , function() {
         $('.kcf-thumbs').empty();
     });
 
-    // Shows browser button and removes image thumbnail from article|page form
+    // Shows browser button and removes image thumbnail from article|page|category form
     $(document).on('click', '.showBrowser' , function() {
         $('#image-browser').show();
         $('#image-thumbnail').empty();

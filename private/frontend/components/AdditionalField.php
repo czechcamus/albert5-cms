@@ -16,7 +16,7 @@ use yii\base\Widget;
 
 /**
  * Class AdditionalFiled displays additional field of given page
- * @property $pageId integer is ID of page
+ * @property $contentId integer is ID of page
  * @property $addFieldId integer is ID of additional field
  * @property $viewName string name of view file
  * @package frontend\components
@@ -43,7 +43,7 @@ class AdditionalField extends Widget
 				throw new InvalidParamException( Yii::t( 'front', 'No required parameter given') . ' - addFieldId');
 			}
 		} else {
-			throw new InvalidParamException( Yii::t( 'front', 'No required parameter given') . ' - pageId');
+			throw new InvalidParamException( Yii::t( 'front', 'No required parameter given') . ' - contentId');
 		}
 	}
 

@@ -30,7 +30,6 @@ if ($category->articles) {
 	echo CategoryArticlesList::widget([
 		'categoryId' => $category->id,
 		'viewName' => 'actualities',
-		'itemsCount' => 20,
 		'wordsCount' => 50,
 		'withImage' => true,
 		'maxImageWidth' => 200

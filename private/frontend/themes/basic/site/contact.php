@@ -8,7 +8,7 @@ use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\InfoWindow;
 use dosamigos\google\maps\overlays\Marker;
 use frontend\assets\basic\BasicContentAsset;
-use frontend\components\PageContent;
+use frontend\components\DisplayContent;
 use frontend\utilities\MaterializeActiveForm;
 use yii\helpers\Html;
 use yii\captcha\Captcha;
@@ -161,8 +161,8 @@ foreach ( $data as $item ) {
 				<div class="side-content">
 					<h3><?= Yii::t( 'front', 'Contacts' ); ?></h3>
 					<div>
-					<?= PageContent::widget( [
-						'pageId'   => Yii::$app->params[ Yii::$app->language ]['contactPageId'],
+					<?= DisplayContent::widget( [
+						'contentId'   => Yii::$app->params[ Yii::$app->language ]['contactPageId'],
 						'viewName' => 'description'
 					] ); ?>
 					</div>
@@ -170,8 +170,8 @@ foreach ( $data as $item ) {
 				<div class="side-content">
 					<h3><?= Yii::t( 'front', 'Business hours' ); ?></h3>
 					<div>
-					<?= PageContent::widget( [
-						'pageId'   => Yii::$app->params[ Yii::$app->language ]['businessHoursPageId'],
+					<?= DisplayContent::widget( [
+						'contentId'   => Yii::$app->params[ Yii::$app->language ]['businessHoursPageId'],
 						'viewName' => 'description'
 					] ); ?>
 					</div>

@@ -10,6 +10,7 @@ namespace backend\models;
 
 
 use common\models\Category;
+use common\models\Image;
 use common\models\LanguageRecord;
 use Yii;
 use yii\base\Model;
@@ -20,6 +21,10 @@ class CategoryForm extends Model
 	public $item_id;
 	/** @var integer language id */
 	public $language_id;
+	/** @var integer image id */
+	public $image_id;
+	/** @var string image filename */
+	public $imageFilename;
 	/** @var string title of category */
 	public $title;
 	/** @var string description of category */
@@ -44,6 +49,8 @@ class CategoryForm extends Model
 			$category = Category::findOne($item_id);
 			$this->item_id = $category->id;
 			$this->language_id = $category->language_id;
+			if ($category->image)
+				$this->imageFilename = $category->image->filename;
 			$this->title = $category->title;
 			$this->description = $category->description;
 			$this->category_type = $category->category_type;
@@ -71,7 +78,7 @@ class CategoryForm extends Model
 	public function rules() {
 		return [
 			['title','required', 'on' => ['create', 'update']],
-			['title', 'string', 'max' => 255],
+			[['title', 'imageFilename'], 'string', 'max' => 255],
 			['description', 'string'],
 			[['item_id', 'language_id', 'category_type', 'boxes'], 'safe']
 		];
@@ -83,6 +90,7 @@ class CategoryForm extends Model
 	public function attributeLabels()
 	{
 		return [
+			'imageFilename' => Yii::t('back', 'Image for perex'),
 			'title' => Yii::t('back', 'Title'),
 			'description' => Yii::t('back', 'Description'),
 			'item_id' => Yii::t('back', 'Actual Item'),
@@ -97,15 +105,20 @@ class CategoryForm extends Model
 	 * @param bool $insert
 	 */
 	public function saveCategory($insert = true) {
-		$category = new Category();
-		if ($this->item_id)
-			$category->id = $this->item_id;
-		$category->isNewRecord = $insert;
+		$category = $insert === true ? new Category() : Category::findOne($this->item_id);
+		$imageId = null;
+		if (!isset(Yii::$app->request->post('CategoryForm')['imageFilename'])) $this->imageFilename = null;
+		if ($this->imageFilename) {
+			/** @noinspection PhpUndefinedMethodInspection */
+			$imageId = Image::find()->andWhere( [ 'filename' => $this->getImageName() ] )->scalar();
+		}
+		$this->image_id = $imageId;
 		$category->attributes = $this->toArray();
 		$category->main   = (is_array($this->boxes) && in_array(self::PROPERTY_MAIN, $this->boxes)) ? 1 : 0;
 		$category->public = (is_array($this->boxes) && in_array(self::PROPERTY_PUBLIC, $this->boxes)) ? 1 : 0;
 		$category->active = (is_array($this->boxes) && in_array(self::PROPERTY_ACTIVE, $this->boxes)) ? 1 : 0;
-		$category->save();
+		if ($category->save())
+			$this->item_id = $category->id;
 	}
 
 	/**
@@ -116,5 +129,19 @@ class CategoryForm extends Model
 		/** @var $category Category */
 		if ($category = Category::findOne($this->item_id))
 			$category->delete();
+	}
+
+	/**
+	 * Returns short image name
+	 * @return string
+	 */
+	public function getImageName() {
+		if (strstr($this->imageFilename, Yii::getAlias('@web') . '/' . Yii::$app->params['imageUploadDir'])) {
+			$startPosition = strlen(Yii::getAlias('@web') . '/' . Yii::$app->params['imageUploadDir']);
+			$filename = substr($this->imageFilename, $startPosition);
+		} else {
+			$filename = $this->imageFilename;
+		}
+		return $filename;
 	}
 }

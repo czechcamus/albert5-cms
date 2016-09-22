@@ -178,11 +178,11 @@ a.desc:after {
   text-shadow: 1px 1px black;
   text-decoration: none;
 }
-#image-thumbnail p {
+#image-thumbnail .image-wrapper {
   position: relative;
   padding: 0;
 }
-#image-thumbnail p a {
+#image-thumbnail .image-wrapper a {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -218,12 +218,19 @@ select option {
   top: 5px;
   left: 23px;
 }
-.photo-view .time-info {
+.photo-view .photo-info {
   position: absolute;
-  bottom: 5px;
-  left: 23px;
+  bottom: 0;
+  left: 15px;
+  width: 100px;
+  padding: 2px 5px;
   color: white;
   font-size: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.photo-view .photo-info .filename-info {
+  word-wrap: break-word;
+  font-size: 10px;
 }
 .photo-view img {
   height: 100px;

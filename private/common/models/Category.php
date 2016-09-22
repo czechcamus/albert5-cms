@@ -19,6 +19,7 @@ use yii\helpers\ArrayHelper;
  * Class Category
  * @package common\models
  *
+ * @property Image $image
  * @property ArticleCategory[] $articleCategories
  * @property MenuItemContent[] $menuItemContents
  * @property Article[] $articles
@@ -76,6 +77,13 @@ class Category extends CategoryRecord
 			'main' => 1,
 			'language_id' => $languageId
 		])->scalar();
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getImage() {
+		return $this->hasOne(Image::className(), ['id' => 'image_id']);
 	}
 
 	/**

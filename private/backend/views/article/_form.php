@@ -40,7 +40,7 @@ use yii\bootstrap\ActiveForm;
 		</div>
 		<div id="image-thumbnail"<?= $model->imageFilename ? '' : ' style="display: none;"' ?>>
 			<strong><?= Yii::t('back', 'Image for perex'); ?></strong>
-			<p>
+			<p class="image-wrapper">
 				<?= Html::a('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>', '#', [
 					'class' => 'showBrowser'
 				]); ?>

@@ -24,6 +24,6 @@ echo CategoryArticlesList::widget( [
 	'viewName'       => 'actualities',
 	'wordsCount'     => 50,
 	'withImage'      => true,
-	'imageEdgeRatio' => 0.5,
-	'maxImageWidth'  => 200
+	'imageEdgeRatio' => 0.667,
+	'maxImageWidth'  => 400
 ] );

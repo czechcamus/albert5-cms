@@ -17,6 +17,7 @@ use common\utilities\RelationsDelete;
  * @package common\models
  *
  * @property Article[] $articles
+ * @property Category[] $categories
  * @property ImageGallery[] $imageGalleries
  */
 class Image extends FileRecord
@@ -52,6 +53,14 @@ class Image extends FileRecord
 	public function getArticles()
 	{
 		return $this->hasMany(Article::className(), ['image_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getCategories()
+	{
+		return $this->hasMany(Category::className(), ['image_id' => 'id']);
 	}
 
 	/**

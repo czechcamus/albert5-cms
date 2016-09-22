@@ -34,9 +34,8 @@ if ( $category->description ) {
 echo CategoryArticlesList::widget( [
 	'categoryId'     => $category->id,
 	'viewName'       => 'actualities',
-	'itemsCount'     => 20,
 	'wordsCount'     => 50,
 	'withImage'      => true,
-	'imageEdgeRatio' => 0.5,
-	'maxImageWidth'  => 200
+	'imageEdgeRatio' => 0.667,
+	'maxImageWidth'  => 400
 ] );

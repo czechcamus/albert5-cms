@@ -14,6 +14,7 @@ use yii\db\Expression;
  *
  * @property integer $id
  * @property integer $language_id
+ * @property integer $image_id
  * @property string $title
  * @property string $description
  * @property integer $category_type
@@ -63,7 +64,7 @@ class CategoryRecord extends ActiveRecord
     {
         return [
             [['language_id', 'title'], 'required'],
-            [['language_id', 'category_type', 'main', 'public', 'active', 'created_by', 'updated_by'], 'integer'],
+            [['image_id', 'language_id', 'category_type', 'main', 'public', 'active', 'created_by', 'updated_by'], 'integer'],
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 255]

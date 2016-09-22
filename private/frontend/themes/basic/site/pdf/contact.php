@@ -3,7 +3,7 @@
 
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\overlays\Marker;
-use frontend\components\PageContent;
+use frontend\components\DisplayContent;
 use frontend\widgets\GoogleMap;
 use yii\helpers\Html;
 
@@ -46,15 +46,15 @@ foreach ( $data as $item ) {
 
 <div>
 	<h3><?= Yii::t( 'front', 'Contacts' ); ?></h3>
-	<?= PageContent::widget( [
-		'pageId'   => Yii::$app->params[ Yii::$app->language ]['contactPageId'],
+	<?= DisplayContent::widget( [
+		'contentId'   => Yii::$app->params[ Yii::$app->language ]['contactPageId'],
 		'viewName' => 'description'
 	] ); ?>
 </div>
 <div>
 	<h3><?= Yii::t( 'front', 'Business hours' ); ?></h3>
-	<?= PageContent::widget( [
-		'pageId'   => Yii::$app->params[ Yii::$app->language ]['businessHoursPageId'],
+	<?= DisplayContent::widget( [
+		'contentId'   => Yii::$app->params[ Yii::$app->language ]['businessHoursPageId'],
 		'viewName' => 'description'
 	] ); ?>
 </div>
