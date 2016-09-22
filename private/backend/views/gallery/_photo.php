@@ -13,8 +13,13 @@ $time = Yii::$app->formatter->asDatetime($model->file_time);
 	<div class="photo-controls">
 		<?= Html::checkbox('GalleryAddPhotosForm[addedImagesIds][' . $model->id .']'); ?>
 	</div>
-	<div class="time-info" title="<?= Yii::t('back', 'last update time') . ': ' . $time; ?>">
-		<span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?= $time; ?>
+	<div class="photo-info" title="<?= Yii::t('back', 'last update time') . ': ' . $time; ?>">
+		<div class="filename-info" title="<?= $model->filename; ?>">
+			<strong><?= $model->filename; ?></strong>
+		</div>
+		<div class="time-info" title="<?= Yii::t('back', 'last update time') . ': ' . $time; ?>">
+			<span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?= $time; ?>
+		</div>
 	</div>
 	<?= DisplayImage::widget([
 		'width' => 100,
