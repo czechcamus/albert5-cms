@@ -22,7 +22,6 @@ class ErrorAsset extends AssetBundle
 	public $js = [
 	];
 	public $depends = [
-		'frontend\\assets\\AppAsset',
-		'yii\bootstrap\BootstrapAsset',
+		'frontend\\assets\\AppAsset'
 	];
 }
