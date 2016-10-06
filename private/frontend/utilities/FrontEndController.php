@@ -13,6 +13,7 @@ use common\models\LanguageRecord;
 use common\models\WebRecord;
 use Yii;
 use yii\base\Theme;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -40,7 +41,8 @@ class FrontEndController extends Controller
 				throw new NotFoundHttpException(Yii::t('front', 'The requested page does not exist.'));
 			}
 		} else {
-			$this->redirect(['install/default/index']);
+			header('Location: ' . Url::toRoute(['/install/default/index'], true));
+			exit;
 		}
 		if (!$this->web) {
 			$this->web = WebRecord::findOne( FrontEndHelper::getWebIdFromTextId( $session->get('web') ));
