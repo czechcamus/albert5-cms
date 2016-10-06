@@ -56,11 +56,14 @@ $this->beginContent( $this->theme->getPath( 'layouts/main.php' ) ); ?>
 						'title' => '<i class="material-icons right">arrow_downward</i>' . ucfirst( $this->title )
 					] ); ?>
 					<?php if ( $menuContent->parentItem ) {
+						$pattern = "/(.*) (<i.*i>)/i";
+						$replacement = "$1";
 						echo SiblingMenus::widget( [
-							'title' => '<i class="material-icons right">arrow_forward</i>' . Yii::t('front', 'Next pages in menu'),
+							'title'             => '<i class="material-icons right">arrow_forward</i>' . Yii::t( 'front',
+									'Next pages in menu' ),
 							'parentMenuItemId'  => $menuContent->parent_id,
 							'currentMenuItemId' => $menuContent->id,
-							'parentMenuTitle'   => $menuContent->parentItem->title
+							'parentMenuTitle'   => preg_replace($pattern, $replacement, $menuContent->parentItem->title)
 						] );
 					} ?>
 					<?= $this->renderFile( '@frontend/themes/basic/components/_buttons.php', [
