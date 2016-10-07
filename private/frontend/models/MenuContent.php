@@ -151,6 +151,8 @@ class MenuContent extends MenuItemRecord {
 	 * @param string $collapsibleHeaderClasses css classes for collapsible header
 	 * @param array $itemsTree
 	 * @param bool $labelIcon will be displayed?
+	 * @param string $templatePrefix
+	 *
 	 *
 	 * @return array
 	 */
@@ -161,7 +163,8 @@ class MenuContent extends MenuItemRecord {
 		$dropdownOptions = [],
 		$collapsibleHeaderClasses = '',
 		$itemsTree = [],
-		$labelIcon = true
+		$labelIcon = true,
+		$templatePrefix = ''
 	) {
 		$menuId            = FrontEndHelper::getMenuIdFromTextId( $menuTextId );
 		$languageId        = FrontEndHelper::getLanguageIdFromAcronym();
@@ -196,15 +199,15 @@ class MenuContent extends MenuItemRecord {
 				]
 			);
 			if ( $hasSubmenu && $subMenuStyle == 'dropdown' ) {
-				$template        = '<a href="{url}"' . ( $firstLevelMenu ? ' class="dropdown-button" data-activates="' . $uniqueId . '"' . self::renderDropdownOptions( $dropdownOptions ) : '' ) . '>{label}</a>';
+				$template        = $templatePrefix . '<a href="{url}"' . ( $firstLevelMenu ? ' class="dropdown-button" data-activates="' . $uniqueId . '"' . self::renderDropdownOptions( $dropdownOptions ) : '' ) . '>{label}</a>';
 				$labelAdd        = ( $firstLevelMenu && $labelIcon ) ? "&nbsp;<i class=\"material-icons right\">arrow_drop_down</i>" : '';
 				$subMenuTemplate = $firstLevelMenu ? "\n<ul id=\"" . $uniqueId . "\" class=\"dropdown-content\">\n{items}\n</ul>\n" : '';
 			} elseif ( $hasSubmenu && $subMenuStyle == 'collapsible' ) {
-				$template        = '<a href="{url}"' . ( $firstLevelMenu ? ' class="collapsible-header' . ( $collapsibleHeaderClasses ? ' ' . $collapsibleHeaderClasses : '' ) . '"' : '' ) . '>{label}</a>';
+				$template        = $templatePrefix . '<a href="{url}"' . ( $firstLevelMenu ? ' class="collapsible-header' . ( $collapsibleHeaderClasses ? ' ' . $collapsibleHeaderClasses : '' ) . '"' : '' ) . '>{label}</a>';
 				$labelAdd        = ( $firstLevelMenu && $labelIcon ) ? "&nbsp;<i class=\"material-icons right\">arrow_drop_down</i>" : '';
 				$subMenuTemplate = $firstLevelMenu ? "\n<div class=\"collapsible-body\" style=\"display: block\"><ul>\n{items}\n</ul></div>\n" : '';
 			} else {
-				$template        = '<a href="{url}"' . ( $item->link_target == MenuItemRecord::TARGET_NEW_WINDOW ? ' target="_blank"' : '' ) . '>{label}</a>';
+				$template        = $templatePrefix . '<a href="{url}"' . ( $item->link_target == MenuItemRecord::TARGET_NEW_WINDOW ? ' target="_blank"' : '' ) . '>{label}</a>';
 				$labelAdd        = ( ( $firstLevelMenu || ! $hasSubmenu || ! $labelIcon ) ? '' : "&nbsp;<i class=\"material-icons right\">navigate_next</i>" );
 				$subMenuTemplate = "\n<ul class=\"z-depth-1\">\n{items}\n</ul>\n";
 			}
