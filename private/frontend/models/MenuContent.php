@@ -12,6 +12,7 @@ namespace frontend\models;
 use common\models\MenuItemRecord;
 use common\models\MenuRecord;
 use frontend\utilities\FrontEndHelper;
+use yii\base\InvalidParamException;
 use yii\helpers\Inflector;
 
 /**
@@ -139,6 +140,25 @@ class MenuContent extends MenuItemRecord {
 		];
 
 		return $url;
+	}
+
+	/**
+	 * Returns top level menu id
+	 *
+	 * @param $id
+	 *
+	 * @return MenuItemRecord
+	 */
+	public static function getTopLevelMenuItem($id) {
+		$menuItem = MenuItemRecord::findOne($id);
+		if ($menuItem) {
+			while ($menuItem->parent_id != 0) {
+				$menuItem = MenuItemRecord::findOne($menuItem->parent_id);
+			}
+			return $menuItem;
+		} else {
+			throw new InvalidParamException(\Yii::t('front', 'Invalid menu id given'));
+		}
 	}
 
 	/**

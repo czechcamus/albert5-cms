@@ -8,9 +8,11 @@ use common\utilities\UniqueMainProperty;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\db\Query;
+use yii\helpers\Inflector;
 
 /**
  * This is the model class for table "menu_item".
@@ -183,8 +185,16 @@ class MenuItemRecord extends ActiveRecord
         return $count != false;
     }
 
+	/**
+	 * Returns "url friendly" text without diacritics, spaces and so on
+	 * @return string
+	 */
+	public function getMenuItemText() {
+		return Inflector::slug(strip_tags($this->title));
+    }
+
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getCreatedBy()
     {
@@ -192,7 +202,7 @@ class MenuItemRecord extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getLanguage()
     {
@@ -200,7 +210,7 @@ class MenuItemRecord extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getMenu()
     {
@@ -208,7 +218,7 @@ class MenuItemRecord extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getParentItem()
     {
@@ -216,7 +226,7 @@ class MenuItemRecord extends ActiveRecord
     }
 
 	/**
-	 * @return \yii\db\ActiveQuery
+	 * @return ActiveQuery
 	 */
 	public function getLayout()
 	{
@@ -224,7 +234,7 @@ class MenuItemRecord extends ActiveRecord
 	}
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getChildrenItems()
     {
@@ -232,7 +242,7 @@ class MenuItemRecord extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getUpdatedBy()
     {
@@ -240,7 +250,7 @@ class MenuItemRecord extends ActiveRecord
     }
 
 	/**
-	 * @return \yii\db\ActiveQuery
+	 * @return ActiveQuery
 	 */
 	public function getMenuItemContent()
 	{
@@ -248,7 +258,7 @@ class MenuItemRecord extends ActiveRecord
 	}
 
 	/**
-	 * @return static
+	 * @return ActiveQuery
 	 */
 	public function getContent()
 	{
@@ -256,7 +266,7 @@ class MenuItemRecord extends ActiveRecord
 	}
 
 	/**
-	 * @return static
+	 * @return ActiveQuery
 	 */
 	public function getCategory()
 	{
