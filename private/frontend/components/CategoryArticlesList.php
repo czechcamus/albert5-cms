@@ -26,6 +26,9 @@ class CategoryArticlesList extends Widget
 	/** @var int category id */
 	public $categoryId;
 
+	/** @var integer menu items layout id for getting right menu items id */
+	public $layoutId = null;
+
 	/** @var int not displayed article id */
 	public $articleId = null;
 
@@ -158,9 +161,16 @@ class CategoryArticlesList extends Widget
 	}
 
 	public function setMenuUrlParts() {
-		$sql = "SELECT menu_item.id,menu_item.title AS name FROM category, menu_item_content, menu_item WHERE category.id=:id AND category.id=menu_item_content.category_id AND menu_item_content.menu_item_id=menu_item.id";
+		if ($this->layoutId) {
+			$sql = "SELECT menu_item.id,menu_item.title AS name FROM category, menu_item_content, menu_item WHERE category.id=:id AND category.id=menu_item_content.category_id AND menu_item_content.menu_item_id=menu_item.id AND menu_item.layout_id=:layout_id";
+		} else {
+			$sql = "SELECT menu_item.id,menu_item.title AS name FROM category, menu_item_content, menu_item WHERE category.id=:id AND category.id=menu_item_content.category_id AND menu_item_content.menu_item_id=menu_item.id";
+		}
 		$query = \Yii::$app->db->createCommand($sql);
 		$query->bindValue(':id', $this->categoryId);
+		if ($this->layoutId) {
+			$query->bindValue(':layout_id', $this->layoutId);
+		}
 		$urlParts = $query->queryOne();
 		if (isset($urlParts['name'])) {
 			$urlParts['name'] = Inflector::slug(strip_tags($urlParts['name']));
