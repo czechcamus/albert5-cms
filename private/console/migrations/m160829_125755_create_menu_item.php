@@ -88,7 +88,7 @@ class m160829_125755_create_menu_item extends Migration
             'created_by',
             'user',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
 
         // creates index for column `updated_by`
@@ -105,7 +105,7 @@ class m160829_125755_create_menu_item extends Migration
             'updated_by',
             'user',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
 
         // creates index for column `layout_id`
@@ -122,7 +122,7 @@ class m160829_125755_create_menu_item extends Migration
             'layout_id',
             'layout',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
 
         // creates index for column `parent_id`

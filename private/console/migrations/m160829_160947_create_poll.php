@@ -61,7 +61,7 @@ class m160829_160947_create_poll extends Migration
             'created_by',
             'user',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
 
         // creates index for column `updated_by`
@@ -78,7 +78,7 @@ class m160829_160947_create_poll extends Migration
             'updated_by',
             'user',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
     }
 

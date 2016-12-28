@@ -47,7 +47,7 @@ class m160829_133311_create_category extends Migration
 		    'image_id',
 		    'file',
 		    'id',
-		    'CASCADE'
+		    'SET NULL'
 	    );
 
         // creates index for column `language_id`
@@ -81,7 +81,7 @@ class m160829_133311_create_category extends Migration
             'created_by',
             'user',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
 
         // creates index for column `updated_by`
@@ -98,7 +98,7 @@ class m160829_133311_create_category extends Migration
             'updated_by',
             'user',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
     }
 

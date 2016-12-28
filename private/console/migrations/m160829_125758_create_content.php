@@ -53,7 +53,7 @@ class m160829_125758_create_content extends Migration
             'image_id',
             'file',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
 
         // creates index for column `language_id`
@@ -87,7 +87,7 @@ class m160829_125758_create_content extends Migration
             'created_by',
             'user',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
 
         // creates index for column `updated_by`
@@ -104,7 +104,7 @@ class m160829_125758_create_content extends Migration
             'updated_by',
             'user',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
 
         // creates index for column `layout_id`
@@ -121,7 +121,7 @@ class m160829_125758_create_content extends Migration
             'layout_id',
             'layout',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
     }
 
