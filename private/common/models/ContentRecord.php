@@ -31,6 +31,7 @@ use yii\db\Expression;
  * @property integer $updated_by
  * @property integer $public
  * @property integer $layout_id
+ * @property integer $order_time
  * @property string tagValues
  *
  * @property Image $image
@@ -80,6 +81,7 @@ class ContentRecord extends ActiveRecord
 	        [['content_date', 'content_time', 'content_end_date'], 'default', 'value' => null],
 	        [['content_date', 'content_end_date'], 'date', 'format' => 'y-MM-dd'],
 	        [['content_time'], 'date', 'format' => 'HH:mm'],
+	        [['order_time'], 'date', 'format' => 'y-MM-dd HH:mm'],
             [['created_at', 'updated_at', 'layout_id', 'tagValues'], 'safe'],
             [['title'], 'string', 'max' => 255]
         ];
@@ -114,6 +116,7 @@ class ContentRecord extends ActiveRecord
             'updated_by' => Yii::t('app', 'Updated By'),
             'public' => Yii::t('app', 'Public'),
             'layout_id' => Yii::t('app', 'Layout'),
+            'order_time' => Yii::t('app', 'Time stamp for order'),
             'imageFilename' => Yii::t('app', 'Image filename'),
 	        'tagValues' => Yii::t('app', 'Tags')
         ];

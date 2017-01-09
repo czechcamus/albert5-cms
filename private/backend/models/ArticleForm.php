@@ -51,6 +51,8 @@ class ArticleForm extends Model
 	public $categoryBoxes;
 	/** @var integer layout id */
 	public $layout_id;
+	/** @var string time stamp for order */
+	public $order_time;
 	/** @var string tag values */
 	public $tagValues;
 
@@ -66,7 +68,8 @@ class ArticleForm extends Model
 		parent::__construct();
 		if ($item_id) {
 			/** @var $article Article */
-			$article = Article::find()->with('tags')->where(['id' => $item_id])->one();
+			/** @noinspection PhpUndefinedMethodInspection */
+			$article = Article::find()->with('tags')->where([ 'id' => $item_id])->one();
 			if (!$copy)
 				$this->item_id = $article->id;
 			$this->language_id = $article->language_id;
@@ -83,12 +86,14 @@ class ArticleForm extends Model
 			if ($article->public)
 				$this->boxes[] = self::PROPERTY_PUBLIC;
 			$this->layout_id = $article->layout_id;
+			$this->order_time = Yii::$app->formatter->asDatetime($article->order_time && !$copy ? $article->order_time : time(), 'dd.MM.y HH:mm');
 			$this->tagValues = $article->tagValues;
 		} else {
 			$session = Yii::$app->session;
 			if (!$session['language_id'])
 				$session['language_id'] = LanguageRecord::getMainLanguageId();
 			$this->language_id = $session['language_id'];
+			$this->order_time = Yii::$app->formatter->asDatetime(time(), 'dd.MM.y HH:mm');
 
 			$this->boxes[] = self::PROPERTY_ACTIVE;
 			$this->boxes[] = self::PROPERTY_PUBLIC;
@@ -106,6 +111,7 @@ class ArticleForm extends Model
 			[['content_date', 'content_time', 'content_end_date'], 'default', 'value' => null],
 			[['content_date', 'content_end_date'], 'date', 'format' => 'dd.MM.y'],
 			[['content_time'], 'date', 'format' => 'HH:mm'],
+			[['order_time'], 'date', 'format' => 'dd.MM.y HH:mm'],
 			[['perex', 'description', 'item_id', 'language_id', 'layout_id', 'boxes', 'categoryBoxes', 'tagValues'], 'safe']
 		];
 	}
@@ -128,6 +134,7 @@ class ArticleForm extends Model
 			'layout_id' => Yii::t('back', 'Layout'),
 			'boxes' => Yii::t('back', 'Properties'),
 			'categoryBoxes' => Yii::t('back', 'Categories'),
+			'order_time' => Yii::t('back', 'Time stamp for order'),
 			'tagValues' => Yii::t('back', 'Tags')
 		];
 	}
@@ -141,6 +148,7 @@ class ArticleForm extends Model
 		$imageId = null;
 		if (!isset(Yii::$app->request->post('ArticleForm')['imageFilename'])) $this->imageFilename = null;
 		if ($this->imageFilename) {
+			/** @noinspection PhpUndefinedMethodInspection */
 			$imageId = Image::find()->andWhere( [ 'filename' => $this->getImageName() ] )->scalar();
 		}
 		$this->image_id = $imageId;
@@ -153,6 +161,7 @@ class ArticleForm extends Model
 			$article->content_time = Yii::$app->formatter->asTime($this->content_time, 'HH:mm');
 		$article->active   = (is_array($this->boxes) && in_array(self::PROPERTY_ACTIVE, $this->boxes)) ? 1 : 0;
 		$article->public = (is_array($this->boxes) && in_array(self::PROPERTY_PUBLIC, $this->boxes)) ? 1 : 0;
+		$article->order_time = Yii::$app->formatter->asDatetime($this->order_time, 'y-MM-dd HH:mm');
 		if ($this->item_id) {
 			ArticleCategory::deleteAll(['article_id' => $this->item_id]);
 		}
@@ -175,6 +184,7 @@ class ArticleForm extends Model
 	public function deleteArticle() {
 		/** @var $article Article */
 		if ($article = Article::findOne($this->item_id)) {
+			/** @noinspection PhpUndefinedMethodInspection */
 			$article->removeAllTagValues();
 			$article->delete();
 		}
@@ -185,7 +195,8 @@ class ArticleForm extends Model
 	 * @return array of pairs id - title
 	 */
 	public function getCategoryOptions() {
-		return ArrayHelper::map(Category::find()->andWhere(['language_id' => $this->language_id])->orderBy(['title' => SORT_ASC])->all(), 'id', 'title');
+		/** @noinspection PhpUndefinedMethodInspection */
+		return ArrayHelper::map(Category::find()->andWhere([ 'language_id' => $this->language_id])->orderBy([ 'title' => SORT_ASC])->all(), 'id', 'title');
 	}
 
 	/**

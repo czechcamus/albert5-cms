@@ -7,6 +7,7 @@ use backend\models\ArticleForm;
 use backend\utilities\CKEditor;
 use backend\utilities\KCFinder;
 use kartik\date\DatePicker;
+use kartik\datetime\DateTimePicker;
 use kartik\widgets\TimePicker;
 use pavlinter\display\DisplayImage;
 use yii\bootstrap\ActiveField;
@@ -142,6 +143,17 @@ use yii\bootstrap\ActiveForm;
 		]) ?>
 
 		<?= $form->field($model, 'layout_id')->dropDownList($model->getLayoutListOptions()) ?>
+
+		<?= $form->field($model, 'order_time')->widget( DateTimePicker::className(), [
+            'convertFormat' => true,
+			'pluginOptions' => [
+                'autoclose' => true,
+				'format' => 'dd.MM.y HH:mm',
+			],
+			'options' => [
+				'class' => 'form-control'
+			]
+		]) ?>
 
 		<div class="form-group">
 			<?= Html::submitButton($model->scenario == 'create' ? Yii::t('back', 'Create') : Yii::t('back', 'Update'), [

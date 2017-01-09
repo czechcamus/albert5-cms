@@ -37,6 +37,7 @@ class m160829_125758_create_content extends Migration
             'updated_by' => $this->integer(),
             'content_type' => $this->smallInteger(6),
             'layout_id' => $this->integer(),
+	        'order_time' => $this->dateTime()
         ]);
 
         // creates index for column `image_id`
