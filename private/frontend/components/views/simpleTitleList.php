@@ -11,7 +11,7 @@ use yii\helpers\Inflector;
 if ($items) {
 	echo '<div class="row">';
 	echo '<div class="col s12">';
-	echo '<div class="row side-menu-items">';
+	echo '<div class="side-menu-items">';
 	echo '<h3><span>' . $title . '</span></h3>';
 	echo '<ul>';
 	foreach ( $items as $item ) {

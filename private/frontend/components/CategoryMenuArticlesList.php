@@ -15,15 +15,22 @@ use Yii;
 use yii\base\InvalidParamException;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 
 /**
- * Class CategoryArticlesList displays category articles list
+ * Class CategoryArticlesList displays menu category articles list
  * @package frontend\components
  */
-class CategoryArticlesList extends Widget
+class CategoryMenuArticlesList extends Widget
 {
 	/** @var int category id */
 	public $categoryId;
+
+	/** @var integer menu items layout id for getting right menu items id */
+	public $layoutId = null;
+
+	/** @var int not displayed article id */
+	public $articleId = null;
 
 	/** @var int number of items */
 	public $itemsCount = null;
@@ -63,10 +70,13 @@ class CategoryArticlesList extends Widget
 
 	protected $_items;
 
+	protected $_menuUrlParts = [];
+
 	public function init() {
 		parent::init();
 		if ($this->categoryId) {
 			$language_id = FrontEndHelper::getLanguageIdFromAcronym();
+			$web_id = FrontEndHelper::getWebIdFromTextId(\Yii::$app->request->get('web', \Yii::$app->params['defaultWeb']));
 
 			if ($this->checkDate === true) {
 
@@ -74,16 +84,22 @@ class CategoryArticlesList extends Widget
 					FROM `content`
 					INNER JOIN `article_category` ON article_category.article_id=content.id
 					INNER JOIN `category` ON (category.id=article_category.category_id AND category.id=:category_id)
-					WHERE (((((`content`.`content_type`=:content_type))
+					INNER JOIN `menu_item_content` ON menu_item_content.category_id=category.id
+					INNER JOIN `menu_item` ON menu_item.id=menu_item_content.menu_item_id
+					INNER JOIN `menu` ON menu.id=menu_item.menu_id
+					WHERE (((((((`content`.`content_type`=:content_type))
 						AND ((content.content_date>=:actual_date) OR (content.content_end_date>=:actual_date)))
+						AND (NOT (`content`.`id`" . ($this->articleId ? "=" . $this->articleId : " IS NULL") . ")))
 						AND (`content`.`active`=TRUE)) " . (Yii::$app->user->isGuest ? " AND (`content`.`public`=TRUE))" : '') . "
 						AND (`content`.`language_id`=:language_id))
+						AND (`menu`.`web_id`=:web_id))
 					ORDER BY " . $this->orderBy . ($this->itemsCount ? " LIMIT " . $this->itemsCount : "");
 
 				$query = ContentRecord::findBySql($sql, [
 					':category_id' => $this->categoryId,
 					':content_type' => ContentRecord::TYPE_ARTICLE,
 					':language_id' => $language_id,
+					':web_id' => $web_id,
 					':actual_date' => Yii::$app->formatter->asDate('now', 'y-MM-dd')
 				]);
 
@@ -93,22 +109,30 @@ class CategoryArticlesList extends Widget
 					FROM `content`
 					INNER JOIN `article_category` ON article_category.article_id=content.id
 					INNER JOIN `category` ON (category.id=article_category.category_id AND category.id=:category_id)
-					WHERE ((((((`content`.`content_type`=:content_type))
+					INNER JOIN `menu_item_content` ON menu_item_content.category_id=category.id
+					INNER JOIN `menu_item` ON menu_item.id=menu_item_content.menu_item_id
+					INNER JOIN `menu` ON menu.id=menu_item.menu_id
+					WHERE ((((((((`content`.`content_type`=:content_type))
+						AND (NOT (`content`.`id`" . ($this->articleId ? "=" . $this->articleId : " IS NULL") . ")))
 						AND (IF(`content`.`content_date` IS NULL, `content`.`content_date` IS NULL, `content`.`content_date`<=:actual_date)))
                         AND (IF(`content`.`content_end_date` IS NULL, `content`.`content_end_date` IS NULL, `content`.`content_end_date`>=:actual_date)))
                         AND (`content`.`active`=TRUE)) " . (Yii::$app->user->isGuest ? " AND (`content`.`public`=TRUE))" : '') . "
 						AND (`content`.`language_id`=:language_id))
+						AND (`menu`.`web_id`=:web_id))
 					ORDER BY " . $this->orderBy  . ($this->itemsCount ? " LIMIT " . $this->itemsCount : "");
 
 				$query = ContentRecord::findBySql($sql, [
 					':category_id' => $this->categoryId,
 					':content_type' => ContentRecord::TYPE_ARTICLE,
 					':language_id' => $language_id,
+					':web_id' => $web_id,
 					':actual_date' => Yii::$app->formatter->asDate('now', 'y-MM-dd')
 				]);
 
 			}
 			$this->_items = $query->all();
+
+			$this->setMenuUrlParts();
 		} else {
 			throw new InvalidParamException(\Yii::t('front', 'No required parameter given') . ' - categoryId');
 		}
@@ -117,6 +141,7 @@ class CategoryArticlesList extends Widget
 	public function run() {
 		$config = [
 			'items' => $this->_items,
+			'menuUrlParts' => $this->_menuUrlParts,
 			'columnsCount' => $this->columnsCount,
 			'title' => $this->title,
 			'wordsCount' => $this->wordsCount,
@@ -133,6 +158,24 @@ class CategoryArticlesList extends Widget
 			]);
 		}
 		return $this->render($this->viewName, $config);
+	}
+
+	public function setMenuUrlParts() {
+		if ($this->layoutId) {
+			$sql = "SELECT menu_item.id,menu_item.title AS name FROM category, menu_item_content, menu_item WHERE category.id=:id AND category.id=menu_item_content.category_id AND menu_item_content.menu_item_id=menu_item.id AND menu_item.layout_id=:layout_id";
+		} else {
+			$sql = "SELECT menu_item.id,menu_item.title AS name FROM category, menu_item_content, menu_item WHERE category.id=:id AND category.id=menu_item_content.category_id AND menu_item_content.menu_item_id=menu_item.id";
+		}
+		$query = \Yii::$app->db->createCommand($sql);
+		$query->bindValue(':id', $this->categoryId);
+		if ($this->layoutId) {
+			$query->bindValue(':layout_id', $this->layoutId);
+		}
+		$urlParts = $query->queryOne();
+		if (isset($urlParts['name'])) {
+			$urlParts['name'] = Inflector::slug(strip_tags($urlParts['name']));
+		}
+		$this->_menuUrlParts = $urlParts;
 	}
 
 	protected function getImageHeight() {
