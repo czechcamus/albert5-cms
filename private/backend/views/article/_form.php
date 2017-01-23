@@ -131,7 +131,15 @@ use yii\bootstrap\ActiveForm;
 			]
 		]) ?>
 
-		<?= $form->field($model, 'categoryBoxes')->checkboxList($model->getCategoryOptions()) ?>
+        <?php
+            echo '<div class="form-group field-articleform-categoryboxes">';
+            echo Html::label(Yii::t('back', 'Categories'), 'articleform-categoryboxes', ['class' => 'control-label']);
+            echo Html::hiddenInput('ArticleForm[categoryBoxes]');
+            echo '<div id="articleform-categoryboxes">';
+            $model->renderCategoryInputs();
+            echo '</div>';
+            echo '</div>';
+        ?>
 
 		<?= /** @noinspection PhpUndefinedMethodInspection */
 		$form->field($model, 'boxes')->inline()->checkboxList([

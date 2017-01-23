@@ -13,8 +13,8 @@ use yii\db\Expression;
  * This is the model class for table "category".
  *
  * @property integer $id
+ * @property integer $parent_id
  * @property integer $language_id
- * @property integer $image_id
  * @property string $title
  * @property string $description
  * @property integer $category_type
@@ -27,6 +27,7 @@ use yii\db\Expression;
  * @property integer $updated_by
  *
  * @property UserRecord $createdBy
+ * @property CategoryRecord $parentCategory
  * @property LanguageRecord $language
  * @property UserRecord $updatedBy
  */
@@ -64,7 +65,7 @@ class CategoryRecord extends ActiveRecord
     {
         return [
             [['language_id', 'title'], 'required'],
-            [['image_id', 'language_id', 'category_type', 'main', 'public', 'active', 'created_by', 'updated_by'], 'integer'],
+            [['parent_id', 'language_id', 'category_type', 'main', 'public', 'active', 'created_by', 'updated_by'], 'integer'],
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 255]
@@ -78,6 +79,7 @@ class CategoryRecord extends ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'parent_id' => Yii::t('app', 'Parent Category ID'),
             'language_id' => Yii::t('app', 'Language ID'),
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
@@ -99,6 +101,26 @@ class CategoryRecord extends ActiveRecord
 	public static function find()
 	{
 		return new StatusQuery(get_called_class());
+	}
+
+	/**
+	 * Cheks if is possible to delete item
+	 * @return bool
+	 */
+	public function isDeletable()
+	{
+		return !$this->main && !$this->hasItems();
+	}
+
+	/**
+	 * Cheks if item has subitems
+	 * @return bool
+	 */
+	public function hasItems()
+	{
+		$count = \Yii::$app->db->createCommand('SELECT COUNT(*) FROM category WHERE parent_id = :id', [':id' => $this->id])
+		                       ->queryScalar();
+		return $count != false;
 	}
 
     /**
@@ -124,4 +146,12 @@ class CategoryRecord extends ActiveRecord
     {
         return $this->hasOne(UserRecord::className(), ['id' => 'updated_by']);
     }
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getParentCategory()
+	{
+		return $this->hasOne(CategoryRecord::className(), ['id' => 'parent_id']);
+	}
 }

@@ -147,8 +147,8 @@ class FileRecord extends ActiveRecord
 					$record->title = $title;
 					$record->filename = $filename;
 					$record->file_time = filemtime($baseDirName . $filename);
-					$fileExt = strtolower(array_pop(explode('.', $filename)));
-					$record->type = self::getFileType($fileExt);
+					$fileNameParts = explode('.', $filename);
+					$record->type = self::getFileType(strtolower(array_pop($fileNameParts)));
 					$record->save(false);
 				}
 			}

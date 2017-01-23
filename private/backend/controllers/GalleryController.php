@@ -170,13 +170,25 @@ class GalleryController extends BackendController
 	 * @return string
 	 */
 	public function actionAddPhotos( $id ) {
+		$session = Yii::$app->session;
 		$model = new GalleryAddPhotosForm($id);
+
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$model->savePhotosToGallery();
 			return $this->redirect(['photos', 'id' => $id]);
+		} else {
+			if ($photosView = Yii::$app->request->get('photosView')) {
+				$session['photosView'] = $photosView;
+			} else {
+				if (!$session['photosView'])
+					$session['photosView'] = 'list';
+			}
 		}
 
 		$dataProvider = $model->search();
+		$dataProvider->pagination = [
+			'pageSize' => $session['photosView'] === 'list' ? 24 : 50
+		];
 		return $this->render('selectPhotos', compact('model', 'dataProvider'));
 	}
 

@@ -29,7 +29,8 @@
         "yiisoft/yii2-jui": "^2.0.5",
         "2amigos/yii2-google-maps-library": "1.0.0",
         "kartik-v/yii2-mpdf": "dev-master",
-        "cinghie/yii2-cookie-consent": "v1.4.3"
+        "cinghie/yii2-cookie-consent": "v1.4.3",
+        "kop/yii2-scroll-pager": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "2.0.5",

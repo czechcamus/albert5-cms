@@ -320,7 +320,7 @@ class MenuItemForm extends Model
 			$query->andWhere('parent_id = :pid', [':pid' => $pid]);
 		if ($this->scenario == 'update')
 			$query->andWhere('id != :id', [':id' => $this->item_id]);
-		$items = $query->all();
+		$items = $query->orderBy(['item_order' => SORT_ASC])->all();
 		foreach ($items as $item) {
 			/** @var $item \common\models\MenuItemRecord */
 			$listItems[$item->id] = str_repeat('=', $i) . ($i > 0 ? ' ' : '') . $item->title;

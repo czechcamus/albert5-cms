@@ -111,7 +111,6 @@ class PageForm extends Model
 		$imageId = null;
 		if (!isset(Yii::$app->request->post('PageForm')['imageFilename'])) $this->imageFilename = null;
 		if ($this->imageFilename) {
-			/** @noinspection PhpUndefinedMethodInspection */
 			$imageId = Image::find()->andWhere( [ 'filename' => $this->getImageName() ] )->scalar();
 		}
 		$this->image_id = $imageId;
@@ -131,7 +130,6 @@ class PageForm extends Model
 	public function deletePage() {
 		/** @var $page Page */
 		if ($page = Page::findOne($this->item_id)) {
-			/** @noinspection PhpUndefinedMethodInspection */
 			$page->removeAllTagValues();
 			$page->delete();
 		}

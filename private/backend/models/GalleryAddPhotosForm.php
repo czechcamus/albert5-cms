@@ -55,9 +55,6 @@ class GalleryAddPhotosForm extends Model
 					'file_time' => SORT_DESC
 				]
 			],
-          'pagination' => [
-                'pageSize' => 24,
-            ]
 		]);
 		return $dataProvider;
 	}
@@ -67,7 +64,7 @@ class GalleryAddPhotosForm extends Model
 	 */
 	public function savePhotosToGallery() {
 		$maxOrder = ImageGallery::find()->where(['gallery_id' => $this->item_id])->max('item_order');
-		foreach ( array_keys($this->addedImagesIds) as $image_id ) {
+		foreach ( $this->addedImagesIds as $image_id ) {
 			$imageGallery = new ImageGallery;
 			$imageGallery->gallery_id = $this->item_id;
 			$imageGallery->image_id = $image_id;

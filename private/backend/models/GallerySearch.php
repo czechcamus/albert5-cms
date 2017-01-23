@@ -10,7 +10,7 @@ use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
 
 /**
- * CategorySearch represents the model behind the search form about `common\models\CategoryRecord`.
+ * GallerySearch represents the model behind the search form about `common\models\CategoryRecord`.
  */
 class GallerySearch extends Gallery
 {

@@ -18,13 +18,13 @@ use common\models\LayoutRecord;
 use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * Class ArticleForm is model for articles managing
  * @package backend\models
  */
-class ArticleForm extends Model
-{
+class ArticleForm extends Model {
 	/** @var integer actual page id */
 	public $item_id;
 	/** @var integer language id */
@@ -61,39 +61,49 @@ class ArticleForm extends Model
 
 	/**
 	 * ArticleForm constructor
+	 *
 	 * @param integer|null $item_id
 	 * @param bool $copy
 	 */
 	public function __construct( $item_id = null, $copy = false ) {
 		parent::__construct();
-		if ($item_id) {
+		if ( $item_id ) {
 			/** @var $article Article */
 			/** @noinspection PhpUndefinedMethodInspection */
-			$article = Article::find()->with('tags')->where([ 'id' => $item_id])->one();
-			if (!$copy)
+			$article = Article::find()->with( 'tags' )->where( [ 'id' => $item_id ] )->one();
+			if ( ! $copy ) {
 				$this->item_id = $article->id;
+			}
 			$this->language_id = $article->language_id;
-			if ($article->image)
+			if ( $article->image ) {
 				$this->imageFilename = $article->image->filename;
-			$this->perex = $article->perex;
-			$this->title = $article->title;
-			$this->description = $article->description;
-			$this->content_date = $article->content_date ? Yii::$app->formatter->asDate($article->content_date, 'dd.MM.y') : null;
-			$this->content_end_date = $article->content_end_date ? Yii::$app->formatter->asDate($article->content_end_date, 'dd.MM.y') : null;
-			$this->content_time = $article->content_time ? Yii::$app->formatter->asTime($article->content_time, 'HH:mm') : null;
-			if ($article->active)
+			}
+			$this->perex            = $article->perex;
+			$this->title            = $article->title;
+			$this->description      = $article->description;
+			$this->content_date     = $article->content_date ? Yii::$app->formatter->asDate( $article->content_date,
+				'dd.MM.y' ) : null;
+			$this->content_end_date = $article->content_end_date ? Yii::$app->formatter->asDate( $article->content_end_date,
+				'dd.MM.y' ) : null;
+			$this->content_time     = $article->content_time ? Yii::$app->formatter->asTime( $article->content_time,
+				'HH:mm' ) : null;
+			if ( $article->active ) {
 				$this->boxes[] = self::PROPERTY_ACTIVE;
-			if ($article->public)
+			}
+			if ( $article->public ) {
 				$this->boxes[] = self::PROPERTY_PUBLIC;
-			$this->layout_id = $article->layout_id;
-			$this->order_time = Yii::$app->formatter->asDatetime($article->order_time && !$copy ? $article->order_time : time(), 'dd.MM.y HH:mm');
-			$this->tagValues = $article->tagValues;
+			}
+			$this->layout_id  = $article->layout_id;
+			$this->order_time = Yii::$app->formatter->asDatetime( $article->order_time && ! $copy ? $article->order_time : time(),
+				'dd.MM.y HH:mm' );
+			$this->tagValues  = $article->tagValues;
 		} else {
 			$session = Yii::$app->session;
-			if (!$session['language_id'])
+			if ( ! $session['language_id'] ) {
 				$session['language_id'] = LanguageRecord::getMainLanguageId();
+			}
 			$this->language_id = $session['language_id'];
-			$this->order_time = Yii::$app->formatter->asDatetime(time(), 'dd.MM.y HH:mm');
+			$this->order_time  = Yii::$app->formatter->asDatetime( time(), 'dd.MM.y HH:mm' );
 
 			$this->boxes[] = self::PROPERTY_ACTIVE;
 			$this->boxes[] = self::PROPERTY_PUBLIC;
@@ -106,71 +116,88 @@ class ArticleForm extends Model
 	 */
 	public function rules() {
 		return [
-			['title','required', 'on' => ['create', 'update']],
-			[['title', 'imageFilename'], 'string', 'max' => 255],
-			[['content_date', 'content_time', 'content_end_date'], 'default', 'value' => null],
-			[['content_date', 'content_end_date'], 'date', 'format' => 'dd.MM.y'],
-			[['content_time'], 'date', 'format' => 'HH:mm'],
-			[['order_time'], 'date', 'format' => 'dd.MM.y HH:mm'],
-			[['perex', 'description', 'item_id', 'language_id', 'layout_id', 'boxes', 'categoryBoxes', 'tagValues'], 'safe']
+			[ 'title', 'required', 'on' => [ 'create', 'update' ] ],
+			[ [ 'title', 'imageFilename' ], 'string', 'max' => 255 ],
+			[ [ 'content_date', 'content_time', 'content_end_date' ], 'default', 'value' => null ],
+			[ [ 'content_date', 'content_end_date' ], 'date', 'format' => 'dd.MM.y' ],
+			[ [ 'content_time' ], 'date', 'format' => 'HH:mm' ],
+			[ [ 'order_time' ], 'date', 'format' => 'dd.MM.y HH:mm' ],
+			[
+				[
+					'perex',
+					'description',
+					'item_id',
+					'language_id',
+					'layout_id',
+					'boxes',
+					'categoryBoxes',
+					'tagValues'
+				],
+				'safe'
+			]
 		];
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels() {
 		return [
-			'imageFilename' => Yii::t('back', 'Image for perex'),
-			'perex' => Yii::t('back', 'Perex'),
-			'content_date' => Yii::t('back', 'Date'),
-			'content_end_date' => Yii::t('back', 'End date'),
-			'content_time' => Yii::t('back', 'Time'),
-			'title' => Yii::t('back', 'Title'),
-			'description' => Yii::t('back', 'Content'),
-			'item_id' => Yii::t('back', 'Actual Item'),
-			'language_id' => Yii::t('back', 'Language'),
-			'layout_id' => Yii::t('back', 'Layout'),
-			'boxes' => Yii::t('back', 'Properties'),
-			'categoryBoxes' => Yii::t('back', 'Categories'),
-			'order_time' => Yii::t('back', 'Time stamp for order'),
-			'tagValues' => Yii::t('back', 'Tags')
+			'imageFilename'    => Yii::t( 'back', 'Image for perex' ),
+			'perex'            => Yii::t( 'back', 'Perex' ),
+			'content_date'     => Yii::t( 'back', 'Date' ),
+			'content_end_date' => Yii::t( 'back', 'End date' ),
+			'content_time'     => Yii::t( 'back', 'Time' ),
+			'title'            => Yii::t( 'back', 'Title' ),
+			'description'      => Yii::t( 'back', 'Content' ),
+			'item_id'          => Yii::t( 'back', 'Actual Item' ),
+			'language_id'      => Yii::t( 'back', 'Language' ),
+			'layout_id'        => Yii::t( 'back', 'Layout' ),
+			'boxes'            => Yii::t( 'back', 'Properties' ),
+			'categoryBoxes'    => Yii::t( 'back', 'Categories' ),
+			'order_time'       => Yii::t( 'back', 'Time stamp for order' ),
+			'tagValues'        => Yii::t( 'back', 'Tags' )
 		];
 	}
 
 	/**
 	 * Save Article model
+	 *
 	 * @param bool $insert
 	 */
-	public function saveArticle($insert = true) {
-		$article = $insert === true ? new Article : Article::findOne($this->item_id);
+	public function saveArticle( $insert = true ) {
+		$article = $insert === true ? new Article : Article::findOne( $this->item_id );
 		$imageId = null;
-		if (!isset(Yii::$app->request->post('ArticleForm')['imageFilename'])) $this->imageFilename = null;
-		if ($this->imageFilename) {
+		if ( ! isset( Yii::$app->request->post( 'ArticleForm' )['imageFilename'] ) ) {
+			$this->imageFilename = null;
+		}
+		if ( $this->imageFilename ) {
 			/** @noinspection PhpUndefinedMethodInspection */
 			$imageId = Image::find()->andWhere( [ 'filename' => $this->getImageName() ] )->scalar();
 		}
-		$this->image_id = $imageId;
+		$this->image_id      = $imageId;
 		$article->attributes = $this->toArray();
-		if ($this->content_date)
-			$article->content_date = Yii::$app->formatter->asDate($this->content_date, 'y-MM-dd');
-		if ($this->content_end_date)
-			$article->content_end_date = Yii::$app->formatter->asDate($this->content_end_date, 'y-MM-dd');
-		if ($this->content_time)
-			$article->content_time = Yii::$app->formatter->asTime($this->content_time, 'HH:mm');
-		$article->active   = (is_array($this->boxes) && in_array(self::PROPERTY_ACTIVE, $this->boxes)) ? 1 : 0;
-		$article->public = (is_array($this->boxes) && in_array(self::PROPERTY_PUBLIC, $this->boxes)) ? 1 : 0;
-		$article->order_time = Yii::$app->formatter->asDatetime($this->order_time, 'y-MM-dd HH:mm');
-		if ($this->item_id) {
-			ArticleCategory::deleteAll(['article_id' => $this->item_id]);
+		if ( $this->content_date ) {
+			$article->content_date = Yii::$app->formatter->asDate( $this->content_date, 'y-MM-dd' );
+		}
+		if ( $this->content_end_date ) {
+			$article->content_end_date = Yii::$app->formatter->asDate( $this->content_end_date, 'y-MM-dd' );
+		}
+		if ( $this->content_time ) {
+			$article->content_time = Yii::$app->formatter->asTime( $this->content_time, 'HH:mm' );
+		}
+		$article->active     = ( is_array( $this->boxes ) && in_array( self::PROPERTY_ACTIVE, $this->boxes ) ) ? 1 : 0;
+		$article->public     = ( is_array( $this->boxes ) && in_array( self::PROPERTY_PUBLIC, $this->boxes ) ) ? 1 : 0;
+		$article->order_time = Yii::$app->formatter->asDatetime( $this->order_time, 'y-MM-dd HH:mm' );
+		if ( $this->item_id ) {
+			ArticleCategory::deleteAll( [ 'article_id' => $this->item_id ] );
 		}
 		$article->tagValues = $this->tagValues;
-		$article->save(false);
-		if (is_array($this->categoryBoxes)) {
+		$article->save( false );
+		if ( is_array( $this->categoryBoxes ) ) {
 			foreach ( $this->categoryBoxes as $categoryBox ) {
-				$articleCategory = new ArticleCategory;
-				$articleCategory->article_id = $article->id;
+				$articleCategory              = new ArticleCategory;
+				$articleCategory->article_id  = $article->id;
 				$articleCategory->category_id = $categoryBox;
 				$articleCategory->save();
 			}
@@ -183,7 +210,7 @@ class ArticleForm extends Model
 	 */
 	public function deleteArticle() {
 		/** @var $article Article */
-		if ($article = Article::findOne($this->item_id)) {
+		if ( $article = Article::findOne( $this->item_id ) ) {
 			/** @noinspection PhpUndefinedMethodInspection */
 			$article->removeAllTagValues();
 			$article->delete();
@@ -191,12 +218,31 @@ class ArticleForm extends Model
 	}
 
 	/**
-	 * Gets category options for checkbox list
-	 * @return array of pairs id - title
+	 * Renders category input boxes
+	 * @param null $pid
+	 * @param int $i
 	 */
-	public function getCategoryOptions() {
+	public function renderCategoryInputs( $pid = null, $i = 0) {
 		/** @noinspection PhpUndefinedMethodInspection */
-		return ArrayHelper::map(Category::find()->andWhere([ 'language_id' => $this->language_id])->orderBy([ 'title' => SORT_ASC])->all(), 'id', 'title');
+		$query = Category::find()->andWhere( [ 'language_id' => $this->language_id ] );
+		if ($pid === null)
+			$query->andWhere('ISNULL(parent_id)');
+		else
+			$query->andWhere(['parent_id' => $pid]);
+		/** @noinspection PhpUndefinedMethodInspection */
+		$items = $query->orderBy([ 'main' => SORT_DESC, 'title' => SORT_ASC])->all();
+		foreach ( $items as $item ) {
+			/** @var $item \common\models\Category */
+			echo '<div class="checkbox">' . ($i > 0 ? '<span style="color: lightgrey">' : '') . str_repeat( '&nbsp;', $i*2 ) . ($i > 0 ? '</span>' : '') . ( $i > 0 ? ' ' : '' ) .
+	        Html::checkbox('ArticleForm[categoryBoxes][]', array_search($item->id, $this->categoryBoxes) === false ? false : true, [
+				'value' => $item->id,
+				'label' => $item->title
+			]) . '</div>';
+			if ($item->hasItems()) {
+				$this->renderCategoryInputs($item->id, ++$i);
+				--$i;
+			}
+		}
 	}
 
 	/**
@@ -204,7 +250,7 @@ class ArticleForm extends Model
 	 * @return array
 	 */
 	protected function getCategoryBoxes() {
-		return $this->item_id ? (ArticleCategory::find()->select('category_id')->andWhere(['article_id' => $this->item_id])->column()) : [Category::getMainCategory($this->language_id)];
+		return $this->item_id ? ( ArticleCategory::find()->select( 'category_id' )->andWhere( [ 'article_id' => $this->item_id ] )->column() ) : [ Category::getMainCategory( $this->language_id ) ];
 	}
 
 	/**
@@ -212,12 +258,13 @@ class ArticleForm extends Model
 	 * @return string
 	 */
 	public function getImageName() {
-		if (strstr($this->imageFilename, Yii::getAlias('@web') . '/' . Yii::$app->params['imageUploadDir'])) {
-			$startPosition = strlen(Yii::getAlias('@web') . '/' . Yii::$app->params['imageUploadDir']);
-			$filename = substr($this->imageFilename, $startPosition);
+		if ( strstr( $this->imageFilename, Yii::getAlias( '@web' ) . '/' . Yii::$app->params['imageUploadDir'] ) ) {
+			$startPosition = strlen( Yii::getAlias( '@web' ) . '/' . Yii::$app->params['imageUploadDir'] );
+			$filename      = substr( $this->imageFilename, $startPosition );
 		} else {
 			$filename = $this->imageFilename;
 		}
+
 		return $filename;
 	}
 
@@ -226,11 +273,11 @@ class ArticleForm extends Model
 	 * @return array
 	 */
 	public function getLayoutListOptions() {
-		return ArrayHelper::map(LayoutRecord::find()->where([
+		return ArrayHelper::map( LayoutRecord::find()->where( [
 			'content' => LayoutRecord::CONTENT_ARTICLE
-		])->activeStatus()->orderBy([
-			'main' => SORT_DESC,
+		] )->activeStatus()->orderBy( [
+			'main'  => SORT_DESC,
 			'title' => SORT_ASC
-		])->all(), 'id', 'title');
+		] )->all(), 'id', 'title' );
 	}
 }

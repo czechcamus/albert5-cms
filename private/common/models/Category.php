@@ -19,10 +19,10 @@ use yii\helpers\ArrayHelper;
  * Class Category
  * @package common\models
  *
- * @property Image $image
  * @property ArticleCategory[] $articleCategories
  * @property MenuItemContent[] $menuItemContents
  * @property Article[] $articles
+ * @property integer $articlesCount
  */
 class Category extends CategoryRecord
 {
@@ -82,13 +82,6 @@ class Category extends CategoryRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getImage() {
-		return $this->hasOne(Image::className(), ['id' => 'image_id']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
 	public function getArticleCategories()
 	{
 		return $this->hasMany(ArticleCategory::className(), ['category_id' => 'id']);
@@ -99,6 +92,23 @@ class Category extends CategoryRecord
 	 */
 	public function getArticles() {
 		return $this->hasMany(Article::className(), ['id' => 'article_id'])->via('articleCategories')->orderBy(['updated_at' => SORT_DESC]);
+	}
+
+	/**
+	 * @return int|string
+	 */
+	public function getArticlesCount() {
+		return $this->hasMany(Article::className(), ['id' => 'article_id'])->via('articleCategories')->count();
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getActiveArticles() {
+		$actualDate = \Yii::$app->formatter->asDate(time(), 'y-MM-d');
+		return $this->hasMany(Article::className(), ['id' => 'article_id'])->via('articleCategories')
+			->where('(content_end_date >= :actual_date AND content_date <= :actual_date) OR (ISNULL(content_date) AND content_end_date >= :actual_date) OR ISNULL(content_end_date)', [':actual_date' => $actualDate])
+			->orderBy(['updated_at' => SORT_DESC]);
 	}
 
 	/**

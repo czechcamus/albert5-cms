@@ -6,7 +6,6 @@ use backend\models\CategoryForm;
 use backend\utilities\BackendController;
 use common\models\Category;
 use Yii;
-use backend\models\CategorySearch;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -44,10 +43,7 @@ class CategoryController extends BackendController
      */
     public function actionIndex()
     {
-        $searchModel = new CategorySearch;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', compact('searchModel', 'dataProvider'));
+        return $this->render('index');
     }
 
     /**
@@ -140,7 +136,7 @@ class CategoryController extends BackendController
 	 * Finds the Category model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
 	 * @param $id
-	 * @return null|static
+	 * @return null|Category
 	 * @throws NotFoundHttpException
 	 */
 	protected function findModel($id)

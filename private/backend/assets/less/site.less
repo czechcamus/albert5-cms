@@ -232,7 +232,7 @@ a.desc:after {
 }
 
 #image-thumbnail {
-	.image-wrapper {
+	p {
 		.remove-btn-container;
 		a {
 			.remove-btn;
@@ -265,19 +265,12 @@ select option {
 		top: 5px;
 		left: 23px;
 	}
-	.photo-info {
+	.time-info {
 		position: absolute;
-		bottom: 0;
-		left: 15px;
-		width: 100px;
-		padding: 2px 5px;
+		bottom: 5px;
+		left: 23px;
 		color: white;
 		font-size: 8px;
-		background-color: rgba(0,0,0,0.5);
-		.filename-info {
-			word-wrap: break-word;
-			font-size: 10px;
-		}
 	}
 	img {
 		height: 100px;
@@ -289,4 +282,9 @@ select option {
 	.control-label {
 		padding: 7px 0 0;
 	}
+}
+
+#articleform-categoryboxes {
+	max-height: 600px;
+	overflow-y: auto;
 }

@@ -10,7 +10,6 @@ namespace common\models;
 
 use common\utilities\ModelTypeAttribute;
 use common\utilities\RelationsDelete;
-use Yii;
 use yii\helpers\ArrayHelper;
 
 /**

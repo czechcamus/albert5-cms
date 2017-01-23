@@ -178,11 +178,11 @@ a.desc:after {
   text-shadow: 1px 1px black;
   text-decoration: none;
 }
-#image-thumbnail .image-wrapper {
+#image-thumbnail p {
   position: relative;
   padding: 0;
 }
-#image-thumbnail .image-wrapper a {
+#image-thumbnail p a {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -218,19 +218,12 @@ select option {
   top: 5px;
   left: 23px;
 }
-.photo-view .photo-info {
+.photo-view .time-info {
   position: absolute;
-  bottom: 0;
-  left: 15px;
-  width: 100px;
-  padding: 2px 5px;
+  bottom: 5px;
+  left: 23px;
   color: white;
   font-size: 8px;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-.photo-view .photo-info .filename-info {
-  word-wrap: break-word;
-  font-size: 10px;
 }
 .photo-view img {
   height: 100px;
@@ -238,4 +231,8 @@ select option {
 }
 .input_fields_wrap .control-label {
   padding: 7px 0 0;
+}
+#articleform-categoryboxes {
+  max-height: 600px;
+  overflow-y: auto;
 }

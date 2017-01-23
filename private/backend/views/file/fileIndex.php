@@ -6,6 +6,7 @@
 
 use backend\components\LanguageButtonDropdown;
 use common\models\LanguageRecord;
+use kop\y2sp\ScrollPager;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
@@ -43,6 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
 		'dataProvider' => $dataProvider,
 		'itemView' => '_file',
 	    'viewParams' => ['lid' => $session['language_id']],
-		'layout' => "{summary}\n<div class=\"row\">{items}</div>\n{pager}"
+		'layout' => "{summary}\n<div class=\"row\">{items}</div>\n{pager}",
+		'pager' => [
+			'class' => ScrollPager::className(),
+			'item' => '.file-view',
+			'triggerText' => Yii::t('back', 'Load next files'),
+			'noneLeftText' => ''
+		]
     ]); ?>
 </div>

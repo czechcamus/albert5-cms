@@ -211,6 +211,8 @@ class UserRecord extends ActiveRecord implements IdentityInterface
         return $textArray[$this->status];
     }
 
+    //TODO toto odstranit a role spravovat v tabulce prostřednictvím formuláře - jinak se z toho zblázníš!
+
 	/**
 	 * Gets human readable role
 	 * @param $roleName
@@ -220,6 +222,7 @@ class UserRecord extends ActiveRecord implements IdentityInterface
 		$textArray = [
 			'member' => \Yii::t('app', 'Authenticated user'),
 			'user' => \Yii::t('app', 'Editor'),
+			'foodMgr' => \Yii::t('app', 'Editor of dishes'),
 			'manager' => \Yii::t('app', 'Editor in chief'),
 			'admin' => \Yii::t('app', 'Administrator')
 		];

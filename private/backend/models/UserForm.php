@@ -110,6 +110,8 @@ class UserForm extends Model
 		return $rows;
 	}
 
+	//TODO tohle fakt natahovat z tabulky (co s překlady?)
+
 	/**
 	 * Gets role list for dropdown
 	 * @return array
@@ -119,6 +121,7 @@ class UserForm extends Model
 		return [
 			'member' => \Yii::t('back', 'Authenticated user'),
 			'user' => \Yii::t('back', 'Editor'),
+			'foodMgr' => \Yii::t('back', 'Editor of dishes'),
 			'manager' => \Yii::t('back', 'Editor in chief'),
 			'admin' => \Yii::t('back', 'Administrator')
 		];
