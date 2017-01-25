@@ -260,9 +260,9 @@ class ArticleForm extends Model {
 	public function getImageName() {
 		if ( strstr( $this->imageFilename, Yii::getAlias( '@web' ) . '/' . Yii::$app->params['imageUploadDir'] ) ) {
 			$startPosition = strlen( Yii::getAlias( '@web' ) . '/' . Yii::$app->params['imageUploadDir'] );
-			$filename      = substr( $this->imageFilename, $startPosition );
+			$filename      = substr( urldecode($this->imageFilename), $startPosition );
 		} else {
-			$filename = $this->imageFilename;
+			$filename = urldecode($this->imageFilename);
 		}
 
 		return $filename;
