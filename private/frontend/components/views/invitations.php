@@ -20,7 +20,7 @@ use yii\helpers\StringHelper;
 if ($items) {
 	echo '<div class="invitations">';
 	if ($columnsCount > 3) $columnsCount = 3;
-	$i = 0;
+	$i = $test = 0;
 	foreach ( $items as $item ) {
 		$articleUrlParts = [
 			'page/article',
@@ -65,7 +65,7 @@ if ($items) {
 		} else {
 			echo '<div class="col s12">';
 		}
-		$text = strip_tags($item->perex, 'a, strong, b, em, i');
+		$text = strip_tags($item->perex, '<a>, <strong>, <b>, <em>, <i>');
 		echo '<p>';
 		if ($wordsCount) {
 			echo StringHelper::truncateWords($text, $wordsCount);

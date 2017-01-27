@@ -45,7 +45,7 @@ if ($contentType == DisplayContent::CONTENT_MENU) {
 		}
 		if ($contentOptions['description']) {
 			if ($wordsCountDescription) {
-				$text = strip_tags($item->category->description, 'a, strong, b, em, i');
+				$text = strip_tags($item->category->description, '<a>, <strong>, <b>, <em>, <i>');
 				$description = StringHelper::truncateWords($text, $wordsCountDescription);
 			} else {
 				$description = $item->category->description;
@@ -66,7 +66,7 @@ if ($contentType == DisplayContent::CONTENT_MENU) {
 		}
 		if ($contentOptions['perex']) {
 			if ($wordsCountPerex) {
-				$text = strip_tags($item->content->perex, 'a, strong, b, em, i');
+				$text = strip_tags($item->content->perex, '<a>, <strong>, <b>, <em>, <i>');
 				$perex = StringHelper::truncateWords($text, $wordsCountPerex);
 			} else {
 				$perex = $item->content->perex;
