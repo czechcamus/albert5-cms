@@ -163,7 +163,7 @@ $this->beginPage() ?>
 	'dismiss'   => Yii::t( 'front', 'Got It' ),
 	'learnMore' => Yii::t( 'front', 'More info' ),
 	'link'      => Url::to( [ 'site/content', 'id' => Yii::$app->params[ Yii::$app->language ]['cookiePolicyId'] ] ),
-	'theme'     => '/basic-assets/css/cookieconsent-dark-bottom.css'
+	'theme'     => '/basic-assets/vendor/cookieconsent/css/cookieconsent-dark-bottom.css'
 ] ); ?>
 
 <?= Scrollup::widget( [
