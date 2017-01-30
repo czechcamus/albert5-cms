@@ -20,7 +20,7 @@ use yii\helpers\StringHelper;
 if ($items) {
 	echo '<div class="actualities">';
 	if ($columnsCount > 3) $columnsCount = 3;
-	$i = $test = 0;
+	$test = $i = 0;
 	foreach ( $items as $item ) {
 		$articleUrlParts = [
 			'page/article',
@@ -39,8 +39,7 @@ if ($items) {
 		}
 		echo '<div class="col s12' . ($columnsCount == 2 ? ' l6' : ($columnsCount == 3 ? ' l4' : '')) . '">';
 		echo '<div class="row">';
-		echo '<h4 class="col s12"><i class="material-icons small right">message</i>' . Html::a($item->title, $url) . '</h4>';
-		if ($withImage && isset($item->image)) {
+		if ($withImage) {
 			echo '<div class="col s12 m6 l3">';
 			$image = DisplayImage::widget([
 				'width' => $maxImageSize['width'],
@@ -50,7 +49,7 @@ if ($items) {
 					'title' => $item->title
 				],
 				'category' => 'all',
-				'image' => $item->image->filename
+				'image' => isset($item->image) ?  $item->image->filename : Yii::$app->params['defaultArticleImage']
 			]);
 			echo Html::a($image, $url);
 			echo '</div>';
@@ -58,6 +57,7 @@ if ($items) {
 		} else {
 			echo '<div class="col s12">';
 		}
+		echo '<h4>' . Html::a('<span>' . $item->title . '</span>', $url) . '</h4>';
 		$text = strip_tags($item->perex, '<a>, <strong>, <b>, <em>, <i>');
 		echo '<p>';
 		if ($wordsCount) {
@@ -66,8 +66,8 @@ if ($items) {
 			echo $text;
 		}
 		echo '</p>';
-		echo Html::a('<i class="material-icons right">forward</i>' . Yii::t('front', 'details'), $url,
-			['class' => 'waves-effect waves-light btn']
+		echo Html::a(Yii::t('front', 'details') . ' <i class="material-icons">chevron_right</i>', $url,
+			['class' => 'my-btn']
 		);
 		echo '</div>';
 		echo '</div>';

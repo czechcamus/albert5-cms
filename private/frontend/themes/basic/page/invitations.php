@@ -23,7 +23,5 @@ echo InvitationsList::widget( [
 	'categoryId'     => $category->id,
 	'viewName'       => 'invitations',
 	'wordsCount'     => 50,
-	'withImage'      => true,
-	'imageEdgeRatio' => 0.5,
-	'maxImageWidth'  => 200
+	'withImage'      => false
 ] );

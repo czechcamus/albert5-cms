@@ -3,7 +3,7 @@
 /* @var $menuContent \frontend\models\MenuContent */
 /* @var $category \common\models\Category */
 
-use frontend\components\CategoryArticlesList;
+use frontend\components\CategoryMenuArticlesList;
 use frontend\utilities\FrontEndHelper;
 
 $this->title                 = $menuContent->title;
@@ -19,11 +19,11 @@ if ( $category->description ) {
 	echo '</div>';
 }
 
-echo CategoryArticlesList::widget( [
+echo CategoryMenuArticlesList::widget( [
 	'categoryId'     => $category->id,
 	'viewName'       => 'actualities',
 	'wordsCount'     => 50,
 	'withImage'      => true,
 	'imageEdgeRatio' => 0.667,
-	'maxImageWidth'  => 400
+	'maxImageWidth'  => 200
 ] );

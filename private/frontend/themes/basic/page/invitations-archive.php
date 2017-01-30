@@ -3,7 +3,7 @@
 /* @var $menuContent \frontend\models\MenuContent */
 /* @var $category \common\models\Category */
 
-use frontend\components\InvitationsArchiveList;
+use frontend\components\InvitationsArchiveListMenu;
 use frontend\utilities\FrontEndHelper;
 
 $this->title             = $menuContent->title;
@@ -19,12 +19,12 @@ if ( $category->description ) {
 	echo '</div>';
 }
 
-echo InvitationsArchiveList::widget( [
+echo InvitationsArchiveListMenu::widget( [
 	'categoryId'     => $category->id,
 	'wordsCount'     => 50,
 	'withImage'      => true,
 	'maxImageWidth'  => 200,
 	'columnsCount'   => 1,
-	'imageEdgeRatio' => 0.5,
+	'imageEdgeRatio' => 0.667,
 	'viewName'       => 'invitations'
 ] );

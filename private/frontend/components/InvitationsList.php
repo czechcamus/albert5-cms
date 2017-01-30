@@ -18,7 +18,7 @@ use yii\base\Widget;
  * Class InvitationsList displays list of invitations
  * @package frontend\components\homepage
  */
-class InvitationsList extends CategoryArticlesList
+class InvitationsList extends CategoryMenuArticlesList
 {
 	public function init() {
 		Widget::init();

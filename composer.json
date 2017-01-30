@@ -22,21 +22,21 @@
         "iutbay/yii2-kcfinder": "0.0.1",
         "sersid/yii2-owl-carousel-asset": "dev-master",
         "raoul2000/yii2-scrollup-widget": "1.1.0",
-        "creocoder/yii2-taggable": "dev-master",
+        "creocoder/yii2-taggable": "2.0.0",
         "xj/yii2-jplayer-widget": "2.7.0.3",
         "fruppel/yii2-googlecharts" : "v1.1.0",
-        "zelenin/yii2-rss": "dev-master",
+        "zelenin/yii2-rss": "0.1.1",
         "yiisoft/yii2-jui": "^2.0.5",
         "2amigos/yii2-google-maps-library": "1.0.0",
-        "kartik-v/yii2-mpdf": "dev-master",
-        "cinghie/yii2-cookie-consent": "v1.4.3",
-        "kop/yii2-scroll-pager": "dev-master"
+        "kartik-v/yii2-mpdf": "v1.0.1",
+        "kop/yii2-scroll-pager": "2.5.0",
+        "cinghie/yii2-cookie-consent": "*"
     },
     "require-dev": {
-        "yiisoft/yii2-codeception": "2.0.5",
         "yiisoft/yii2-debug": "2.0.6",
         "yiisoft/yii2-gii": "^2.0.5",
-        "yiisoft/yii2-faker": "2.0.3"
+        "yiisoft/yii2-faker": "2.0.3",
+        "codeception/codeception": "^2.2"
     },
     "config": {
         "vendor-dir": "private/vendor",

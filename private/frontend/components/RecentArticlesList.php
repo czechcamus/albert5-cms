@@ -48,7 +48,7 @@ class RecentArticlesList extends Widget
 	      ->innerJoin('menu_item', 'menu_item.id=menu_item_content.menu_item_id')
 	      ->innerJoin('menu', 'menu.id=menu_item.menu_id')
 	      ->andWhere(['menu.web_id' => $web_id])
-	      ->orderBy(['updated_at' => SORT_DESC])
+	      ->orderBy(['created_at' => SORT_DESC])
 	      ->limit($this->recentArticlesCount);
 		$this->_items = $query->all();
 	}
