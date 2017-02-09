@@ -27,6 +27,7 @@ class m160829_125758_create_content extends Migration
             'content_date' => $this->date(),
             'content_time' => $this->time(),
             'content_end_date' => $this->date(),
+            'content_end_time' => $this->time(),
             'image_id' => $this->integer(),
             'language_id' => $this->integer()->notNull(),
             'active' => $this->boolean()->defaultValue(1),

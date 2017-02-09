@@ -22,6 +22,7 @@ class m160829_133311_create_category extends Migration
             'title' => $this->string()->notNull(),
             'description' => $this->text(),
             'category_type' => $this->smallInteger(6),
+	        'parent_id' => $this->integer(),
             'image_id' => $this->integer(),
             'language_id' => $this->integer()->notNull(),
             'active' => $this->boolean()->defaultValue(1),
@@ -32,6 +33,23 @@ class m160829_133311_create_category extends Migration
             'updated_at' => $this->dateTime(),
             'updated_by' => $this->integer(),
         ]);
+
+	    // creates index for column `parent_id`
+	    $this->createIndex(
+		    'idx-category-parent_id',
+		    'category',
+		    'parent_id'
+	    );
+
+	    // add foreign key for table `category`
+	    $this->addForeignKey(
+		    'fk-category-parent_id',
+		    'category',
+		    'parent_id',
+		    'category',
+		    'id',
+		    'CASCADE'
+	    );
 
 	    // creates index for column `image_id`
 	    $this->createIndex(
@@ -107,6 +125,18 @@ class m160829_133311_create_category extends Migration
      */
     public function down()
     {
+	    // drops foreign key for table `category`
+	    $this->dropForeignKey(
+	    	'fk-category-parent_id',
+		    'category'
+	    );
+
+	    // drops index for column `parent_id`
+	    $this->dropIndex(
+	    	'idx-category-parent_id',
+		    'category'
+	    );
+
 	    // drops foreign key for table `file`
 	    $this->dropForeignKey(
 		    'fk-category-image_id',
