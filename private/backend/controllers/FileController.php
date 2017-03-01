@@ -21,6 +21,7 @@ use Yii;
 use yii\base\InvalidValueException;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\web\Cookie;
 use yii\web\Response;
 
 class FileController extends BackendController
@@ -40,9 +41,15 @@ class FileController extends BackendController
 					]
 				]
 			],
-			'synchronize'   => [
+			'synchronizeImages'   => [
 				'class' => SynchronizeFiles::className(),
-				'only'  => [ 'images', 'files' ]
+				'syncTypes' => ['images'],
+				'only'  => [ 'images' ]
+			],
+			'synchronizeFiles'   => [
+				'class' => SynchronizeFiles::className(),
+				'syncTypes' => ['files'],
+				'only'  => [ 'files' ]
 			]
 		];
 	}
@@ -65,6 +72,12 @@ class FileController extends BackendController
 	 */
 	public function actionImagesManage()
 	{
+		$cookies = Yii::$app->response->cookies;
+		$cookies->add(new Cookie([
+			'name' => 'manageImagesTime',
+			'value' => time()
+		]));
+
 		return $this->render('files', [
 			'type' => 'images'
 		]);
@@ -88,6 +101,12 @@ class FileController extends BackendController
 	 */
 	public function actionFilesManage()
 	{
+		$cookies = Yii::$app->response->cookies;
+		$cookies->add(new Cookie([
+			'name' => 'manageFilesTime',
+			'value' => time()
+		]));
+
 		return $this->render('files', [
 			'type' => 'files'
 		]);

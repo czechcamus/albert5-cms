@@ -18,7 +18,7 @@ if ($items) {
 		echo '<div class="row"><div class="col-xs-12">';
 		echo '<div class="pull-right">' . ($item->public ? '<span class="glyphicon glyphicon-eye-open" title="' . Yii::t('back', 'Public') . '"></span>' : '<span class="glyphicon glyphicon-eye-close" title="' . Yii::t('back', 'Not public') . '"></span>') . ' '
 		     . ($item->active ? '<span class="glyphicon glyphicon-ok-circle" title="' . Yii::t('back', 'Active') . '"></span>' : '<span class="glyphicon glyphicon-remove-circle" title="' . Yii::t('back', 'Not active') . '"></span>') . '</div>';
-		echo '<h3 style="margin-top: 0">' . Html::a($item->title, [$controllerId . '/update', 'id' => $item->id]) . '<br><small>' . Yii::t('back', 'Last update') . ': '
+		echo '<h3 class="show-loading" style="margin-top: 0">' . Html::a($item->title, [$controllerId . '/update', 'id' => $item->id]) . '<br><small>' . Yii::t('back', 'Last update') . ': '
 		     . Yii::$app->formatter->format($item->updated_at, ['datetime', 'php:d.m.Y, H:i:s']) . '</small></h3>';
 		echo $item->perex;
 		echo '</div></div>';
@@ -36,6 +36,8 @@ if ($items) {
 
 }
 
+echo '<div class="show-loading">';
 echo Html::a(Yii::t('back', 'Manage {items}', [
 	'items' => $translatedWordItems
 ]), [$controllerId . '/index'], ['class' => 'btn btn-primary']);
+echo '</div>';

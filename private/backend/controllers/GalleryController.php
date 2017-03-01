@@ -42,7 +42,8 @@ class GalleryController extends BackendController
 			],
 			'synchronize'   => [
 				'class' => SynchronizeFiles::className(),
-				'only'  => [ 'photos' ]
+				'syncTypes' => ['images'],
+				'only'  => [ 'add-photos' ]
 			]
 		];
 	}
@@ -76,11 +77,32 @@ class GalleryController extends BackendController
 			$session->setFlash('info', Yii::t('back', 'New gallery successfully added!'));
 
 			return $this->redirect(['index']);
-		} elseif (Yii::$app->request->isAjax) {
-			return $this->renderAjax('_form', compact('model'));
+		} else {
+			return $this->render('create', compact('model'));
 		}
+	}
 
-		return $this->render('_form', compact('model'));
+	/**
+	 * Creates a new GalleryForm model from an existing model.
+	 * If creation is successful, the browser will be redirected to the 'index' page.
+	 * @param $id
+	 * @return mixed
+	 */
+	public function actionCopy($id)
+	{
+		$model = new GalleryForm($id, true);
+		$model->scenario = 'create';
+
+		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+			$model->saveGallery();
+
+			$session = Yii::$app->session;
+			$session->setFlash('info', Yii::t('back', 'New gallery successfully added!'));
+
+			return $this->redirect(['index']);
+		} else {
+			return $this->render('create', compact('model'));
+		}
 	}
 
 	/**
@@ -101,11 +123,9 @@ class GalleryController extends BackendController
 			$session->setFlash('info', Yii::t('back', 'Gallery successfully updated!'));
 
 			return $this->redirect(['index']);
-		} elseif (Yii::$app->request->isAjax) {
-			return $this->renderAjax('_form', compact('model'));
+		} else {
+			return $this->render('update', compact('model'));
 		}
-
-		return $this->render('_form', compact('model'));
 	}
 
 	/**

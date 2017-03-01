@@ -34,7 +34,7 @@ $modelClass = Yii::t('back', 'Page');
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
+    <p class="show-loading">
         <?= Html::a(Yii::t('back', 'Create {modelClass}', compact('modelClass')), ['create'],
 	        [
 		        'class' => 'btn btn-success'
@@ -79,7 +79,7 @@ $modelClass = Yii::t('back', 'Page');
 
             [
 	            'class' => 'yii\grid\ActionColumn',
-	            'template' => '{update} {delete} {copy} {createFromContent}',
+	            'template' => '<span class="show-loading">{update}</span> {delete} <span class="show-loading">{copy}</span> {createFromContent}',
 	            'buttons' => [
 		            'copy' => function ($url, $model, $key) {
 			            return Html::a('<span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>', [

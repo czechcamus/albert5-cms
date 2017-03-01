@@ -22,7 +22,21 @@ class BackendController extends Controller
 		$kcfOptions = [
 			'uploadURL' => Yii::getAlias('@web').'/upload',
 			'filenameChangeChars' => $changeChars,
-			'dirnameChangeChars' => $changeChars
+			'dirnameChangeChars' => $changeChars,
+			'access' =>[    // @link http://kcfinder.sunhater.com/install#_access
+				'files' =>[
+					'upload' => true,
+					'delete' => true,
+					'copy' => true,
+					'move' => Yii::$app->user->can('manager') ? true : false,
+					'rename' => Yii::$app->user->can('manager') ? true : false,
+				],
+				'dirs' =>[
+					'create' => true,
+					'delete' => Yii::$app->user->can('manager') ? true : false,
+					'rename' => Yii::$app->user->can('manager') ? true : false,
+				],
+			]
 		];
 		Yii::$app->session['KCFINDER'] = array_merge(Yii::$app->params['kcfDefaultOptions'], $kcfOptions);
 	}

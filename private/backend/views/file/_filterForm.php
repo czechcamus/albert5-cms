@@ -18,7 +18,7 @@ use yii\helpers\Html;
 	<?= $form->field($searchModel, 'fileTitle')->textInput(); ?>
 </div>
 
-<div class="col-sm-12">
+<div class="col-sm-12 form-group">
 	<?= Html::submitButton(Yii::t('back', 'Apply filter'), [
 		'class' => 'btn btn-primary'
 	]); ?>

@@ -1,6 +1,7 @@
 <?php
 
 use backend\assets\BackendAsset;
+use backend\assets\MyLoadingAsset;
 use common\models\WebRecord;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
@@ -12,6 +13,7 @@ use yii\widgets\Breadcrumbs;
 /* @var $content string */
 
 BackendAsset::register($this);
+MyLoadingAsset::register($this)
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -25,6 +27,7 @@ BackendAsset::register($this);
 </head>
 <body>
     <?php $this->beginBody() ?>
+    <div id="loading-box"></div>
     <div class="wrap">
         <?php
             NavBar::begin([
@@ -35,45 +38,45 @@ BackendAsset::register($this);
                 ],
             ]);
             $menuItems = [
-                ['label' => Yii::t('back', 'Home'), 'url' => ['/site/index'], 'visible' => !Yii::$app->user->isGuest],
+                ['label' => Yii::t('back', 'Home'), 'url' => ['/site/index'], 'visible' => !Yii::$app->user->isGuest, 'options' => ['class' => 'show-loading']],
                 ['label' => Yii::t('back', 'Content'), 'items' => [
-                    ['label' => Yii::t('back', 'Articles'), 'url' => ['/article/index']],
-                    ['label' => Yii::t('back', 'Pages'), 'url' => ['/page/index']],
+                    ['label' => Yii::t('back', 'Articles'), 'url' => ['/article/index'], 'options' => ['class' => 'show-loading']],
+                    ['label' => Yii::t('back', 'Pages'), 'url' => ['/page/index'], 'options' => ['class' => 'show-loading']],
                     '<li class="divider"></li>',
-                    ['label' => Yii::t('back', 'Menu items'), 'url' => ['/menu-item/index'], 'visible' => Yii::$app->user->can('manager')],
+                    ['label' => Yii::t('back', 'Menu items'), 'url' => ['/menu-item/index'], 'visible' => Yii::$app->user->can('manager'), 'options' => ['class' => 'show-loading']],
+	                Yii::$app->user->can('manager') ? '<li class="divider"></li>' : '',
+                    ['label' => Yii::t('back', 'Categories'), 'url' => ['/category/index'], 'visible' => Yii::$app->user->can('manager'), 'options' => ['class' => 'show-loading']],
+                    ['label' => Yii::t('back', 'Galleries'), 'url' => ['/gallery/index'], 'options' => ['class' => 'show-loading']],
                     '<li class="divider"></li>',
-                    ['label' => Yii::t('back', 'Categories'), 'url' => ['/category/index']],
-                    ['label' => Yii::t('back', 'Galleries'), 'url' => ['/gallery/index']],
+                    ['label' => Yii::t('back', 'Polls'), 'url' => ['/poll/index'], 'options' => ['class' => 'show-loading']],
                     '<li class="divider"></li>',
-                    ['label' => Yii::t('back', 'Polls'), 'url' => ['/poll/index']],
-                    '<li class="divider"></li>',
-                    ['label' => Yii::t('back', 'Images'), 'url' => ['/file/images']],
-                    ['label' => Yii::t('back', 'Files'), 'url' => ['/file/files']],
+                    ['label' => Yii::t('back', 'Images'), 'url' => ['/file/images'], 'options' => ['class' => 'show-loading']],
+                    ['label' => Yii::t('back', 'Files'), 'url' => ['/file/files'], 'options' => ['class' => 'show-loading']],
                 ], 'visible' => (Yii::$app->user->can('user'))],
                 ['label' => Yii::t('back', 'Manage dishes'), 'items' => [
-                    ['label' => Yii::t('back', 'Dishes'), 'url' => ['/cafeteria/dish/index'], 'visible' => (Yii::$app->user->can('foodMgr'))],
-                    ['label' => Yii::t('back', 'Foods'), 'url' => ['/cafeteria/food/index'], 'visible' => Yii::$app->user->can('foodMgr')],
-                    ['label' => Yii::t('back', 'Cafeterias'), 'url' => ['/cafeteria/cafeteria/index'], 'visible' => Yii::$app->user->can('foodMgr')],
-                ], 'visible' => (isset(Yii::$app->modules['cafeteria']) && Yii::$app->user->can('foodMgr'))],
+                    ['label' => Yii::t('back', 'Dishes'), 'url' => ['/cafeteria/dish/index'], 'visible' => (Yii::$app->user->can('foodMgr')), 'options' => ['class' => 'show-loading']],
+                    ['label' => Yii::t('back', 'Foods'), 'url' => ['/cafeteria/food/index'], 'visible' => Yii::$app->user->can('foodMgr'), 'options' => ['class' => 'show-loading']],
+                    ['label' => Yii::t('back', 'Cafeterias'), 'url' => ['/cafeteria/cafeteria/index'], 'visible' => Yii::$app->user->can('foodMgr'), 'options' => ['class' => 'show-loading']],
+                ], 'visible' => (isset(Yii::$app->modules['cafeteria']) && Yii::$app->user->can('foodMgr')), 'options' => ['class' => 'show-loading']],
                 ['label' => Yii::t('back', 'Manage newsletter'), 'items' => [
-                    ['label' => Yii::t('back', 'Newsletters'), 'url' => ['/newsletter/index'], 'visible' => (Yii::$app->user->can('manager') && WebRecord::existsMoreWebRecords())],
-                    ['label' => Yii::t('back', 'Emails'), 'url' => ['/email/index'], 'visible' => Yii::$app->user->can('manager')],
-                ], 'visible' => (isset(Yii::$app->params['backendModules']['newsletter']) && Yii::$app->user->can('manager'))],
+                    ['label' => Yii::t('back', 'Newsletters'), 'url' => ['/newsletter/index'], 'visible' => (Yii::$app->user->can('manager') && WebRecord::existsMoreWebRecords()), 'options' => ['class' => 'show-loading']],
+                    ['label' => Yii::t('back', 'Emails'), 'url' => ['/email/index'], 'visible' => Yii::$app->user->can('manager'), 'options' => ['class' => 'show-loading']],
+                ], 'visible' => (isset(Yii::$app->params['backendModules']['newsletter']) && Yii::$app->user->can('manager')), 'options' => ['class' => 'show-loading']],
                 ['label' => Yii::t('back', Yii::t('back', 'Admin')), 'items' => [
-                    ['label' => Yii::t('back', 'Menus'), 'url' => ['/menu/index'], 'visible' => (Yii::$app->user->can('admin') && WebRecord::existsMoreWebRecords())],
-                    ['label' => Yii::t('back', 'Webs'), 'url' => ['/web/index'], 'visible' => Yii::$app->user->can('admin')],
+                    ['label' => Yii::t('back', 'Menus'), 'url' => ['/menu/index'], 'visible' => (Yii::$app->user->can('admin') && WebRecord::existsMoreWebRecords()), 'options' => ['class' => 'show-loading']],
+                    ['label' => Yii::t('back', 'Webs'), 'url' => ['/web/index'], 'visible' => Yii::$app->user->can('admin'), 'options' => ['class' => 'show-loading']],
                     Yii::$app->user->can('admin') ? '<li class="divider"></li>' : '',
-                    ['label' => Yii::t('back', 'Layouts'), 'url' => ['/layout/index'], 'visible' => Yii::$app->user->can('admin')],
-                    ['label' => Yii::t('back', 'Additional fields'), 'url' => ['/additional-field/index'], 'visible' => Yii::$app->user->can('admin')],
-                    ['label' => Yii::t('back', 'Languages'), 'url' => ['/language/index'], 'visible' => Yii::$app->user->can('admin')],
+                    ['label' => Yii::t('back', 'Layouts'), 'url' => ['/layout/index'], 'visible' => Yii::$app->user->can('admin'), 'options' => ['class' => 'show-loading']],
+                    ['label' => Yii::t('back', 'Additional fields'), 'url' => ['/additional-field/index'], 'visible' => Yii::$app->user->can('admin'), 'options' => ['class' => 'show-loading']],
+                    ['label' => Yii::t('back', 'Languages'), 'url' => ['/language/index'], 'visible' => Yii::$app->user->can('admin'), 'options' => ['class' => 'show-loading']],
                     Yii::$app->user->can('admin') ? '<li class="divider"></li>' : '',
-                    ['label' => Yii::t('back', 'Users'), 'url' => ['/user/index'], 'visible' => Yii::$app->user->can('admin')],
+                    ['label' => Yii::t('back', 'Users'), 'url' => ['/user/index'], 'visible' => Yii::$app->user->can('admin'), 'options' => ['class' => 'show-loading']],
                 ], 'visible' => Yii::$app->user->can('admin')],
                 ['label' => Yii::t('back', Yii::t('back', 'Webs')), 'items' => WebRecord::getNavBarItems(), 'visible' => WebRecord::existsMoreWebRecords()]
             ];
             if (Yii::$app->user->isGuest) {
                 /** @noinspection PhpUndefinedFieldInspection */
-                $menuItems[] = [ 'label' => Yii::t('back','Login'), 'url' => ['/site/login'], 'visible' => $this->context->action->id != 'login'];
+                $menuItems[] = [ 'label' => Yii::t('back','Login'), 'url' => ['/site/login'], 'visible' => $this->context->action->id != 'login', 'options' => ['class' => 'show-loading']];
             } else {
                 /** @noinspection PhpUndefinedFieldInspection */
                 $menuItems[] = [
@@ -92,6 +95,7 @@ BackendAsset::register($this);
         <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'itemTemplate' => "<li class='show-loading'>{link}</li>\n"
         ]) ?>
         <?= $content ?>
         </div>

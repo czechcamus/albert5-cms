@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = [
 	'url'   => [ 'gallery/photos', 'id' => $model->item_id ]
 ];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['loading-text'] = Yii::t('back', 'Synchronizing photos, please wait ...');
 
 FormAsset::register( $this );
 ?>
@@ -44,14 +45,14 @@ FormAsset::register( $this );
 
     <div class="row" style="margin-bottom: 15px;">
         <div class="col-xs-12 btn-group" data-toggle="buttons">
-            <label class="btn btn-primary<?= $session['photosView'] === 'list' ? ' active' : ''; ?>" onclick="location.href = '<?= Url::to(['add-photos', 'id' => $gallery->id, 'photosView' => 'list'], true); ?>'">
+            <label class="btn btn-primary<?= $session['photosView'] === 'list' ? ' active' : ''; ?>" onclick="$('#loading-box').showLoading();$(location).attr('href', '<?= Url::to(['add-photos', 'id' => $gallery->id, 'photosView' => 'list'], true); ?>');">
                 <?= Html::radio('view-option', $session['photosView'] === 'list' ? true : false, [
                     'id' => 'list',
                     'autocomplete' => 'off'
                 ]); ?>
                 <?= Yii::t( 'back',	'Thumbnails' ); ?>
             </label>
-            <label class="btn btn-primary<?= $session['photosView'] === 'grid' ? ' active' : ''; ?>" onclick="location.href = '<?= Url::to(['add-photos', 'id' => $gallery->id, 'photosView' => 'grid'], true); ?>'">
+            <label class="btn btn-primary<?= $session['photosView'] === 'grid' ? ' active' : ''; ?>" onclick="$('#loading-box').showLoading();$(location).attr('href', '<?= Url::to(['add-photos', 'id' => $gallery->id, 'photosView' => 'grid'], true); ?>');">
 	            <?= Html::radio('view-option', $session['photosView'] === 'grid' ? true : false, [
 		            'id' => 'grid',
 		            'autocomplete' => 'off'
@@ -119,12 +120,14 @@ FormAsset::register( $this );
 		<?= Html::submitButton( Yii::t( 'back', 'Add' ), [
 			'class' => 'btn btn-success'
 		] ) ?>
+        <span class="show-loading">
 		<?= Html::a(
 			Yii::t( 'back', 'Close' ), [ 'gallery/photos', 'id' => $model->item_id ],
 			[
 				'class' => 'btn btn-default'
 			]
 		) ?>
+        </span>
     </div>
 
 	<?php ActiveForm::end(); ?>

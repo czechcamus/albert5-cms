@@ -23,7 +23,7 @@ class SiteController extends BackendController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'offline'],
                         'allow' => true,
                     ],
                     [
@@ -81,6 +81,11 @@ class SiteController extends BackendController
 
         return $this->goHome();
     }
+
+	public function actionOffline()
+	{
+		return $this->render('offline');
+	}
 
 	/**
 	 * @param integer $id  language id

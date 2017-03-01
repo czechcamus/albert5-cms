@@ -43,13 +43,16 @@ class CategoryForm extends Model {
 	 * CategoryForm constructor
 	 *
 	 * @param integer|null $item_id
+	 * @param bool $copy
 	 */
-	public function __construct( $item_id = null ) {
+	public function __construct( $item_id = null, $copy = false ) {
 		parent::__construct();
 		if ( $item_id ) {
 			/** @var $category Category */
 			$category            = Category::findOne( $item_id );
-			$this->item_id       = $category->id;
+			if ( ! $copy ) {
+				$this->item_id = $category->id;
+			}
 			$this->parent_id     = $category->parent_id;
 			$this->language_id   = $category->language_id;
 			$this->title         = $category->title;
@@ -111,11 +114,10 @@ class CategoryForm extends Model {
 	 * @param bool $insert
 	 */
 	public function saveCategory( $insert = true ) {
-		$category = new Category();
+		$category = $insert === true ? new Category : Category::findOne($this->item_id);
 		if ( $this->item_id ) {
 			$category->id = $this->item_id;
 		}
-		$category->isNewRecord = $insert;
 		$category->attributes  = $this->toArray();
 		$category->main        = ( is_array( $this->boxes ) && in_array( self::PROPERTY_MAIN, $this->boxes ) ) ? 1 : 0;
 		$category->public      = ( is_array( $this->boxes ) && in_array( self::PROPERTY_PUBLIC,
@@ -199,37 +201,43 @@ class CategoryForm extends Model {
 					'public'        => Yii::t( 'back', $item->public ? 'yes' : 'no' ),
 					'active'        => Yii::t( 'back', $item->active ? 'yes' : 'no' ),
 					'articlesCount' => $item->articlesCount,
-					'buttons'       => Html::button( '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+					'buttons'       => '<span class="show-loading">' .
+	                    Html::a( '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', ['category/update', 'id' => $item->id],
 							[
-								'value' => Url::to( [ 'category/update', 'id' => $item->id ] ),
 								'title' => Yii::t( 'back', 'Update category' ),
-								'class' => 'showModalButton btn btn-link',
-								'style' => 'padding: 0'
-							] ) . ( !$item->main && $item->isDeletable() ? ' ' .
-							Html::a('<span class="glyphicon glyphicon-trash"></span>', ['category/delete', 'id' => $item->id], [
-								'title' => Yii::t('back', 'Delete category'),
-								'data-confirm' => Yii::t('back', 'Are you sure you want to delete this category?'),
-								'data-method' => 'post'
-							]) : '') . (Yii::$app->user->can('manager') ? ' ' .
-							Html::button('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>', [
-								'value' => Url::to([
-									'menu-item/create-from-content',
-									'content_type' => MenuItemRecord::CONTENT_CATEGORY,
-									'content_id' => $item->id
-								]),
-								'title' => Yii::t('back', 'Create menu item from category'),
-								'class' => 'showModalButton btn btn-link',
-								'style' => 'padding: 0'
-							]) : '') . ' ' .
-	                       Html::a('<span class="glyphicon glyphicon-list" aria-hidden="true"></span>', [
-		                       'articles',
-		                       'id' => $item->id
-	                       ],
-	                       [
-		                       'title' => Yii::t('back', 'List of Articles'),
-		                       'class' => 'btn btn-link',
-		                       'style' => 'padding: 0'
-	                       ])
+								'class' => 'btn btn-link',
+								'style' => 'padding: 0 3px 0 0'
+							] ) . '</span><span class="show-loading">' .
+                        Html::a( '<span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>', ['category/copy', 'id' => $item->id],
+                           [
+                               'title' => Yii::t( 'back', 'Copy category' ),
+                               'class' => 'btn btn-link',
+                               'style' => 'padding: 0'
+                           ] ) . '</span>' . ( !$item->main && $item->isDeletable() ? ' ' .
+						Html::a('<span class="glyphicon glyphicon-trash"></span>', ['category/delete', 'id' => $item->id], [
+							'title' => Yii::t('back', 'Delete category'),
+							'data-confirm' => Yii::t('back', 'Are you sure you want to delete this category?'),
+							'data-method' => 'post'
+						]) : '') . (Yii::$app->user->can('manager') ? ' ' .
+						Html::button('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>', [
+							'value' => Url::to([
+								'menu-item/create-from-content',
+								'content_type' => MenuItemRecord::CONTENT_CATEGORY,
+								'content_id' => $item->id
+							]),
+							'title' => Yii::t('back', 'Create menu item from category'),
+							'class' => 'showModalButton btn btn-link',
+							'style' => 'padding: 0'
+						]) : '') . '<span class="show-loading">' .
+                        Html::a('<span class="glyphicon glyphicon-list" aria-hidden="true"></span>', [
+	                       'articles',
+	                       'id' => $item->id
+                        ],
+                        [
+	                       'title' => Yii::t('back', 'List of Articles'),
+	                       'class' => 'btn btn-link',
+	                       'style' => 'padding: 0'
+                        ]) . '</span>'
 				];
 				if ( $item->hasItems() ) {
 					$listItems = ArrayHelper::merge( $listItems, self::getCategoriesList( $lid, $item->id, ++ $i ) );

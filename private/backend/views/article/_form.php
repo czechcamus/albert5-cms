@@ -131,6 +131,17 @@ use yii\bootstrap\ActiveForm;
 			]
 		]) ?>
 
+		<?= $form->field($model, 'content_end_time')->widget(TimePicker::className(), [
+			'pluginOptions' => [
+				'defaultTime' => false,
+				'showSeconds' => false,
+				'showMeridian' => false
+			],
+			'options' => [
+				'class' => 'form-control'
+			]
+		]) ?>
+
         <?php
             echo '<div class="form-group field-articleform-categoryboxes">';
             echo Html::label(Yii::t('back', 'Categories'), 'articleform-categoryboxes', ['class' => 'control-label']);
@@ -156,7 +167,7 @@ use yii\bootstrap\ActiveForm;
             'convertFormat' => true,
 			'pluginOptions' => [
                 'autoclose' => true,
-				'format' => 'dd.MM.y HH:mm',
+				'format' => 'dd.MM.y HH.mm',
 			],
 			'options' => [
 				'class' => 'form-control'

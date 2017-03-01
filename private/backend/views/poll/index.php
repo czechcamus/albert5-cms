@@ -80,7 +80,7 @@ $modelClass = Yii::t('back', 'Poll');
 
 			[
 				'class' => 'yii\grid\ActionColumn',
-				'template' => '{update} {delete} {results}',
+				'template' => '{update} {delete} <span class="show-loading">{results}</span>',
                 'buttons' => [
 					'update' => function ($url) {
 						return Html::button('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', [

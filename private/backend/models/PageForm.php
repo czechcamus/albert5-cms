@@ -9,6 +9,7 @@
 namespace backend\models;
 
 
+use common\models\FileRecord;
 use common\models\Image;
 use common\models\LanguageRecord;
 use common\models\Page;
@@ -112,13 +113,16 @@ class PageForm extends Model
 		if (!isset(Yii::$app->request->post('PageForm')['imageFilename'])) $this->imageFilename = null;
 		if ($this->imageFilename) {
 			$imageId = Image::find()->andWhere( [ 'filename' => $this->getImageName() ] )->scalar();
+			if (!$imageId) {
+				$imageId = FileRecord::saveFileFromFilename($this->getImageName());
+			}
 		}
 		$this->image_id = $imageId;
 		$page->attributes = $this->toArray();
 		$page->active   = (is_array($this->boxes) && in_array(self::PROPERTY_ACTIVE, $this->boxes)) ? 1 : 0;
 		$page->public = (is_array($this->boxes) && in_array(self::PROPERTY_PUBLIC, $this->boxes)) ? 1 : 0;
 		$page->tagValues = $this->tagValues;
-		if ($page->save()) {
+		if ($page->save( false )) {
 			$this->item_id = $page->id;
 		}
 	}

@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\NewsletterForm;
 use backend\utilities\BackendController;
+use backend\utilities\SynchronizeFiles;
 use common\models\EmailRecord;
 use common\models\Newsletter;
 use Yii;
@@ -44,6 +45,10 @@ class NewsletterController extends BackendController
 			            'allow' => true
 		            ]
 	            ]
+            ],
+            'synchronize' => [
+	            'class' => SynchronizeFiles::className(),
+	            'only'  => [ 'create', 'update' ]
             ]
         ];
     }

@@ -33,7 +33,7 @@ $modelClass = Yii::t('back', 'Newsletter');
     <h1><?= Html::encode($this->title) ?></h1>
 
 	<?php if (Yii::$app->user->can('manager')): ?>
-	    <p>
+	    <p class="show-loading">
 	        <?= Html::a(Yii::t('back', 'Create {modelClass}', compact('modelClass')), ['create'],
 		        [
 			        'class' => 'btn btn-success'
@@ -77,7 +77,7 @@ $modelClass = Yii::t('back', 'Newsletter');
 
             [
 	            'class' => 'yii\grid\ActionColumn',
-	            'template' => '{update} {delete} {preview} {send}',
+	            'template' => '<span class="show-loading">{update}</span> {delete} {preview} <span class="show-loading">{send}</span>',
 	            'buttons' => [
 		            'preview' => function ($url, $model, $key) {
 			            return Html::a('<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>', [

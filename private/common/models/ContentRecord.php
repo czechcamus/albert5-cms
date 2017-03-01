@@ -23,6 +23,7 @@ use yii\db\Expression;
  * @property string $content_date
  * @property string $content_time
  * @property string $content_end_date
+ * @property string $content_end_time
  * @property integer $content_type
  * @property integer $active
  * @property string $created_at
@@ -78,11 +79,11 @@ class ContentRecord extends ActiveRecord
             [['language_id', 'title'], 'required'],
             [['image_id', 'language_id', 'content_type', 'active', 'created_by', 'updated_by', 'public', 'layout_id'], 'integer'],
             [['perex', 'description'], 'string'],
-	        [['content_date', 'content_time', 'content_end_date'], 'default', 'value' => null],
+	        [['content_date', 'content_time', 'content_end_date', 'content_end_time'], 'default', 'value' => null],
 	        [['content_date', 'content_end_date'], 'date', 'format' => 'y-MM-dd'],
-	        [['content_time'], 'date', 'format' => 'HH:mm'],
+	        [['content_time', 'content_end_time'], 'date', 'format' => 'HH.mm'],
 	        [['order_time'], 'date', 'format' => 'y-MM-dd HH:mm'],
-            [['created_at', 'updated_at', 'layout_id', 'tagValues'], 'safe'],
+            [['created_at', 'updated_at', 'image_id', 'layout_id', 'tagValues'], 'safe'],
             [['title'], 'string', 'max' => 255]
         ];
     }
@@ -108,6 +109,7 @@ class ContentRecord extends ActiveRecord
 	        'content_date' => Yii::t('app', 'Date'),
 	        'content_time' => Yii::t('app', 'Time'),
             'content_end_date' => Yii::t('app', 'End date'),
+            'content_end_time' => Yii::t('app', 'End time'),
             'content_type' => Yii::t('app', 'Content Type'),
             'active' => Yii::t('app', 'Active'),
             'created_at' => Yii::t('app', 'Created At'),
@@ -137,7 +139,11 @@ class ContentRecord extends ActiveRecord
 	 * @return int|string
 	 */
 	public static function getRecordsCount( $contentType = self::TYPE_ARTICLE ) {
-		return self::find()->where(['content_type' => $contentType])->count();
+		$query = self::find()->where(['content_type' => $contentType]);
+		if (!Yii::$app->user->can('manager')) {
+			$query->andWhere(['created_by' => Yii::$app->user->id]);
+		}
+		return $query->count();
 	}
 
     /**

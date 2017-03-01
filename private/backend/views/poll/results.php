@@ -46,7 +46,7 @@ foreach ( $model->answers as $pollAnswer ) {
 		'responsive' => true,
 	]) ?>
 
-	<div style="margin-top: 20px">
+	<div class="show-loading" style="margin-top: 20px">
 	<?= Html::a(Yii::t('back', 'Close'), ['poll/index'], [
 			'class' => 'btn btn-primary'
 	]); ?>

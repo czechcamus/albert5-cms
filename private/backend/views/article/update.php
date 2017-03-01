@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Article */
+/* @var $model backend\models\ArticleForm */
 
 /** @var \backend\controllers\ArticleController $controller */
 $controller = $this->context;

@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
+    <p class="show-loading">
         <?= Html::a(Yii::t('back', 'Manage image files'), ['images-manage'], [
             'class' => 'btn btn-primary'
         ]); ?>

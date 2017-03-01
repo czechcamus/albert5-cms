@@ -53,6 +53,10 @@ class PageSearch extends Page
 
 		$query->andWhere(['language_id' => $session['language_id']]);
 
+		if (!Yii::$app->user->can('manager')) {
+			$query->andWhere(['created_by' => Yii::$app->user->id]);
+		}
+
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
 		]);

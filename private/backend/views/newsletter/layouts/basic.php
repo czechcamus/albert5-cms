@@ -13,7 +13,7 @@ use yii\helpers\Url;
 		<title><?= Html::encode($this->title) ?></title>
 		<?php $this->head() ?>
 	</head>
-<body style="font-family: sans-serif;">
+<body style="background-color: #17947F; font-family: sans-serif;">
     <?php $this->beginBody() ?>
     <?php if ($this->params['viewMail'] === true) {
         echo '<p>' . Yii::t('back', 'If newsletter looks not good you can') . ' <strong>' .  Html::a(Yii::t('back', 'view him in browser'), Url::to(['view', 'id' => $this->params['id']], true)) . '</strong></p>';
@@ -21,7 +21,7 @@ use yii\helpers\Url;
     <table cellpadding="0" cellspacing="0" border="0" style="width: 70%; margin: 30px auto 30px auto;">
 	    <thead>
 	        <tr>
-		        <th style="text-align: left"><?= Html::a(Html::img(Url::home(true) . '../basic-assets/img/knihovna-logo.png'), Url::home(true) . '../'); ?></th>
+		        <th style="text-align: left"><?= Html::a(Html::img(Url::home(true) . '../basic-assets/img/logo.png'), Url::home(true) . '../'); ?></th>
 	        </tr>
 	    </thead>
 	    <tbody>

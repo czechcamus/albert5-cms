@@ -11,6 +11,7 @@ namespace backend\models;
 
 use common\models\Image;
 use common\models\ImageGallery;
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -63,12 +64,17 @@ class GalleryAddPhotosForm extends Model
 	 * Saves relations between added photos and actual gallery
 	 */
 	public function savePhotosToGallery() {
-		$maxOrder = ImageGallery::find()->where(['gallery_id' => $this->item_id])->max('item_order');
+		$countNewImages = count($this->addedImagesIds);
+		Yii::$app->db->createCommand('UPDATE image_gallery SET item_order=item_order+:addition WHERE gallery_id=:id')
+			->bindValue(':id', $this->item_id)
+			->bindValue(':addition', $countNewImages)
+			->execute();
+		$i = 0;
 		foreach ( $this->addedImagesIds as $image_id ) {
 			$imageGallery = new ImageGallery;
 			$imageGallery->gallery_id = $this->item_id;
 			$imageGallery->image_id = $image_id;
-			$imageGallery->item_order = ++$maxOrder;
+			$imageGallery->item_order = ++$i;
 			$imageGallery->save();
 		}
 	}

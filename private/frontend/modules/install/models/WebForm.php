@@ -250,6 +250,7 @@ class WebForm extends InstallForm {
 			[ 'title' => Module::t('inst', 'Invitations'), 'filename' => 'invitations', 'main' => 0, 'content' => LayoutRecord::CONTENT_CATEGORY ],
 			[ 'title' => Module::t('inst', 'Invitations archive'), 'filename' => 'invitations-archive', 'main' => 0, 'content' => LayoutRecord::CONTENT_CATEGORY ],
 			[ 'title' => Module::t('inst', 'Default page'), 'filename' => 'page', 'main' => 1, 'content' => LayoutRecord::CONTENT_PAGE ],
+			[ 'title' => Module::t('inst', 'Default newsletter'), 'filename' => 'basic', 'main' => 1, 'content' => LayoutRecord::CONTENT_NEWSLETTER ],
 		];
 		foreach ( $basicTemplates as $basicTemplate ) {
 			$model = new LayoutRecord;

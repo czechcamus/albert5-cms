@@ -8,6 +8,8 @@
 
 namespace backend\components;
 
+use Yii;
+use yii\db\ActiveRecord;
 use common\models\ContentRecord;
 use yii\base\Widget;
 use yii\helpers\Inflector;
@@ -36,8 +38,13 @@ class RecentContent extends Widget
 
 	public function init() {
 		parent::init();
+		/** @var ActiveRecord $className */
 		$className = '\\common\\models\\' . $this->itemClass;
-		$this->_items = $className::find()->limit($this->itemsCount)->orderBy(['updated_at' => SORT_DESC])->all();
+		$query = $className::find();
+		if (!Yii::$app->user->can('manager')) {
+			$query->andWhere(['created_by' => Yii::$app->user->id]);
+		}
+		$this->_items = $query->limit($this->itemsCount)->orderBy(['updated_at' => SORT_DESC])->all();
 	}
 
 	public function run() {

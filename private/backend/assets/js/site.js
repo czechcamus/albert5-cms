@@ -3,6 +3,17 @@
  */
 
 $(function() {
+    var loadingBox = $('#loading-box');
+    $(document).ready(function () {
+        loadingBox.hideLoading();
+    });
+    $(".show-loading a[href!='#'], .pagination a[href!='#'], .form-group [type='submit']").on('click', function () {
+        $(window).on("wheel", function (e) {
+            e.preventDefault();
+        });
+        loadingBox.showLoading();
+    });
+
     var modal = $('#modal');
 
     // Loads content into modal

@@ -4,7 +4,6 @@ use backend\components\LanguageButtonDropdown;
 use common\models\LanguageRecord;
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\GallerySearch */
@@ -33,13 +32,10 @@ $modelClass = Yii::t('back', 'Gallery');
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::button(
-	        Yii::t('back', 'Create {modelClass}', compact('modelClass')),
+    <p class="show-loading">
+        <?= Html::a(Yii::t('back', 'Create {modelClass}', compact('modelClass')), ['create'],
 	        [
-		        'value' => Url::to(['gallery/create']),
-		        'title' => Yii::t('back', 'Create {modelClass}', compact('modelClass')),
-		        'class' => 'showModalButton btn btn-success'
+		        'class' => 'btn btn-success'
 	        ]
         ) ?>
     </p>
@@ -50,7 +46,8 @@ $modelClass = Yii::t('back', 'Gallery');
 		</div>
 	<?php endif; ?>
 
-    <?= GridView::widget([
+    <?= /** @noinspection PhpUnusedParameterInspection */
+    GridView::widget([
 	    'id' => 'gallery-list',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -80,17 +77,19 @@ $modelClass = Yii::t('back', 'Gallery');
 	        ],
             [
 	            'class' => 'yii\grid\ActionColumn',
-	            'template' => '{update} {delete} {photos}',
+	            'template' => '<span class="show-loading">{update}</span> <span class="show-loading">{copy}</span> {delete} <span class="show-loading">{photos}</span>',
 	            'buttons' => [
-		            'update' => function ($url) {
-			            return Html::button('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', [
-				            'value' => $url,
-				            'title' => Yii::t('back', 'Update category'),
-				            'class' => 'showModalButton btn btn-link',
-				            'style' => 'padding: 0'
+		            'copy' => function ($url, $model, $key) {
+			            return Html::a('<span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>', [
+                            'gallery/copy',
+                            'id' => $key
+                        ], [
+				            'title' => Yii::t('back', 'Copy'),
+				            'class' => 'btn btn-link',
+				            'style' => 'padding: 0 0 3px'
 			            ]);
 		            },
-		            'delete' => function ($url, $model) {
+		            'delete' => function ($url, $model, $key) {
 			            return $model->main ? '' : Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
 				            'title' => Yii::t('back', 'Delete category'),
 				            'data-confirm' => Yii::t('back', 'Are you sure you want to delete this category?'),
@@ -98,7 +97,7 @@ $modelClass = Yii::t('back', 'Gallery');
 				            'data-pjax' => '0',
 			            ]);
 		            },
-		            'photos' => function ($url) {
+		            'photos' => function ($url, $model, $key) {
 			            return Html::a('<span class="glyphicon glyphicon-camera"></span>', $url, [
 				            'title' => Yii::t('back', 'Manage photos')
 			            ]);

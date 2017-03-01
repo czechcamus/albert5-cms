@@ -34,14 +34,18 @@ class GalleryForm extends Model
 
 	/**
 	 * GalleryForm constructor
+	 *
 	 * @param integer|null $item_id
+	 * @param bool $copy
 	 */
-	public function __construct($item_id = null) {
+	public function __construct($item_id = null, $copy = false) {
 		parent::__construct();
 		if ($item_id) {
 			/** @var $gallery Gallery */
 			$gallery = Gallery::findOne($item_id);
-			$this->item_id = $gallery->id;
+			if ( ! $copy ) {
+				$this->item_id = $gallery->id;
+			}
 			$this->language_id = $gallery->language_id;
 			$this->title = $gallery->title;
 			$this->description = $gallery->description;
@@ -94,10 +98,9 @@ class GalleryForm extends Model
 	 * @param bool $insert
 	 */
 	public function saveGallery($insert = true) {
-		$gallery = new Gallery;
+		$gallery = $insert === true ? new Gallery : Gallery::findOne($this->item_id);
 		if ($this->item_id)
 			$gallery->id = $this->item_id;
-		$gallery->isNewRecord = $insert;
 		$gallery->attributes = $this->toArray();
 		$gallery->public = (is_array($this->boxes) && in_array(self::PROPERTY_PUBLIC, $this->boxes)) ? 1 : 0;
 		$gallery->active = (is_array($this->boxes) && in_array(self::PROPERTY_ACTIVE, $this->boxes)) ? 1 : 0;

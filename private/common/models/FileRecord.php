@@ -110,14 +110,14 @@ class FileRecord extends ActiveRecord
 	 * Synchronizes images on server with records in DB table
 	 */
 	public function synchronizeImages() {
-		return $this->checkFS(Yii::$app->params['imageUploadDir'], Yii::$app->params['imageUploadDir'], strlen(Yii::$app->params['imageUploadDir']));
+		$this->checkFS(Yii::$app->params['imageUploadDir'], Yii::$app->params['imageUploadDir'], strlen(Yii::$app->params['imageUploadDir']));
 	}
 
 	/**
 	 * Synchronizes files on server with records in DB table
 	 */
 	public function synchronizeFiles() {
-		return $this->checkFS(Yii::$app->params['fileUploadDir'], Yii::$app->params['fileUploadDir'], strlen(Yii::$app->params['fileUploadDir']));
+		$this->checkFS(Yii::$app->params['fileUploadDir'], Yii::$app->params['fileUploadDir'], strlen(Yii::$app->params['fileUploadDir']));
 	}
 
 	/**
@@ -126,21 +126,17 @@ class FileRecord extends ActiveRecord
 	 * @param string $dirName
 	 * @param string $baseDirName
 	 * @param integer $subsStringStart
-	 * @param array $fileNames
-	 *
-	 * @return array of file names on server
 	 */
-	protected function checkFS($dirName, $baseDirName, $subsStringStart, $fileNames = []) {
+	protected function checkFS($dirName, $baseDirName, $subsStringStart) {
 		$dir = dir($dirName);
 		while (($filename = $dir->read()) !== false) {
 			if (is_dir($dirName . $filename)) {
 				if ($filename != '.' && $filename != '..') {
-					$fileNames = $this->checkFS($dirName . $filename . '/', $baseDirName, $subsStringStart, $fileNames);
+					$this->checkFS($dirName . $filename . '/', $baseDirName, $subsStringStart);
 				}
 			} else {
 				$title = strtolower(Inflector::humanize(strstr($filename, '.', true)));
 				$filename = substr($dirName . $filename, $subsStringStart);
-				$fileNames[] = $filename;
 				$fileRecord = self::findOne(['filename' => $filename]);
 				if (!$fileRecord) {
 					$record = new FileRecord;
@@ -153,22 +149,41 @@ class FileRecord extends ActiveRecord
 				}
 			}
 		}
-		return $fileNames;
 	}
 
 	/**
 	 * Checks existence of file on server, if not deletes table record
-	 * @param $serverFiles
-	 * @throws \Exception
+	 *
+	 * @param string $dirName
+	 * @param int $fileType
 	 */
-	public function checkDB($serverFiles) {
-		$fileRecords = self::find()->all();
+	public function checkDB($dirName, $fileType = self::TYPE_IMAGE) {
+		$fileRecords = self::find()->where(['type' => $fileType])->all();
 		foreach ( $fileRecords as $fileRecord ) {
 			/** @var $fileRecord FileRecord */
-			if (!in_array($fileRecord->filename, $serverFiles)) {
+			$fileExists = file_exists($dirName . $fileRecord->filename);
+			if (!$fileExists) {
 				$fileRecord->delete();
 			}
 		}
+	}
+
+	/**
+	 * Saves file info to database
+	 *
+	 * @param $filename
+	 *
+	 * @return int $file_id
+	 */
+	public static function saveFileFromFilename( $filename ) {
+		$record = new FileRecord;
+		$record->title = strtolower(Inflector::humanize(strstr(substr(strrchr($filename, '/'),1), '.', true)));
+		$record->filename = $filename;
+		$fileNameParts = explode('.', $filename);
+		$record->type = self::getFileType(strtolower(array_pop($fileNameParts)));
+		$record->file_time = filemtime($record->type == self::TYPE_IMAGE ? Yii::$app->params['imageUploadDir'] . $filename : Yii::$app->params['fileUploadDir'] . $filename);
+		$record->save(false);
+		return $record->id;
 	}
 
 	/**

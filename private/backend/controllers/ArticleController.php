@@ -100,7 +100,7 @@ class ArticleController extends BackendController
 
 	/**
 	 * Creates a new Article model from an existing model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 * If creation is successful, the browser will be redirected to the 'index' page.
 	 * @param $id
 	 * @return mixed
 	 */

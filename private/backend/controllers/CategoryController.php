@@ -63,11 +63,32 @@ class CategoryController extends BackendController
 	        $session->setFlash('info', Yii::t('back', 'New category successfully added!'));
 
             return $this->redirect(['index']);
-        } elseif (Yii::$app->request->isAjax) {
-	        return $this->renderAjax('_form', compact('model'));
+        } else {
+	        return $this->render('create', compact('model'));
         }
+    }
 
-	    return $this->render('_form', compact('model'));
+    /**
+     * Creates a new CategoryForm model from an existing model.
+     * If creation is successful, the browser will be redirected to the 'index' page.
+     * @param $id
+     * @return mixed
+     */
+    public function actionCopy($id)
+    {
+        $model = new CategoryForm($id, true);
+	    $model->scenario = 'create';
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+	        $model->saveCategory();
+
+	        $session = Yii::$app->session;
+	        $session->setFlash('info', Yii::t('back', 'New category successfully added!'));
+
+            return $this->redirect(['index']);
+        } else {
+	        return $this->render('create', compact('model'));
+        }
     }
 
     /**
@@ -88,11 +109,9 @@ class CategoryController extends BackendController
 	        $session->setFlash('info', Yii::t('back', 'Category successfully updated!'));
 
             return $this->redirect(['index']);
-        } elseif (Yii::$app->request->isAjax) {
-	        return $this->renderAjax('_form', compact('model'));
+        } else {
+	        return $this->render('update', compact('model'));
         }
-
-	    return $this->render('_form', compact('model'));
     }
 
     /**

@@ -12,6 +12,7 @@ namespace backend\models;
 use common\models\Article;
 use common\models\ArticleCategory;
 use common\models\Category;
+use common\models\FileRecord;
 use common\models\Image;
 use common\models\LanguageRecord;
 use common\models\LayoutRecord;
@@ -41,6 +42,8 @@ class ArticleForm extends Model {
 	public $content_time;
 	/** @var string end date of content */
 	public $content_end_date;
+	/** @var string end time of content */
+	public $content_end_time;
 	/** @var string title od page */
 	public $title;
 	/** @var string description of page */
@@ -87,6 +90,8 @@ class ArticleForm extends Model {
 				'dd.MM.y' ) : null;
 			$this->content_time     = $article->content_time ? Yii::$app->formatter->asTime( $article->content_time,
 				'HH:mm' ) : null;
+			$this->content_end_time     = $article->content_end_time ? Yii::$app->formatter->asTime( $article->content_end_time,
+				'HH:mm' ) : null;
 			if ( $article->active ) {
 				$this->boxes[] = self::PROPERTY_ACTIVE;
 			}
@@ -118,9 +123,9 @@ class ArticleForm extends Model {
 		return [
 			[ 'title', 'required', 'on' => [ 'create', 'update' ] ],
 			[ [ 'title', 'imageFilename' ], 'string', 'max' => 255 ],
-			[ [ 'content_date', 'content_time', 'content_end_date' ], 'default', 'value' => null ],
+			[ [ 'content_date', 'content_time', 'content_end_date', 'content_end_time' ], 'default', 'value' => null ],
 			[ [ 'content_date', 'content_end_date' ], 'date', 'format' => 'dd.MM.y' ],
-			[ [ 'content_time' ], 'date', 'format' => 'HH:mm' ],
+			[ [ 'content_time', 'content_end_time' ], 'date', 'format' => 'HH:mm' ],
 			[ [ 'order_time' ], 'date', 'format' => 'dd.MM.y HH:mm' ],
 			[
 				[
@@ -148,6 +153,7 @@ class ArticleForm extends Model {
 			'content_date'     => Yii::t( 'back', 'Date' ),
 			'content_end_date' => Yii::t( 'back', 'End date' ),
 			'content_time'     => Yii::t( 'back', 'Time' ),
+			'content_end_time'     => Yii::t( 'back', 'End time' ),
 			'title'            => Yii::t( 'back', 'Title' ),
 			'description'      => Yii::t( 'back', 'Content' ),
 			'item_id'          => Yii::t( 'back', 'Actual Item' ),
@@ -174,6 +180,9 @@ class ArticleForm extends Model {
 		if ( $this->imageFilename ) {
 			/** @noinspection PhpUndefinedMethodInspection */
 			$imageId = Image::find()->andWhere( [ 'filename' => $this->getImageName() ] )->scalar();
+			if (!$imageId) {
+				$imageId = FileRecord::saveFileFromFilename($this->getImageName());
+			}
 		}
 		$this->image_id      = $imageId;
 		$article->attributes = $this->toArray();
@@ -185,6 +194,9 @@ class ArticleForm extends Model {
 		}
 		if ( $this->content_time ) {
 			$article->content_time = Yii::$app->formatter->asTime( $this->content_time, 'HH:mm' );
+		}
+		if ( $this->content_end_time ) {
+			$article->content_end_time = Yii::$app->formatter->asTime( $this->content_end_time, 'HH:mm' );
 		}
 		$article->active     = ( is_array( $this->boxes ) && in_array( self::PROPERTY_ACTIVE, $this->boxes ) ) ? 1 : 0;
 		$article->public     = ( is_array( $this->boxes ) && in_array( self::PROPERTY_PUBLIC, $this->boxes ) ) ? 1 : 0;

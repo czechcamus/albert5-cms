@@ -36,40 +36,43 @@ return [
 	    ',' => '_',
 	    ';' => '_',
 	    '"' => '',
-	    '\'' => ''
+	    '\'' => '',
+	    '–' => '-'
     ],
-    'kcfDefaultOptions' => [
-	    'disabled' => false,
-	    'denyZipDownload' => true,
-	    'denyUpdateCheck' => true,
-	    'denyExtensionRename' => true,
-	    'theme' => 'default',
-	    'access' =>[    // @link http://kcfinder.sunhater.com/install#_access
-		    'files' =>[
-			    'upload' => true,
-			    'delete' => true,
-			    'copy' => true,
-			    'move' => true,
-			    'rename' => false,
-		    ],
-		    'dirs' =>[
-			    'create' => true,
-			    'delete' => true,
-			    'rename' => true,
-		    ],
-	    ],
-	    'types'=>[  // @link http://kcfinder.sunhater.com/install#_types
-		    'files' => [
-			    'type' => '',
-		    ],
-		    'images' => [
-			    'type' => '*img',
-		    ],
-	    ],
-	    'thumbsDir' => '.thumbs',
-	    'thumbWidth' => 100,
-	    'thumbHeight' => 100
-    ],
+	'kcfDefaultOptions' => [
+		'disabled' => false,
+		'denyZipDownload' => true,
+		'denyUpdateCheck' => true,
+		'denyExtensionRename' => true,
+		'theme' => 'default',
+		'access' =>[    // @link http://kcfinder.sunhater.com/install#_access
+			'files' =>[
+				'upload' => true,
+				'delete' => true,
+				'copy' => true,
+				'move' => false,
+				'rename' => false,
+			],
+			'dirs' =>[
+				'create' => true,
+				'delete' => false,
+				'rename' => false,
+			],
+		],
+		'types'=>[  // @link http://kcfinder.sunhater.com/install#_types
+			'files' => [
+				'type' => '',
+			],
+			'images' => [
+				'type' => '*img',
+			],
+		],
+		'thumbsDir' => '.thumbs',
+		'thumbWidth' => 100,
+		'thumbHeight' => 100,
+		'maxImageWidth' => 1920,
+		'maxImageHeight' => 1920
+	],
     'newsletterArticleImage' => [
 	    'width' => 200,
 	    'height' => 200

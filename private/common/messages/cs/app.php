@@ -18,10 +18,11 @@
  */
 return [
     'Email' => '',
+    'End time' => 'Koncový čas',
     'Hash' => '',
     'ID' => '',
     'Page ID' => 'Stránka',
-    'Parent Category ID' => 'Nadřazená rubrika',
+    'Parent Category ID' => 'Nadřazené rubrika',
     'Time stamp for order' => 'Časové razítko pro řazení',
     'Acronym' => 'Zkratka',
     'Active' => 'Aktivní',

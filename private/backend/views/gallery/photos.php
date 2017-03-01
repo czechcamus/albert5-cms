@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
-	<p>
+	<p class="show-loading">
 		<?= Html::a(
 			Yii::t('back', 'Add photos'), ['gallery/add-photos', 'id' => $model->item_id],
 			[
@@ -58,10 +58,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 		<p><span class="label label-warning"><?= Yii::t('back', 'Important'); ?></span> <?= Yii::t('back', 'Don\'t forget click "Save photos order" button after reordering photos.'); ?></p>
 
+        <div class="form-group">
 		<?= Html::submitButton(Yii::t('back', 'Save photos order'), [
 			'id' => 'save-order-btn',
 			'class' => 'btn btn-primary'
 		]); ?>
+        </div>
 
 		<?php ActiveForm::end(); ?>
 

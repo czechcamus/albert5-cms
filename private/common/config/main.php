@@ -21,13 +21,13 @@ return [
 			'class' => 'kartik\datecontrol\Module',
 			'displaySettings' => [
 				Module::FORMAT_DATE => 'dd.MM.yyyy',
-				Module::FORMAT_TIME => 'HH:mm:ss',
-				Module::FORMAT_DATETIME => 'dd.MM.yyyy HH:mm:ss'
+				Module::FORMAT_TIME => 'HH.mm:ss',
+				Module::FORMAT_DATETIME => 'dd.MM.yyyy HH.mm:ss'
 			],
 			'saveSettings' => [
 				Module::FORMAT_DATE => 'php:Y-m-d',
-				Module::FORMAT_TIME => 'php:H:i:s',
-				Module::FORMAT_DATETIME => 'php:Y-m-d H:i:s'
+				Module::FORMAT_TIME => 'php:H.i:s',
+				Module::FORMAT_DATETIME => 'php:Y-m-d H.i:s'
 			],
 			'widgetSettings' => [
 				Module::FORMAT_DATE => [

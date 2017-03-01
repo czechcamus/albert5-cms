@@ -4,7 +4,6 @@ use backend\components\LanguageButtonDropdown;
 use backend\models\CategoryForm;
 use common\models\LanguageRecord;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 
@@ -32,13 +31,10 @@ $modelClass                    = Yii::t( 'back', 'Category' );
 
     <h1><?= Html::encode( $this->title ) ?></h1>
 
-    <p>
-		<?= Html::button(
-			Yii::t( 'back', 'Create {modelClass}', compact( 'modelClass' ) ),
+    <p class="show-loading">
+		<?= Html::a(Yii::t( 'back', 'Create {modelClass}', compact( 'modelClass' ) ), ['create'],
 			[
-				'value' => Url::to( [ 'category/create' ] ),
-				'title' => Yii::t( 'back', 'Create {modelClass}', compact( 'modelClass' ) ),
-				'class' => 'showModalButton btn btn-success'
+				'class' => 'btn btn-success'
 			]
 		) ?>
     </p>
