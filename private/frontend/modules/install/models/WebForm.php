@@ -244,7 +244,6 @@ class WebForm extends InstallForm {
 			[ 'title' => Module::t('inst', 'Default article'), 'filename' => 'article', 'main' => 1, 'content' => LayoutRecord::CONTENT_ARTICLE ],
 			[ 'title' => Module::t('inst', 'Article with main image'), 'filename' => 'article-image', 'main' => 0, 'content' => LayoutRecord::CONTENT_ARTICLE ],
 			[ 'title' => Module::t('inst', 'Default category'), 'filename' => 'category', 'main' => 1, 'content' => LayoutRecord::CONTENT_CATEGORY ],
-			[ 'title' => Module::t('inst', 'Category with main image'), 'filename' => 'category-image', 'main' => 0, 'content' => LayoutRecord::CONTENT_CATEGORY ],
 			[ 'title' => Module::t('inst', 'Category with pagination'), 'filename' => 'category-agregate', 'main' => 0, 'content' => LayoutRecord::CONTENT_CATEGORY ],
 			[ 'title' => Module::t('inst', 'Homepage'), 'filename' => 'homepage', 'main' => 0, 'content' => LayoutRecord::CONTENT_PAGE ],
 			[ 'title' => Module::t('inst', 'Invitations'), 'filename' => 'invitations', 'main' => 0, 'content' => LayoutRecord::CONTENT_CATEGORY ],

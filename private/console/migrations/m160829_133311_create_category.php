@@ -23,7 +23,6 @@ class m160829_133311_create_category extends Migration
             'description' => $this->text(),
             'category_type' => $this->smallInteger(6),
 	        'parent_id' => $this->integer(),
-            'image_id' => $this->integer(),
             'language_id' => $this->integer()->notNull(),
             'active' => $this->boolean()->defaultValue(1),
             'main' => $this->boolean(),
@@ -49,23 +48,6 @@ class m160829_133311_create_category extends Migration
 		    'category',
 		    'id',
 		    'CASCADE'
-	    );
-
-	    // creates index for column `image_id`
-	    $this->createIndex(
-		    'idx-category-image_id',
-		    'category',
-		    'image_id'
-	    );
-
-	    // add foreign key for table `file`
-	    $this->addForeignKey(
-		    'fk-category-image_id',
-		    'category',
-		    'image_id',
-		    'file',
-		    'id',
-		    'SET NULL'
 	    );
 
         // creates index for column `language_id`
@@ -134,18 +116,6 @@ class m160829_133311_create_category extends Migration
 	    // drops index for column `parent_id`
 	    $this->dropIndex(
 	    	'idx-category-parent_id',
-		    'category'
-	    );
-
-	    // drops foreign key for table `file`
-	    $this->dropForeignKey(
-		    'fk-category-image_id',
-		    'category'
-	    );
-
-	    // drops index for column `image_id`
-	    $this->dropIndex(
-		    'idx-category-image_id',
 		    'category'
 	    );
 
