@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $menuContent \frontend\models\MenuContent */
-/* @var $page \common\models\Page */
+/* @var $page \common\models\Page|\common\models\Category */
 
 $this->title = $menuContent->title;
 $this->params['menuContent'] = $menuContent;
