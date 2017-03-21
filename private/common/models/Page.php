@@ -18,7 +18,6 @@ use yii\helpers\ArrayHelper;
  * This is the model class for content page.
  *
  * @property MenuItemContent[] $menuItemContents
- * @property PageFieldRecord[] $pageFields
  */
 
 class Page extends ContentRecord
@@ -55,12 +54,5 @@ class Page extends ContentRecord
 	 */
 	public function getMenuItemContents() {
 		return $this->hasMany(MenuItemContent::className(), ['content_id' => 'id']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getPageFields() {
-		return $this->hasMany(PageFieldRecord::className(), ['page_id' => 'id']);
 	}
 }

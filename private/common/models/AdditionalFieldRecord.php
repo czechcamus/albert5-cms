@@ -14,7 +14,7 @@ use yii\db\ActiveRecord;
  * @property string $label
  *
  * @property LanguageRecord $language
- * @property PageFieldRecord[] $pageFields
+ * @property ContentFieldRecord[] $contentFields
  */
 class AdditionalFieldRecord extends ActiveRecord
 {
@@ -69,8 +69,8 @@ class AdditionalFieldRecord extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPageFields()
+    public function getContentFields()
     {
-        return $this->hasMany(PageFieldRecord::className(), ['additional_field_id' => 'id']);
+        return $this->hasMany(ContentFieldRecord::className(), ['additional_field_id' => 'id']);
     }
 }

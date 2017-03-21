@@ -13,16 +13,15 @@ use pavlinter\display\DisplayImage;
 use yii\bootstrap\ActiveField;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 
-?>
+$form = ActiveForm::begin([
+	'fieldClass' => ActiveField::className()
+]); ?>
 
 <div class="row">
 
-	<div class="col-sm-12 col-md-9">
-
-		<?php $form = ActiveForm::begin([
-			'fieldClass' => ActiveField::className()
-		]); ?>
+    <div class="col-sm-12 col-md-9">
 
 		<?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
@@ -161,6 +160,90 @@ use yii\bootstrap\ActiveForm;
 			'data-main' => 0
 		]) ?>
 
+        <div class="form-group">
+			<?php
+			$urlShowAdditionalFieldForm = Url::to(['article/show-additional-field-form', 'id' => $model->item_id]);
+			$urlShowAdditionalField = Url::to(['article/show-additional-field']);
+			$urlRemoveAdditionalField = Url::to(['article/remove-additional-field']);
+			$availableFields= $model->getAvailableFields();
+			$availableFieldsAsString = implode(",", $availableFields);
+			$this->registerJs(
+<<< EOT_JS
+				
+var availableFields = [{$availableFieldsAsString}];
+
+$(document).on('click', '#add-field-btn', function(e) {
+
+	$('#add-field-btn').hide();
+	$('#additional-field-form').show();
+	
+	$.get('{$urlShowAdditionalFieldForm}', { 'available_fields' : availableFields }, function(data) {
+		$('#additional-field-form').html(data);
+	});
+	e.preventDefault();
+	
+});
+
+$(document).on('click', '#cancel-field-btn', function(e) {
+
+	$('#add-field-btn').show();
+	$('#additional-field-form').hide();
+	
+	e.preventDefault();
+	
+});
+
+$(document).on('click', '#save-field-btn', function(e) {
+
+	var additionalFieldId = $('#additional-field-record_id').val();
+	
+	$('#additional-field-form').hide();
+	var position = availableFields.indexOf(Number(additionalFieldId));
+	availableFields.splice(position,1);
+	
+	$.get('{$urlShowAdditionalField}', { 'additional_field_id' : additionalFieldId }, function(data) {
+		$('#additional-fields').append(data);
+	});
+	
+	if (availableFields.length > 0) {
+		$('#add-field-btn').show();
+	}
+	e.preventDefault();
+	
+});
+
+$(document).on('click', '.remove-field-btn', function(e) {
+
+	var availableField = $(this).attr("data-field-id");
+	$(this).parent().hide();
+	$(this).parent().html('');
+	availableFields.push(availableField);
+	
+	if (availableFields.length > 0) {
+		$('#add-field-btn').show();
+	}
+	
+	e.preventDefault();
+	
+});
+
+EOT_JS
+			); ?>
+            <div id="additional-fields">
+				<?php $model->renderAdditionalFields(); ?>
+            </div>
+
+            <div id="additional-field-form"></div>
+
+			<?php
+			if (count($availableFields)) {
+				echo Html::a(Yii::t('back', 'Add additional field'), '#!', [
+					'id' => 'add-field-btn',
+					'class' => 'btn btn-default'
+				]);
+			} ?>
+        </div>
+
 		<?= $form->field($model, 'layout_id')->dropDownList($model->getLayoutListOptions()) ?>
 
 		<?= $form->field($model, 'order_time')->widget( DateTimePicker::className(), [
@@ -178,9 +261,7 @@ use yii\bootstrap\ActiveForm;
 			<?= Html::submitButton($model->scenario == 'create' ? Yii::t('back', 'Create') : Yii::t('back', 'Update'), [
 				'class' => $model->scenario == 'create' ? 'btn btn-success' : 'btn btn-primary']) ?>
 		</div>
-
-		<?php ActiveForm::end(); ?>
-
 	</div>
-
 </div>
+
+<?php ActiveForm::end(); ?>

@@ -12,24 +12,24 @@ use Yii;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "page_field
+ * This is the model class for table content_field
  *
  * @property integer $id
- * @property integer $page_id
+ * @property integer $content_id
  * @property integer $additional_field_id
  * @property string $content
  *
- * @property Page $page 
+ * @property ContentRecord $relatedContent
  * @property AdditionalFieldRecord $additionalField
  */
-class PageFieldRecord extends ActiveRecord
+class ContentFieldRecord extends ActiveRecord
 {
 	/**
 	 * @inheritdoc
 	 */
 	public static function tableName()
 	{
-		return 'page_field';
+		return 'content_field';
 	}
 	
 	/**
@@ -38,8 +38,8 @@ class PageFieldRecord extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['page_id', 'additional_field_id'], 'required'],
-			[['page_id', 'additional_field_id'], 'integer'],
+			[['content_id', 'additional_field_id'], 'required'],
+			[['content_id', 'additional_field_id'], 'integer'],
 			[['content'], 'string', 'max' => 255]
 		];
 	}
@@ -51,18 +51,18 @@ class PageFieldRecord extends ActiveRecord
 	{
 		return [
 			'id' => Yii::t('app', 'ID'),
-			'page_id' => Yii::t('app', 'Page ID'),
+			'content_id' => Yii::t('app', 'Related content ID'),
 			'additional_field_id' => Yii::t('app', 'Additional field ID'),
 			'content' => Yii::t('app', 'Field content'),
-			'page' => Yii::t('app', 'Page')
+			'relatedContent' => Yii::t('app', 'Related content')
 		];
 	}
 
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getPage() {
-		return $this->hasOne(Page::className(), ['id' => 'page_id']);
+	public function getRelatedContent() {
+		return $this->hasOne(ContentRecord::className(), ['id' => 'content_id']);
 	}
 
 	/**

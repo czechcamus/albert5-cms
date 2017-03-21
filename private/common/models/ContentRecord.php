@@ -41,6 +41,7 @@ use yii\db\Expression;
  * @property UserRecord $updatedBy
  * @property LayoutRecord $layout
  * @property TagRecord $tags
+ * @property ContentFieldRecord[] $contentFields
  */
 class ContentRecord extends ActiveRecord
 {
@@ -189,5 +190,12 @@ class ContentRecord extends ActiveRecord
 	 */
 	public function getTags() {
 		return $this->hasMany(TagRecord::className(), ['id' => 'tag_id'])->viaTable('content_tag', ['content_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getContentFields() {
+		return $this->hasMany(ContentFieldRecord::className(), ['content_id' => 'id']);
 	}
 }

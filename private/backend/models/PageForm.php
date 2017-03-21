@@ -9,40 +9,15 @@
 namespace backend\models;
 
 
+use backend\utilities\ContentForm;
 use common\models\FileRecord;
 use common\models\Image;
 use common\models\LanguageRecord;
 use common\models\Page;
-use common\models\PageFieldRecord;
 use Yii;
-use yii\base\Model;
-use yii\db\Query;
-use yii\helpers\Html;
 
-class PageForm extends Model
+class PageForm extends ContentForm
 {
-	/** @var integer actual page id */
-	public $item_id;
-	/** @var integer language id */
-	public $language_id;
-	/** @var integer image id */
-	public $image_id;
-	/** @var string image filename */
-	public $imageFilename;
-	/** @var string perex */
-	public $perex;
-	/** @var string title od page */
-	public $title;
-	/** @var string description of page */
-	public $description;
-	/** @var array boxes of properties */
-	public $boxes;
-	/** @var string tag values */
-	public $tagValues;
-
-	const PROPERTY_ACTIVE = 1;
-	const PROPERTY_PUBLIC = 2;
-
 	/**
 	 * PageForm constructor
 	 * @param integer|null $item_id
@@ -134,6 +109,7 @@ class PageForm extends Model
 	public function deletePage() {
 		/** @var $page Page */
 		if ($page = Page::findOne($this->item_id)) {
+			/** @noinspection PhpUndefinedMethodInspection */
 			$page->removeAllTagValues();
 			$page->delete();
 		}
@@ -151,36 +127,5 @@ class PageForm extends Model
 			$filename = $this->imageFilename;
 		}
 		return $filename;
-	}
-
-	/**
-	 * Renders additional fields for actual page
-	 */
-	public function renderAdditionalFields() {
-		$output = '';
-		if ($this->item_id) {
-			$pageFields = PageFieldRecord::findAll(['page_id' => $this->item_id]);
-			foreach ( $pageFields as $pageField ) {
-				$output .= '<div class="form-inline"><div class="form-group">';
-				$output .= '<label for="AdditionalFieldId[' . $pageField->additional_field_id . ']">' . $pageField->additionalField->label .'</label><br />';
-				$output .= Html::textInput('AdditionalFieldId[' . $pageField->additional_field_id . ']', $pageField->content, ['class' => 'form-control']);
-				$output .= ' ' . Html::a('<span class="glyphicon glyphicon-remove"></span>', '#!', ['class' => 'form-control btn btn-danger remove-field-btn']);
-				$output .= '</div></div>';
-			}
-		}
-		echo $output;
-	}
-
-	/**
-	 * Returns available fields for adding to page form
-	 * @return array
-	 */
-	public function getAvailableFields() {
-		$usedAdditionalFieldsArray = [];
-		$allAdditionalFieldsArray = (new Query())->select('id')->from('additional_field')->where(['language_id' => $this->language_id])->column();
-		if ($this->item_id) {
-			$usedAdditionalFieldsArray = (new Query())->select('additional_field_id')->from('page_field')->where(['page_id' => $this->item_id])->column();
-		}
-		return array_diff($allAdditionalFieldsArray, $usedAdditionalFieldsArray);
 	}
 }

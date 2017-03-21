@@ -11,19 +11,17 @@ namespace backend\controllers;
 
 use backend\models\ArticleForm;
 use backend\models\ArticleSearch;
-use backend\utilities\BackendController;
 use backend\utilities\CategoryFilter;
-use backend\utilities\SynchronizeFiles;
+use backend\utilities\ContentController;
 use common\models\Article;
 use common\models\Category;
+use common\models\ContentFieldRecord;
 use common\models\LanguageRecord;
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
 
-class ArticleController extends BackendController
+class ArticleController extends ContentController
 {
 	private $_category;
 
@@ -32,28 +30,7 @@ class ArticleController extends BackendController
 	 */
 	public function behaviors()
 	{
-		return [
-			'verbs' => [
-				'class' => VerbFilter::className(),
-				'actions' => [
-					'delete' => ['post'],
-				],
-			],
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'roles' => ['user'],
-						'allow' => true
-					]
-				]
-			],
-			'category' => CategoryFilter::className(),
-			'synchronize' => [
-				'class' => SynchronizeFiles::className(),
-				'only'  => [ 'create', 'copy', 'update' ]
-			]
-		];
+		return ArrayHelper::merge(parent::behaviors(), ['category' => CategoryFilter::className()]);
 	}
 
 	/**
@@ -80,6 +57,17 @@ class ArticleController extends BackendController
 
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$model->saveArticle();
+
+			$additionalFieldIds = Yii::$app->request->post('AdditionalFieldId');
+			if ($additionalFieldIds) {
+				foreach ( $additionalFieldIds as $key => $content ) {
+					$contentField = new ContentFieldRecord();
+					$contentField->content_id = $model->item_id;
+					$contentField->additional_field_id = $key;
+					$contentField->content = $content;
+					$contentField->save();
+				}
+			}
 
 			$session = Yii::$app->session;
 			$session->setFlash('info', Yii::t('back', 'New article successfully added!'));
@@ -112,6 +100,17 @@ class ArticleController extends BackendController
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$model->saveArticle();
 
+			$additionalFieldIds = Yii::$app->request->post('AdditionalFieldId');
+			if ($additionalFieldIds) {
+				foreach ( $additionalFieldIds as $key => $content ) {
+					$contentField = new ContentFieldRecord();
+					$contentField->content_id = $model->item_id;
+					$contentField->additional_field_id = $key;
+					$contentField->content = $content;
+					$contentField->save();
+				}
+			}
+
 			$session = Yii::$app->session;
 			$session->setFlash('info', Yii::t('back', 'New article successfully added!'));
 
@@ -141,6 +140,27 @@ class ArticleController extends BackendController
 
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$model->saveArticle(false);
+
+			$additionalFieldIds = Yii::$app->request->post('AdditionalFieldId');
+			$contentFields = ContentFieldRecord::findAll(['content_id' => $model->item_id]);
+			foreach ( $contentFields as $contentField ) {
+				if (isset($additionalFieldIds[$contentField->additional_field_id])) {
+					$contentField->content = $additionalFieldIds[$contentField->additional_field_id];
+					$contentField->save();
+					unset($additionalFieldIds[$contentField->additional_field_id]);
+				} else {
+					$contentField->delete();
+				}
+			}
+			if ($additionalFieldIds) {
+				foreach ( $additionalFieldIds as $key => $content ) {
+					$contentField = new ContentFieldRecord;
+					$contentField->content_id = $model->item_id;
+					$contentField->additional_field_id = $key;
+					$contentField->content = $content;
+					$contentField->save();
+				}
+			}
 
 			$session = Yii::$app->session;
 			$session->setFlash('info', Yii::t('back', 'Article successfully updated!'));

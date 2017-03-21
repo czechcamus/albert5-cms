@@ -9,6 +9,7 @@
 namespace backend\models;
 
 
+use backend\utilities\ContentForm;
 use common\models\Article;
 use common\models\ArticleCategory;
 use common\models\Category;
@@ -17,7 +18,6 @@ use common\models\Image;
 use common\models\LanguageRecord;
 use common\models\LayoutRecord;
 use Yii;
-use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -25,17 +25,8 @@ use yii\helpers\Html;
  * Class ArticleForm is model for articles managing
  * @package backend\models
  */
-class ArticleForm extends Model {
-	/** @var integer actual page id */
-	public $item_id;
-	/** @var integer language id */
-	public $language_id;
-	/** @var integer image id */
-	public $image_id;
-	/** @var string image filename */
-	public $imageFilename;
-	/** @var string perex */
-	public $perex;
+class ArticleForm extends ContentForm
+{
 	/** @var string date of content */
 	public $content_date;
 	/** @var string time of content */
@@ -44,23 +35,12 @@ class ArticleForm extends Model {
 	public $content_end_date;
 	/** @var string end time of content */
 	public $content_end_time;
-	/** @var string title od page */
-	public $title;
-	/** @var string description of page */
-	public $description;
-	/** @var array of check boxes of properties */
-	public $boxes;
 	/** @var array of check boxes of categories */
 	public $categoryBoxes;
 	/** @var integer layout id */
 	public $layout_id;
 	/** @var string time stamp for order */
 	public $order_time;
-	/** @var string tag values */
-	public $tagValues;
-
-	const PROPERTY_ACTIVE = 1;
-	const PROPERTY_PUBLIC = 2;
 
 	/**
 	 * ArticleForm constructor
@@ -74,9 +54,7 @@ class ArticleForm extends Model {
 			/** @var $article Article */
 			/** @noinspection PhpUndefinedMethodInspection */
 			$article = Article::find()->with( 'tags' )->where( [ 'id' => $item_id ] )->one();
-			if ( ! $copy ) {
-				$this->item_id = $article->id;
-			}
+			$this->item_id = $article->id;
 			$this->language_id = $article->language_id;
 			if ( $article->image ) {
 				$this->imageFilename = $article->image->filename;
@@ -201,11 +179,13 @@ class ArticleForm extends Model {
 		$article->active     = ( is_array( $this->boxes ) && in_array( self::PROPERTY_ACTIVE, $this->boxes ) ) ? 1 : 0;
 		$article->public     = ( is_array( $this->boxes ) && in_array( self::PROPERTY_PUBLIC, $this->boxes ) ) ? 1 : 0;
 		$article->order_time = Yii::$app->formatter->asDatetime( $this->order_time, 'y-MM-dd HH:mm' );
-		if ( $this->item_id ) {
-			ArticleCategory::deleteAll( [ 'article_id' => $this->item_id ] );
+		if ( $article->id ) {
+			ArticleCategory::deleteAll( [ 'article_id' => $article->id ] );
 		}
 		$article->tagValues = $this->tagValues;
-		$article->save( false );
+		if ($article->save( false )) {
+			$this->item_id = $article->id;
+		}
 		if ( is_array( $this->categoryBoxes ) ) {
 			foreach ( $this->categoryBoxes as $categoryBox ) {
 				$articleCategory              = new ArticleCategory;
