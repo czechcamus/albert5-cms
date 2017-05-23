@@ -25,6 +25,7 @@ use yii\helpers\Inflector;
  * @property integer $public
  * @property integer $file_time
  *
+ * @property array $fileExtensionOptions
  * @property FileTextRecord[] $fileTexts
  */
 class FileRecord extends ActiveRecord
@@ -144,7 +145,8 @@ class FileRecord extends ActiveRecord
 					$record->filename = $filename;
 					$record->file_time = filemtime($baseDirName . $filename);
 					$fileNameParts = explode('.', $filename);
-					$record->type = self::getFileType(strtolower(array_pop($fileNameParts)));
+					$fileExt = strtolower(array_pop($fileNameParts));
+					$record->type = self::getFileType($fileExt);
 					$record->save(false);
 				}
 			}
