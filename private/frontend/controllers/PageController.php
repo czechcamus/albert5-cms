@@ -138,16 +138,13 @@ class PageController extends FrontEndController
 
 		$model = new SearchContent();
 		if ($model->load(Yii::$app->request->get()) && $model->validate()) {
-			if ($model->target == SearchContent::TARGET_WEB) {
-				$dataProvider = $model->getItems();
-				$this->layout = 'search-content';
-				return $this->render('search', compact('model', 'dataProvider'));
-			} else {
-				return $this->redirect(Yii::$app->params['catalogSearchUrl'] . $model->q);
-			}
-		} else {
-			return $this->redirect(Url::previous());
+			$dataProvider = $model->getItems();
+			$this->layout = 'search-content';
+
+			/** @noinspection MissedViewInspection */
+			return $this->render('search', compact('model', 'dataProvider'));
 		}
+		return $this->redirect(Url::previous());
 	}
 
 	/**
@@ -161,6 +158,8 @@ class PageController extends FrontEndController
 		$model = new SearchContent();
 		$dataProvider = $model->getTagItems($tag);
 		$this->layout = 'search-content';
+
+		/** @noinspection MissedViewInspection */
 		return $this->render('tag', compact('model', 'dataProvider', 'tag'));
 	}
 
