@@ -29,7 +29,7 @@ $this->beginPage() ?>
 	<link rel="shortcut icon" href="<?= Yii::$app->request->baseUrl; ?>/favicon.ico" type="image/x-icon"/>
 	<?php $this->head() ?>
 </head>
-<body class="empty">
+<body>
 <?php $this->beginBody() ?>
 
 <!--[if lt IE 7]>
@@ -39,25 +39,6 @@ $this->beginPage() ?>
 	Google Chrome Frame</a> for better experinece.' ); ?>
 </p>
 <![endif]-->
-
-<div id="preloader-box" class="page-row">
-	<div class="preloader-wrapper big active">
-		<div class="spinner-layer spinner-red-only">
-			<div class="circle-clipper left">
-				<div class="circle"></div>
-			</div>
-			<div class="gap-patch">
-				<div class="circle"></div>
-			</div>
-			<div class="circle-clipper right">
-				<div class="circle"></div>
-			</div>
-		</div>
-	</div>
-
-	<div class="preloader-section section-left"></div>
-	<div class="preloader-section section-right"></div>
-</div>
 
 <header class="page-row">
 	<nav role="navigation">

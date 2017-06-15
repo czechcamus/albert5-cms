@@ -5,8 +5,6 @@
 // jQuery functions
 ( function($) {
     $(document).ready(function() {
-        $('body').addClass('loaded');
-
         $("#search-btn").find("i").click(function() {
             $("#search-form-box").toggle("slow");
         });
