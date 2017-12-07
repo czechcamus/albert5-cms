@@ -158,6 +158,9 @@ class FileRecord extends ActiveRecord
 	 *
 	 * @param string $dirName
 	 * @param int $fileType
+	 *
+	 * @throws \Exception
+	 * @throws \yii\db\StaleObjectException
 	 */
 	public function checkDB($dirName, $fileType = self::TYPE_IMAGE) {
 		$fileRecords = self::find()->where(['type' => $fileType])->all();
