@@ -221,7 +221,7 @@ class FileRecord extends ActiveRecord
 	 */
 	public static function getFileType( $fileExt ) {
 		$fileType = null;
-		$images = ['png', 'jpg', 'gif'];
+		$images = ['png', 'jpg', 'jpeg', 'gif'];
 		$files = ['pdf'];
 		$sounds = ['mp3', 'm4a', 'ogg', 'oga'];
 		switch ($fileExt) {
